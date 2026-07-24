@@ -27,6 +27,7 @@ import NursingAcademy from "./Pages/institute/NursingAcademy";
 import Maurice from "./Pages/institute/Maurice";
 import CONE from "./Pages/institute/Cone";
 import MentalHealthJournal from "./Pages/journals/MentalHealth";
+import MidwiferyJournal from "./Pages/journals/global";
 import ClinicalNursingJournal from "./Pages/journals/ClinicalNursingJournal";
 import MedicalSurgicalNursingJournal from "./Pages/journals/MedicalSurgical";
 import MaternalChildJournal from "./Pages/journals/MaternalJournal";
@@ -107,8 +108,9 @@ const App = () => {
         <Route path="/institute" element={<Institute />} />
         <Route path="/archive" element={<Archive />} />
         <Route path="/journal/ipnj" element={<ProfessionalJournal />} />
+        <Route path="/journal/grjmp" element={<MidwiferyJournal />} />
         <Route path="/journal/isjmpnr" element={<MentalHealthJournal />} />
-        <Route path="/journal/ijacn" element={<ClinicalNursingJournal />} />
+        <Route path="/journal/isj-acnr" element={<ClinicalNursingJournal />} />
         <Route path="/journal/ijmri" element={<InnovationJournal />} />
         <Route path="/journal/ijanr" element={<NursingJournal />} />
         <Route path="/journal/irjmpch" element={<Multidisciplinary />} />
@@ -121,7 +123,7 @@ const App = () => {
         />
         <Route path="/journal/isjner" element={<SpecialtyNursingJournal />} />
         <Route
-          path="/journal/msnr"
+          path="/journal/isj-msnr"
           element={<MedicalSurgicalNursingJournal />}
         />
         <Route path="/journal/mchnr" element={<MaternalChildJournal />} />

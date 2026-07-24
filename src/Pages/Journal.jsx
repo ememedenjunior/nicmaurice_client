@@ -4,6 +4,7 @@ import Footer from "../components/Footer";
 import Journals from "../components/Journals";
 import JournalsCol from "../components/Jourrnals-col";
 import JournalsCol2 from "../components/Journal1";
+import JournalsCol3 from "../components/journal2";
 
 const Journal = () => {
   const [isVisible, setIsVisible] = useState(false);
@@ -65,6 +66,10 @@ const Journal = () => {
       
       <section id="clinical">
         <JournalsCol2 />
+      </section>
+
+      <section>
+        <JournalsCol3 />
       </section>
 
       {/* Back to Top Button */}
