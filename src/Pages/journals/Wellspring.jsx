@@ -6,6 +6,57 @@ import { MdKeyboardArrowRight } from "react-icons/md";
 import { Link } from "react-router-dom";
 
 const WellspringJournal = () => {
+  const articles = [
+    {
+      vol: "Vol 1",
+      title:
+        "THE IMPACT OF SIMULATION ON SIMULATED PATIENTS AMONG MEDICAL STUDENTS",
+      link: "https://drive.google.com/file/d/1LnjBwDbLTaQQTSuzNMLLVoiDnQ_oJNFY/view?usp=sharing",
+      year: "2026",
+      authors: "Isaac Newton Omoregbe (BSc, MBBS, MWACP) 1, 3",
+      abstract:
+        "To supplement or replace real life experience with guided experiences, simulation-based education is a training or instructional strategy.",
+    },
+    {
+      vol: "Vol 2",
+      title: "SUBSTANCE ABUSE AMONG SENIOR SECONDARY SCHOOL ADOLESCENTS IN OSOGBO METROPOLIS, OSUN STATE",
+      link: "https://drive.google.com/file/d/1l2Oc06RSlp-giri7ZYGnA7cAtat64F-4/view?usp=sharing",
+      year: "2026",
+      authors: "OLUKOREDE PATRICIA ADISA RN, MSc,",
+      abstract:
+        'This study examined the socio-psychological correlates of ubstance abuse among the senior secondary school adolescents in Osogbo metropolis, Osun State, Nigeria.',
+    },
+    {
+      vol: "Vol 3",
+      title:
+        "RELATIONSHIP BETWEEN BODY MASS INDEX, WAIST-HIP RATIO, AND CARRYING ANGLE AMONG HEALTHY FEMALE POPULATION IN A TERTIARY INSTITUTION",
+      link: "https://drive.google.com/file/d/1jPVJO0TU-xOylst8M-31IgDLg-94c-v4/view?usp=sharing",
+      year: "2026",
+      authors: "Enemuo Emeka Hyacinth a, Edeh Rita Uchenna",
+      abstract:
+        "Overweight among female adolescent is a pressing issue globally.",
+    },
+    {
+      vol: "Vol. 4",
+      title:
+        "PERCEPTION OF THE ROLE OF TRADITIONAL HEALERS IN PRIMARY HEALTH CARE",
+      link: "https://drive.google.com/file/d/1eRihq0zDGII-hcNLfCJSexjkr26uGpKF/view?usp=sharing",
+      year: "2026",
+      authors: "O. A. OGUNYEWO MSc [N], MSc [Med Soc], RN,",
+      abstract:
+        "The aim of this study was to examine the contributions of traditional healers towards the activities of Primary Health Care.",
+    },
+
+    {
+      vol: "Vol. 5",
+      title: "INFECTION PREVENTION AND CONTROL PRACTICES AMONG PUBLIC AND PRIVATE HEALTHCARE WORKERS IN PORT HARCOURT LOCAL GOVERNMENT AREA,",
+      link: "https://drive.google.com/file/d/1g924GacE8obSwFqlboN5DU7YbK7x1bqc/view?usp=drive_link",
+      year: "2026",
+      authors: "Chimaobi Benjamin Odo1, Bethel Chibuike Nwaogu2",
+      abstract:
+        "Strict adherence to IPC protocol is essential to patient safety and quality of care. In Nigeria, prevalence of HAIs remain as high as 14 to 49%.",
+    },
+  ];
   return (
     <div className="min-h-screen bg-gradient-to-b from-teal-50 to-white">
       <Header />
@@ -209,6 +260,54 @@ const WellspringJournal = () => {
             </div>
           </div>
         </div>
+
+        {/* Articles Section  */}
+                <section className="bg-white rounded-xl shadow-md p-6 mb-8">
+                  <h2 className="text-2xl font-bold text-indigo-900 border-l-4 border-indigo-500 pl-4 mb-6">
+                    Published Articles
+                  </h2>
+                  <div className="space-y-6">
+                    {articles.map((article, index) => (
+                      <div
+                        key={index}
+                        className="border border-gray-200 rounded-lg p-4 hover:shadow-lg transition-shadow duration-200"
+                      >
+                        <div className="flex flex-wrap items-start justify-between mb-2">
+                          <span className="text-sm font-semibold text-indigo-600 bg-indigo-50 px-3 py-1 rounded-full">
+                            {article.vol}
+                          </span>
+                          <span className="text-sm text-gray-500">{article.year}</span>
+                        </div>
+                        <h3 className="text-lg font-semibold text-gray-800 mb-2">
+                          <a
+                            href={article.link}
+                            target="_blank"
+                            rel="noopener noreferrer"
+                            className="hover:text-indigo-600 transition-colors"
+                          >
+                            {article.title}
+                          </a>
+                        </h3>
+                        <p className="text-sm text-gray-600 mb-2">
+                          <span className="font-medium">Authors:</span>{" "}
+                          {article.authors}
+                        </p>
+                        <p className="text-gray-700 text-sm">{article.abstract}</p>
+                        <div className="mt-3">
+                          <a
+                            href={article.link}
+                            target="_blank"
+                            rel="noopener noreferrer"
+                            className="inline-flex items-center text-indigo-600 hover:text-indigo-800 font-medium text-sm"
+                          >
+                            Read Full Article
+                            <MdKeyboardArrowRight className="ml-1" />
+                          </a>
+                        </div>
+                      </div>
+                    ))}
+                  </div>
+                </section>
 
         {/* Call to Action */}
         <div className="text-center">

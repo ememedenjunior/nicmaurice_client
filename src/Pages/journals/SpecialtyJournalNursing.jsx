@@ -6,6 +6,97 @@ import { MdKeyboardArrowRight } from "react-icons/md";
 import { Link } from "react-router-dom";
 
 const SpecialtyNursingJournal = () => {
+  const articles = [
+    {
+      vol: "Vol 1",
+      title:
+        "THE IMPACT OF SIMULATION ON SIMULATED PATIENTS AMONG MEDICAL STUDENTS",
+      link: "https://drive.google.com/file/d/1SXNt55FbXwl-LfHGny0PWHySR6DeWBAH/view?usp=sharing",
+      year: "2026",
+      authors: "Isaac Newton Omoregbe (BSc, MBBS, MWACP) 1, 3",
+      abstract:
+        "To supplement or replace real life experience with guided experiences, simulation-based education is a training or instructional strategy.",
+    },
+    {
+      vol: "Vol 2",
+      title: "ASSERTIVE NURSING PRACTICE",
+      link: "https://drive.google.com/file/d/1yl53GiWN0KgSzezbqYXuCqSY8zxhFY3a/view?usp=drive_link",
+      year: "2026",
+      authors: "AJIO, D.K, MSc (Nursing), RN",
+      abstract:
+        'Operating in an environment that features prominently with "fastness" and "dominance" calls for assertiveness and effectiveness, which are ingredients needed for sustainability and efficiency.',
+    },
+    {
+      vol: "Vol 3 NO. 3",
+      title:
+        "CAPACITY BUILDING FOR IMPLEMENTATION AND UTILIZATION OF NURSING RESEARCH AND EVIDENCE-BASED PRACTICE",
+      link: "https://drive.google.com/file/d/1XNnTpm_tMuKhr02OpsCavrjRW50z1bZ3/view?usp=drive_link",
+      year: "2026",
+      authors: "DR. IDONGESIT I. AKPABIO",
+      abstract:
+        "The requirement for accountability in health care delivery has brought about an increasing ed for reliable and valid information as basis for decision making and practice.",
+    },
+    {
+      vol: "Vol. 4 No. 1",
+      title:
+        "IMPROVEMENT OF CRITICAL THINKING SKILLS IN SOPHOMORE NURSING STUDENTS OF SOUTH- SOUTH - ZONE,",
+      link: "https://drive.google.com/file/d/1BbeCNwrLiukkM-INqAibXJO97l4FiRSb/view?usp=sharing",
+      year: "2026",
+      authors: "ANSO, NICBASSEY MAURICE",
+      abstract:
+        "Critical thinking skills are very important prerequisites in professional nursing practice.",
+    },
+    {
+      vol: "Vol. 4 No. 2",
+      title:
+        "THE IMPACT OF BRAINSTORMING TRAINING ON THE CRITICAL THINKING SKILLS OF SOPHOMORE NURSING STUDENTS OF SOUTH- SOUTH - ZONE,",
+      link: "https://drive.google.com/file/d/1JzMeq3NoiLMwDmhpxmY8nwsqgjQeo7tx/view?usp=sharing",
+      year: "2026",
+      authors: "ANSO, NICBASSEY MAURICE",
+      abstract:
+        "Critical thinking skills are very important prerequisites in professional nursing practice.",
+    },
+    {
+      vol: "Vol. 4 No. 3",
+      title:
+        "THE EFFECT OF SOCRATIC QUESTIONING ON THE CRITICAL THINKING SKILLS OF SOPHOMORE NURSING STUDENTS, NIGERIA",
+      link: "https://drive.google.com/file/d/11m-GN96WzI76REucdo3Hdrs-xqJIUh9_/view?usp=sharing",
+      year: "2026",
+      authors: "ANSO, NICBASSEY MAURICE",
+      abstract:
+        "Critical thinking skills are very important prerequisites in professional nursing practice.",
+    },
+    {
+      vol: "Vol. 4 No. 4",
+      title:
+        "IMPACT OF COMBINE THERAPY OF SOUND AND VISION IN THE MANAGEMENT OF SYSTOLIC AND DIASTOLIC HYPERTENSION IN NOVENA UNIVERSITY COMMUNITY",
+      link: "https://drive.google.com/file/d/1zxaNzxY5oPUkVVckw6x3-GtD5Dy7KrjI/view?usp=sharing",
+      year: "2026",
+      authors: "ANSO, NICBASSEY MAURICE",
+      abstract:
+        "This study was aimed at determining the impact of the combine effect of the application of sound(music) and vision(video)",
+    },
+    {
+      vol: "Vol. 4 No. 5",
+      title:
+        "A DESCRIPTIVE SURVEY OF THE FUNCTIONALITIES OF THE WARD HEALTH SYSTEM IN AMAI AND OBIARAKU WARDS IN UKWUANI LOCAL GOVERNMENT AREA.",
+      link: "https://drive.google.com/file/d/1g924GacE8obSwFqlboN5DU7YbK7x1bqc/view?usp=drive_link",
+      year: "2026",
+      authors: "ANSO, NICBASSEY MAURICE",
+      abstract:
+        "The Federal Government of Nigeria revitalized the National Primary Health Care DevelopmentAgency and introduced the ward health service system in the year 2000 in response to the World Health Organization",
+    },
+    {
+      vol: "Vol. 5",
+      title: "HEALTH EDUCATION: A KEY STRATEGY IN HEALTH PROMOTION",
+      link: "https://drive.google.com/file/d/1g924GacE8obSwFqlboN5DU7YbK7x1bqc/view?usp=drive_link",
+      year: "2026",
+      authors: "ANSO, NICBASSEY MAURICE",
+      abstract:
+        "Health is a resource for life that enables people to live individually, socially and economically, productive lives.",
+    },
+  ];
+
   return (
     <>
       <Header />
@@ -270,6 +361,54 @@ const SpecialtyNursingJournal = () => {
             ))}
           </ul>
         </div>
+
+        {/* Articles Section  */}
+        <section className="bg-white rounded-xl shadow-md p-6 mb-8">
+          <h2 className="text-2xl font-bold text-indigo-900 border-l-4 border-indigo-500 pl-4 mb-6">
+            Published Articles
+          </h2>
+          <div className="space-y-6">
+            {articles.map((article, index) => (
+              <div
+                key={index}
+                className="border border-gray-200 rounded-lg p-4 hover:shadow-lg transition-shadow duration-200"
+              >
+                <div className="flex flex-wrap items-start justify-between mb-2">
+                  <span className="text-sm font-semibold text-indigo-600 bg-indigo-50 px-3 py-1 rounded-full">
+                    {article.vol}
+                  </span>
+                  <span className="text-sm text-gray-500">{article.year}</span>
+                </div>
+                <h3 className="text-lg font-semibold text-gray-800 mb-2">
+                  <a
+                    href={article.link}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="hover:text-indigo-600 transition-colors"
+                  >
+                    {article.title}
+                  </a>
+                </h3>
+                <p className="text-sm text-gray-600 mb-2">
+                  <span className="font-medium">Authors:</span>{" "}
+                  {article.authors}
+                </p>
+                <p className="text-gray-700 text-sm">{article.abstract}</p>
+                <div className="mt-3">
+                  <a
+                    href={article.link}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="inline-flex items-center text-indigo-600 hover:text-indigo-800 font-medium text-sm"
+                  >
+                    Read Full Article
+                    <MdKeyboardArrowRight className="ml-1" />
+                  </a>
+                </div>
+              </div>
+            ))}
+          </div>
+        </section>
 
         {/* CTA */}
         <div className="bg-indigo-800 text-white rounded-xl p-8 text-center shadow-lg">

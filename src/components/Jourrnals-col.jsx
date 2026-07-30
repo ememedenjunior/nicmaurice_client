@@ -50,7 +50,7 @@ const JournalsCol = () => {
       id: 4,
       image: SpecialtyNursingJournalImg,
       alt: "International Specialty Journal of Nursing Education and Research",
-      path: "/journal/isjner",
+      path: "/journal/isj-ner",
       title: "International Specialty Journal of Nursing Education and Research",
       description: "Click on the read more button to get more information.",
       fullDescription: "Shaping the future of nursing education through innovative teaching methods and cutting-edge research.",

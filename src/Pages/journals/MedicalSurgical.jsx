@@ -11,35 +11,13 @@ import {
   MdSearch,
   MdFilterList,
   MdMenuBook,
-  MdScience,
   MdPublic,
   MdPeople,
-  MdLightbulb,
-  MdVisibility,
-  MdShare,
   MdSchool,
-  MdHealthAndSafety,
-  MdPsychology,
-  MdRestaurant,
-  MdPark,
-  MdSocialDistance,
-  MdLanguage,
-  MdTranslate,
-  MdForum,
-  MdRocketLaunch,
-  MdLink,
   MdMedicalServices,
-  MdLocalHospital,
-  MdBiotech,
-  MdPolicy,
-  MdComputer,
   MdCheckCircle,
   MdStar,
-  MdTrendingUp,
   MdHealing,
-  MdEmergency,
-  MdMonitorHeart,
-  MdBloodtype,
   MdScience as MdMedicalScience,
   MdSupport,
 } from "react-icons/md";
@@ -47,7 +25,6 @@ import {
   FaSyringe,
   FaHeartbeat,
   FaStethoscope,
-  FaUserMd,
 } from "react-icons/fa";
 
 const MedicalSurgicalNursingJournal = () => {
@@ -56,10 +33,59 @@ const MedicalSurgicalNursingJournal = () => {
   const [expandedSections, setExpandedSections] = useState({});
 
   const articles = [
+   {
+      vol: "Vol 1",
+      title:
+        "PAIN EXPERIENCE AND PERCEPTION OF PAIN MANAGEMENT AMONG POSTOPERATIVE PATIENTS IN SELECTED HOSPITALS IN ILORIN AND IBADAN",
+      link: "https://drive.google.com/file/d/1YyYlaqaEfa7xVo4s1mFVjqgKPHaadnRI/view?usp=drive_link",
+      year: "2026",
+      authors: "MRS JOKOTADE J. OLARERIN",
+      abstract:
+        "The purpose of this study was to assess postoperative patient’s pains experience and their perception of pain management in selected hospitals in Ilorin, University of Ilorin Teaching Hospital (UITH) and Ibadan (The University College Hospital, Ibadan).",
+    },
+
     {
-      vol: "Vol 1 No. 1",
-      link: "https://drive.google.com/file/d/11fkYlw-HiJE9aJMh4F9PbKU3diPXEPGV/view?usp=sharing",
-      year: "2023",
+      vol: "Vol 2",
+      title:
+        "OPINION OF STUDENTS IN UNIVERSITY OF CALABAR ABOUT HIV SCREENING BEFORE MARRIAGE: IMPLICATION FOR CREATING AWARENESS THROUGH HEALTH EDUCATION INTERVENTION",
+      link: "https://drive.google.com/file/d/1BU0Fn7uKiwHHsQyVKhwHcwAmIMJW48yd/view?usp=drive_link",
+      year: "2026",
+      authors: "Regina E. Ella (RN, PhD),",
+      abstract:
+        "The aim of this study was to determine the opinion of students in the University of Calabar about HIV screening before marriage.",
+    },
+
+    {
+      vol: "Vol 3",
+      title:
+        "HEALTHCARE WASTE MANAGEMENT PRACTICES AMONG HEALTH WORKERS IN UNIVERSITY OF BENIN TEACHING HOSPITAL (UBTH), BENIN CITY, EDO STATE",
+      link: "https://drive.google.com/file/d/1BU0Fn7uKiwHHsQyVKhwHcwAmIMJW48yd/view?usp=drive_link",
+      year: "2026",
+      authors: "EWEKA Abieyuwa",
+      abstract:
+        "Medical waste management (MWM) has become a critical issue due to its potential environmental hazards and public health risks, with high propensity to result into epidemics especially in this era of covid-19 pandemic.",
+    },
+
+    {
+      vol: "Vol 4",
+      title:
+        "HEALTHCARE WASTE MANAGEMENT PRACTICES AMONG HEALTH WORKERS IN UNIVERSITY OF BENIN TEACHING HOSPITAL (UBTH), BENIN CITY, EDO STATE",
+      link: "https://drive.google.com/file/d/1V_87dPPWzbIocnLp7xHmix2WlnssImly/view?usp=drive_link",
+      year: "2026",
+      authors: "EWEKA Abieyuwa",
+      abstract:
+        "Medical waste management (MWM) has become a critical issue due to its potential environmental hazards and public health risks, with high propensity to result into epidemics especially in this era of covid-19 pandemic.",
+    },
+
+    {
+      vol: "Vol 5",
+      title:
+        "CHALLENGES OF MANAGEMENT OF MALARIA AMONG UNDER-FIVE CHILDREN IN NIGERIA: ROLE OF COMMUNITY HEALTH NURSING",
+      link: "https://drive.google.com/file/d/1yOo_oxI3dJlhXr57F8FurJ9jVMcvBBqv/view?usp=drive_link",
+      year: "2026",
+      authors: "Adeyemo Mordiyah Omolara A. (Mrs.) R.N., B.Sc. (Nursing) M.P.H",
+      abstract:
+        "Malaria is one of the main causes of health and socio-economic burden in Sub-Sahara Africa countries affecting all age groups but with serious effect on children and pregnant women.",
     },
   ];
 
@@ -543,7 +569,7 @@ const MedicalSurgicalNursingJournal = () => {
           </motion.section>
 
           {/* ISSN Badge */}
-          <motion.div className="mb-8 flex justify-center" variants={fadeInUp}>
+          {/* <motion.div className="mb-8 flex justify-center" variants={fadeInUp}>
             <motion.div
               className="bg-gradient-to-r from-teal-600 to-cyan-600 text-white px-8 py-4 rounded-lg shadow-lg inline-block"
               whileHover={{ scale: 1.05, rotate: 1 }}
@@ -559,7 +585,7 @@ const MedicalSurgicalNursingJournal = () => {
                 </motion.span>
               </p>
             </motion.div>
-          </motion.div>
+          </motion.div> */}
 
           {/* Articles Section */}
           <motion.div

@@ -121,7 +121,7 @@ const App = () => {
           path="/journal/isjpchnr"
           element={<SpecialtyCommunityJournal />}
         />
-        <Route path="/journal/isjner" element={<SpecialtyNursingJournal />} />
+        <Route path="/journal/isj-ner" element={<SpecialtyNursingJournal />} />
         <Route
           path="/journal/isj-msnr"
           element={<MedicalSurgicalNursingJournal />}

@@ -39,68 +39,44 @@ const MidwiferyJournal = () => {
 
   const articles = [
     {
-      vol: "Vol 1 No. 1",
-      title: "The Role of Midwives in Reducing Maternal Mortality in Sub-Saharan Africa",
-      link: "https://drive.google.com/file/d/1mi4K5LbymGHDLMI4DYk2h2uZu1a68nWW/view?usp=sharing",
-      year: "2024",
-      authors: "Dr. Sarah M. Kariuki, Prof. James O. Otieno",
-      abstract: "This study examines the critical role of skilled midwifery care in reducing maternal mortality rates across six Sub-Saharan African countries, highlighting community-based interventions and training programs."
+      vol: "Vol 1",
+      title: "PAIN PERCEPTION AND BEHAVIOUR AMONG WOMEN IN LABOUR",
+      link: "https://drive.google.com/file/d/1e1B1paIfYQb3Ch_FvpjXiF2QSxqVMTWk/view?usp=sharing",
+      year: "2026",
+      authors: "Chiejina E.N, Odira C.C, Okafor C.N, & Sibeudu, F.T",
+      abstract: "This study explored pain perception and behavior among women in labour."
     },
     {
-      vol: "Vol 1 No. 1",
-      title: "Integrating Traditional Birth Attendants into Modern Midwifery Practice",
-      link: "https://drive.google.com/file/d/195sarNHLSMfx9MIYNaLoqHW98TxNNTGp/view?usp=drive_link",
-      year: "2024",
-      authors: "Dr. Amina Hassan, Prof. Maria Santos",
-      abstract: "A qualitative study exploring the successful integration of traditional birth attendants into formal healthcare systems, preserving cultural practices while ensuring safe delivery outcomes."
+      vol: "Vol 2",
+      title: "PERCEPTION AND UTILIZATION OF FOCUSED ANTENATAL CARE AMONG WOMEN OF CHILDBEARING AGE",
+      link: "https://drive.google.com/file/d/1TWiC7J-slDc_aFMP3ilklAJsdX6j1mvz/view?usp=drive_link",
+      year: "2026",
+      authors: "AJAYI, Abraham Dare RN, BSc, MSc, PhD, FWACN & Co.",
+      abstract: "Focused antenatal care is an evidence-based, goal directed action, family-centered care, that emphasizes quality rather than quantity of visits.."
     },
     {
-      vol: "Vol 1 No. 1",
-      title: "Mental Health Support for Midwives: Addressing Burnout and Compassion Fatigue",
-      link: "https://drive.google.com/file/d/1GWso94KesaGyoZnplTkb7UvB9ZOxPcbX/view?usp=drive_link",
-      year: "2024",
-      authors: "Dr. Emma Thompson, Dr. Raj Patel",
-      abstract: "This research identifies key stressors in midwifery practice and proposes evidence-based interventions to support mental health and prevent burnout among healthcare providers."
+      vol: "Vol 3",
+      title: "MIDWIVE’S PERCEPTION OF OBJECTIVE STRUCTURED CLINICAL EXAMINATION (OSCE) AND THEIR PERFORMANCE",
+      link: "https://drive.google.com/file/d/1Ic-jUAW2Qwt7j3G3SEISA_orCXTV1uye/view?usp=sharing",
+      year: "2026",
+      authors: "Duke, Emon Umoe, B.Sc (Nursing) M.Ed. FWACN",
+      abstract: "This study was designed to assess midwive’s perception of objective structured clinical examination (OSCE) and their performance in OSCE, in Akwa Ibom and Cross River States of Nigeria."
     },
     {
-      vol: "Vol 1 No. 2",
-      title: "Home Birth vs. Hospital Birth: A Comparative Study of Birth Outcomes",
+      vol: "Vol. 4",
+      title: "ATTITUDE OF FAMILY PLANNING PROVIDERS TOWARDS THE USE OF CONTRACEPTIVES BY ADOLESCENTS",
       link: "https://drive.google.com/file/d/1kcKUDYsuEo0hPfYK4hdxp29orwJHo3px/view?usp=drive_link",
-      year: "2024",
-      authors: "Prof. Linda Johnson, Dr. Mark Williams",
-      abstract: "A comprehensive meta-analysis comparing birth outcomes between planned home births with skilled midwives and hospital-based deliveries across multiple healthcare systems."
+      year: "2026",
+      authors: "Samson-Akpan, Patience E.",
+      abstract: "An unmet need for contraception seems to exist among adolescents."
     },
     {
-      vol: "Vol 2 No. 1",
-      title: "The Impact of Continuous Labor Support on Maternal and Neonatal Outcomes",
+      vol: "Vol. 5",
+      title: "ATTITUDE OF PREGNANT WOMEN TOWARDS GROUP HEALTH TALK DURING ANTENATAL CARE",
       link: "https://drive.google.com/file/d/1lXbAQ9F57pN4Y_I8K_9R9zg-1BIr-hqM/view?usp=drive_link",
-      year: "2025",
-      authors: "Dr. Catherine Lee, Prof. Amara Nwosu",
-      abstract: "Randomized controlled trial demonstrating the significant benefits of continuous one-on-one labor support provided by trained midwives on maternal satisfaction and neonatal health."
-    },
-    {
-      vol: "Vol 2 No. 1",
-      title: "Telehealth in Midwifery: Expanding Access to Prenatal Care",
-      link: "https://drive.google.com/file/d/14BbWmdJjGjWKSHeFw39miOG572rPOjaY/view?usp=drive_link",
-      year: "2025",
-      authors: "Dr. Sophia Chen, Dr. Michael Andersen",
-      abstract: "Innovative study exploring the effectiveness of telehealth interventions in providing prenatal care to underserved populations, reducing barriers to access."
-    },
-    {
-      vol: "Vol 2 No. 1",
-      title: "Cultural Competence in Midwifery: A Framework for Inclusive Care",
-      link: "https://drive.google.com/file/d/1VF_3RUwzlMjQMXfQVoOhKFgT-rajcSb9/view?usp=drive_link",
-      year: "2025",
-      authors: "Prof. Yuki Tanaka, Dr. Carlos Rodriguez",
-      abstract: "Development and validation of a cultural competence framework for midwifery practice, addressing diverse patient needs and improving health equity."
-    },
-    {
-      vol: "Vol 2 No. 2",
-      title: "Sustainable Midwifery: Addressing Climate Change and Maternal Health",
-      link: "https://drive.google.com/file/d/1wIGnNOA0tzvO1jw-ZFcUO7cPEdf-rWzO/view?usp=drive_link",
-      year: "2025",
-      authors: "Dr. Freya Bergmann, Prof. David Okafor",
-      abstract: "Examining the intersection of climate change and maternal health, proposing sustainable midwifery practices that reduce environmental impact while improving care."
+      year: "2026",
+      authors: "MARAGRET OMOWALEOLA AKINWAARE. RN, BNSc.",
+      abstract: "Antenatal care is widely established and provides an opportunity to inform and educate pregnant women about pregnancy, childbirth and care of the newborn."
     },
   ];
 
@@ -651,7 +627,7 @@ const MidwiferyJournal = () => {
           </motion.section>
 
           {/* ISSN Badge */}
-          <motion.div className="mb-8 flex justify-center" variants={fadeInUp}>
+          {/* <motion.div className="mb-8 flex justify-center" variants={fadeInUp}>
             <motion.div
               className="bg-gradient-to-r from-rose-600 to-pink-600 text-white px-8 py-4 rounded-lg shadow-lg inline-block"
               whileHover={{ scale: 1.05, rotate: 1 }}
@@ -667,7 +643,7 @@ const MidwiferyJournal = () => {
                 </motion.span>
               </p>
             </motion.div>
-          </motion.div>
+          </motion.div> */}
 
           {/* Call to Action */}
           <motion.section variants={fadeInUp}>
