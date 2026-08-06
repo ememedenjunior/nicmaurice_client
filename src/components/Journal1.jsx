@@ -22,7 +22,7 @@ const JournalsCol2 = () => {
       id: 2,
       image: MentalLand,
       alt: "International Specialty Journal of Mental Health and Psychiatric Nursing Research",
-      path: "/journal/isjmpnr",
+      path: "/journal/isj-mpnr",
       title: "International Specialty Journal of Mental Health and Psychiatric Nursing Research",
       description: "Click on the read more button to get more information.",
       marginTop: "mt-[20px]",

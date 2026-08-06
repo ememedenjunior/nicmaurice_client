@@ -2,10 +2,10 @@ import React, { useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import Header from "../../components/Header";
 import Footer from "../../components/Footer";
-import { 
-  MdKeyboardArrowRight, 
-  MdDownload, 
-  MdArticle, 
+import {
+  MdKeyboardArrowRight,
+  MdDownload,
+  MdArticle,
   MdCalendarToday,
   MdSearch,
   MdFilterList,
@@ -45,11 +45,9 @@ import {
   MdLocationOn,
   MdAssignment,
   MdVideoLibrary,
-  MdPodcasts,
-  MdInfo,
   MdWarning,
   MdSecurity,
-  MdCircle
+  MdCircle,
 } from "react-icons/md";
 import Communnity from "../../assets/journal/community.jpg";
 import { Link } from "react-router-dom";
@@ -60,55 +58,96 @@ const CommunityJournal = () => {
   const [expandedSections, setExpandedSections] = useState({});
 
   const articles = [
-        { vol: "Vol 2 No. 1", link: "https://drive.google.com/file/d/11A4ct_shlliMyrVi00-LLl2l51bU2Sjy/view?usp=sharing", year: "2024" },
-        { vol: "Vol 1 No. 1", link: "https://drive.google.com/file/d/1-y37ZKyNZLSP6OvATvUeCopBd2ojHcDa/view?usp=sharing", year: "2023" }
-      ];
+    {
+      vol: "Vol 1",
+      title:
+        "A CASE STUDY OF SUDDEN OCCURENCES OF HEALTH CONCERN TO THE PUBLIC HEALTH NURSE IN THE COMMUNITY.",
+      link: "https://drive.google.com/file/d/1deiO3tTaX83W9lZPPB2Xt7kmSMC24eaj/view?usp=sharing",
+      year: "2026",
+      authors: "Rose Ebieroba Ezonbodor-Akwagbe, RNM, RPHN, BSN, MED, PhD, FWACN, RSPH (U.K)",
+      abstract:
+        "Literature has shown that accidents claim more lives of children between ages one and fifteen than the six leading pediatrics disorders combined and 91% of all injuries to children under five occurred at home.",
+    },
+
+     {
+      vol: "Vol 2",
+      title:
+        "PREVALENCE, TYPES AND PREDICTORS OF SEXUAL ABUSE AMONG IN-SCHOOL ADOLESCENTS IN AKWA IBOM STATE, NIGERIA: AN URBAN-RURAL QUANTITATIVE SURVEY",
+      link: "https://drive.google.com/file/d/1F4mO6EKEsFmFpIhOiJ4vvhLV-MRea_oQ/view?usp=sharing",
+      year: "2024",
+      authors: "Akpan A. M.",
+      abstract:
+        "Background:Sexual abuse among adolescents is a serious public health problem.",
+    },
+
+    {
+      vol: "Vol 3",
+      title:
+        "PERCEPTION OF THE ROLE OF TRADITIONAL HEALERS IN PRIMARY HEALTH CARE",
+      link: "https://drive.google.com/file/d/1dzIzXv4-_3ljZHomMrxc_BvNiTFTr8ek/view?usp=sharing",
+      year: "2024",
+      authors: "O. A. OGUNYEWO, MSC [N], MSC [Med Soc], RN",
+      abstract:
+        "AIM: The aim of this study was to examine the contributions of traditional healers towards the activities of Primary Health Care.",
+    },
+
+    {
+      vol: "Vol 4",
+      title:
+        "HOSPITAL NOISE AND OVERCROWDING: DETERMINING FACTORS ON PATIENTS’ RECOVERY RATE",
+      link: "https://drive.google.com/file/d/1dzIzXv4-_3ljZHomMrxc_BvNiTFTr8ek/view?usp=sharing",
+      year: "2024",
+      authors: "O. A. OGUNYEWO, MSC [N], MSC [Med Soc], RN",
+      abstract:
+        "AIM: The aim of this study was to examine the contributions of traditional healers towards the activities of Primary Health Care.",
+    },
+  ];
 
   // Animation variants
   const fadeInUp = {
     initial: { opacity: 0, y: 20 },
     animate: { opacity: 1, y: 0 },
-    transition: { duration: 0.6 }
+    transition: { duration: 0.6 },
   };
 
   const fadeInLeft = {
     initial: { opacity: 0, x: -20 },
     animate: { opacity: 1, x: 0 },
-    transition: { duration: 0.6 }
+    transition: { duration: 0.6 },
   };
 
   const fadeInRight = {
     initial: { opacity: 0, x: 20 },
     animate: { opacity: 1, x: 0 },
-    transition: { duration: 0.6 }
+    transition: { duration: 0.6 },
   };
 
   const staggerContainer = {
     animate: {
       transition: {
-        staggerChildren: 0.1
-      }
-    }
+        staggerChildren: 0.1,
+      },
+    },
   };
 
   const cardVariants = {
     initial: { opacity: 0, scale: 0.9 },
     animate: { opacity: 1, scale: 1 },
-    hover: { 
+    hover: {
       scale: 1.05,
-      transition: { duration: 0.2 }
+      transition: { duration: 0.2 },
     },
-    tap: { scale: 0.95 }
+    tap: { scale: 0.95 },
   };
 
   const sectionVariants = {
     initial: { opacity: 0, y: 30 },
-    whileInView: { 
-      opacity: 1, 
+    whileInView: {
+      opacity: 1,
       y: 0,
-      transition: { duration: 0.6 }
+      transition: { duration: 0.6 },
     },
-    viewport: { once: true, amount: 0.2 }
+    viewport: { once: true, amount: 0.2 },
   };
 
   const floatingAnimation = {
@@ -117,9 +156,9 @@ const CommunityJournal = () => {
       transition: {
         duration: 3,
         repeat: Infinity,
-        ease: "easeInOut"
-      }
-    }
+        ease: "easeInOut",
+      },
+    },
   };
 
   const pulseAnimation = {
@@ -129,9 +168,9 @@ const CommunityJournal = () => {
       transition: {
         duration: 2,
         repeat: Infinity,
-        ease: "easeInOut"
-      }
-    }
+        ease: "easeInOut",
+      },
+    },
   };
 
   const rotateAnimation = {
@@ -140,21 +179,26 @@ const CommunityJournal = () => {
       transition: {
         duration: 20,
         repeat: Infinity,
-        ease: "linear"
-      }
-    }
+        ease: "linear",
+      },
+    },
   };
 
   // Get unique years for filter
-  const years = ["All", ...new Set(articles.map(article => article.year))].sort((a, b) => {
+  const years = [
+    "All",
+    ...new Set(articles.map((article) => article.year)),
+  ].sort((a, b) => {
     if (a === "All") return -1;
     if (b === "All") return 1;
     return b.localeCompare(a);
   });
 
   // Filter articles based on search and year
-  const filteredArticles = articles.filter(article => {
-    const matchesSearch = article.vol.toLowerCase().includes(searchTerm.toLowerCase());
+  const filteredArticles = articles.filter((article) => {
+    const matchesSearch = article.vol
+      .toLowerCase()
+      .includes(searchTerm.toLowerCase());
     const matchesYear = selectedYear === "All" || article.year === selectedYear;
     return matchesSearch && matchesYear;
   });
@@ -170,13 +214,15 @@ const CommunityJournal = () => {
   }, {});
 
   // Sort years in descending order
-  const sortedYears = Object.keys(groupedArticles).sort((a, b) => b.localeCompare(a));
+  const sortedYears = Object.keys(groupedArticles).sort((a, b) =>
+    b.localeCompare(a),
+  );
 
   // Toggle section expansion
   const toggleSection = (sectionId) => {
-    setExpandedSections(prev => ({
+    setExpandedSections((prev) => ({
       ...prev,
-      [sectionId]: !prev[sectionId]
+      [sectionId]: !prev[sectionId],
     }));
   };
 
@@ -184,20 +230,20 @@ const CommunityJournal = () => {
     <>
       <Header />
 
-      <motion.div 
+      <motion.div
         initial={{ opacity: 0 }}
         animate={{ opacity: 1 }}
         transition={{ duration: 0.5 }}
         className="mt-[100px] px-6 lg:px-[100px]"
       >
         {/* Header Section */}
-        <motion.div 
+        <motion.div
           variants={staggerContainer}
           initial="initial"
           animate="animate"
           className="mb-8"
         >
-          <motion.h1 
+          <motion.h1
             variants={fadeInUp}
             className="text-[20px] lg:text-[28px] font-bold underline leading-tight text-teal-800"
           >
@@ -207,7 +253,7 @@ const CommunityJournal = () => {
         </motion.div>
 
         {/* Hero Image */}
-        <motion.div 
+        <motion.div
           className="mt-6"
           initial={{ opacity: 0, scale: 0.95 }}
           animate={{ opacity: 1, scale: 1 }}
@@ -222,22 +268,22 @@ const CommunityJournal = () => {
         </motion.div>
 
         {/* Main Content */}
-        <motion.div 
+        <motion.div
           className="w-full max-w-5xl mt-[35px] text-[16px] font-mono"
           variants={staggerContainer}
           initial="initial"
           animate="animate"
         >
           {/* Introduction */}
-          <motion.div 
+          <motion.div
             className="bg-gradient-to-r from-teal-50 to-emerald-50 p-6 rounded-lg shadow-md mb-6"
             variants={sectionVariants}
             whileInView="whileInView"
             initial="initial"
           >
-            <motion.h2 
+            <motion.h2
               className="text-xl font-semibold text-teal-700 mb-4 flex items-center gap-2 cursor-pointer"
-              onClick={() => toggleSection('intro')}
+              onClick={() => toggleSection("intro")}
               whileHover={{ x: 10 }}
             >
               <motion.div
@@ -260,21 +306,22 @@ const CommunityJournal = () => {
                   transition={{ duration: 0.3 }}
                 >
                   <p className="mb-4">
-                    Our journal stands at a pivotal moment in the evolution of public
-                    and community health research. The field is rapidly changing, driven
-                    by technological advancements, particularly the rise of artificial
-                    intelligence (AI). To maintain its relevance and impact, your
-                    journal needs to embrace this transformation and position itself as
-                    a leading platform for innovative and impactful research.
+                    Our journal stands at a pivotal moment in the evolution of
+                    public and community health research. The field is rapidly
+                    changing, driven by technological advancements, particularly
+                    the rise of artificial intelligence (AI). To maintain its
+                    relevance and impact, your journal needs to embrace this
+                    transformation and position itself as a leading platform for
+                    innovative and impactful research.
                   </p>
                   <p>
                     <span className="font-semibold text-teal-600">
                       <i> Vision: </i>
                     </span>{" "}
-                    To be a leading international platform for transformative research
-                    that advances public and community health, embracing
-                    interdisciplinary approaches, leveraging the power of artificial
-                    intelligence, and driving real-world impact.
+                    To be a leading international platform for transformative
+                    research that advances public and community health,
+                    embracing interdisciplinary approaches, leveraging the power
+                    of artificial intelligence, and driving real-world impact.
                   </p>
                 </motion.div>
               )}
@@ -282,15 +329,15 @@ const CommunityJournal = () => {
           </motion.div>
 
           {/* Content and Scope */}
-          <motion.div 
+          <motion.div
             className="bg-white rounded-lg shadow-md p-6 mb-6"
             variants={sectionVariants}
             whileInView="whileInView"
             initial="initial"
           >
-            <motion.h2 
+            <motion.h2
               className="text-xl font-semibold text-teal-700 mb-4 flex items-center gap-2 cursor-pointer"
-              onClick={() => toggleSection('scope')}
+              onClick={() => toggleSection("scope")}
               whileHover={{ x: 10 }}
             >
               <motion.div
@@ -321,10 +368,26 @@ const CommunityJournal = () => {
                     </h3>
                     <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                       {[
-                        { icon: <MdThermostat />, title: "Climate Change and Health", desc: "Research exploring the impact of climate change on health, including heatwaves, air pollution, and infectious disease outbreaks." },
-                        { icon: <MdVaccines />, title: "Pandemics and Infectious Diseases", desc: "Research on pandemic preparedness, disease surveillance, and the development of innovative treatments and vaccines." },
-                        { icon: <MdAttachMoney />, title: "Rising Healthcare Costs and Access", desc: "Research focused on improving access to healthcare, reducing costs, and ensuring equitable health outcomes." },
-                        { icon: <MdEqualizer />, title: "Health Inequities", desc: "Research examining the social determinants of health, addressing disparities in access to healthcare, and promoting health equity." }
+                        {
+                          icon: <MdThermostat />,
+                          title: "Climate Change and Health",
+                          desc: "Research exploring the impact of climate change on health, including heatwaves, air pollution, and infectious disease outbreaks.",
+                        },
+                        {
+                          icon: <MdVaccines />,
+                          title: "Pandemics and Infectious Diseases",
+                          desc: "Research on pandemic preparedness, disease surveillance, and the development of innovative treatments and vaccines.",
+                        },
+                        {
+                          icon: <MdAttachMoney />,
+                          title: "Rising Healthcare Costs and Access",
+                          desc: "Research focused on improving access to healthcare, reducing costs, and ensuring equitable health outcomes.",
+                        },
+                        {
+                          icon: <MdEqualizer />,
+                          title: "Health Inequities",
+                          desc: "Research examining the social determinants of health, addressing disparities in access to healthcare, and promoting health equity.",
+                        },
                       ].map((item, index) => (
                         <motion.div
                           key={index}
@@ -336,7 +399,11 @@ const CommunityJournal = () => {
                           <div className="flex items-center gap-2 mb-2 text-teal-600">
                             <motion.div
                               animate={{ rotate: [0, 10, -10, 0] }}
-                              transition={{ duration: 2, repeat: Infinity, delay: index * 0.3 }}
+                              transition={{
+                                duration: 2,
+                                repeat: Infinity,
+                                delay: index * 0.3,
+                              }}
                             >
                               {item.icon}
                             </motion.div>
@@ -356,10 +423,26 @@ const CommunityJournal = () => {
                     </h3>
                     <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                       {[
-                        { icon: <MdPublic />, title: "Public Health", desc: "Epidemiology, biostatistics, health policy, environmental health" },
-                        { icon: <MdLocalHospital />, title: "Medicine", desc: "Clinical research, public health medicine, global health" },
-                        { icon: <MdSocialDistance />, title: "Social Sciences", desc: "Sociology, anthropology, psychology, economics" },
-                        { icon: <MdEngineering />, title: "Engineering", desc: "Bioengineering, data science, computer science" }
+                        {
+                          icon: <MdPublic />,
+                          title: "Public Health",
+                          desc: "Epidemiology, biostatistics, health policy, environmental health",
+                        },
+                        {
+                          icon: <MdLocalHospital />,
+                          title: "Medicine",
+                          desc: "Clinical research, public health medicine, global health",
+                        },
+                        {
+                          icon: <MdSocialDistance />,
+                          title: "Social Sciences",
+                          desc: "Sociology, anthropology, psychology, economics",
+                        },
+                        {
+                          icon: <MdEngineering />,
+                          title: "Engineering",
+                          desc: "Bioengineering, data science, computer science",
+                        },
                       ].map((item, index) => (
                         <motion.div
                           key={index}
@@ -369,10 +452,14 @@ const CommunityJournal = () => {
                           initial="initial"
                           whileHover={{ x: 5 }}
                         >
-                          <motion.div 
+                          <motion.div
                             className="text-teal-500 mt-1"
                             animate={{ scale: [1, 1.2, 1] }}
-                            transition={{ duration: 2, repeat: Infinity, delay: index * 0.3 }}
+                            transition={{
+                              duration: 2,
+                              repeat: Infinity,
+                              delay: index * 0.3,
+                            }}
                           >
                             {item.icon}
                           </motion.div>
@@ -393,9 +480,21 @@ const CommunityJournal = () => {
                     </h3>
                     <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
                       {[
-                        { icon: <MdBiotech />, title: "AI in Public Health", desc: "Disease surveillance, risk assessment, personalized medicine" },
-                        { icon: <MdPrecisionManufacturing />, title: "Precision Medicine", desc: "Tailoring interventions to individual patients" },
-                        { icon: <MdEqualizer />, title: "Social Determinants", desc: "Impact of social factors on health outcomes" }
+                        {
+                          icon: <MdBiotech />,
+                          title: "AI in Public Health",
+                          desc: "Disease surveillance, risk assessment, personalized medicine",
+                        },
+                        {
+                          icon: <MdPrecisionManufacturing />,
+                          title: "Precision Medicine",
+                          desc: "Tailoring interventions to individual patients",
+                        },
+                        {
+                          icon: <MdEqualizer />,
+                          title: "Social Determinants",
+                          desc: "Impact of social factors on health outcomes",
+                        },
                       ].map((item, index) => (
                         <motion.div
                           key={index}
@@ -403,14 +502,20 @@ const CommunityJournal = () => {
                           variants={cardVariants}
                           whileHover="hover"
                         >
-                          <motion.div 
+                          <motion.div
                             className="text-3xl text-teal-600 mb-2"
                             animate={{ rotate: [0, 360] }}
-                            transition={{ duration: 3, repeat: Infinity, delay: index * 1 }}
+                            transition={{
+                              duration: 3,
+                              repeat: Infinity,
+                              delay: index * 1,
+                            }}
                           >
                             {item.icon}
                           </motion.div>
-                          <h4 className="font-semibold text-sm mb-1">{item.title}</h4>
+                          <h4 className="font-semibold text-sm mb-1">
+                            {item.title}
+                          </h4>
                           <p className="text-xs text-gray-600">{item.desc}</p>
                         </motion.div>
                       ))}
@@ -422,15 +527,15 @@ const CommunityJournal = () => {
           </motion.div>
 
           {/* AI Integration Section */}
-          <motion.div 
+          <motion.div
             className="bg-gradient-to-r from-purple-50 to-indigo-50 p-6 rounded-lg shadow-md mb-6"
             variants={sectionVariants}
             whileInView="whileInView"
             initial="initial"
           >
-            <motion.h2 
+            <motion.h2
               className="text-xl font-semibold text-purple-700 mb-4 flex items-center gap-2 cursor-pointer"
-              onClick={() => toggleSection('ai')}
+              onClick={() => toggleSection("ai")}
               whileHover={{ x: 10 }}
             >
               <motion.div
@@ -455,12 +560,26 @@ const CommunityJournal = () => {
                 >
                   {/* Research Methodology */}
                   <div>
-                    <h3 className="font-semibold text-purple-600 mb-3">AI in Research Methodology</h3>
+                    <h3 className="font-semibold text-purple-600 mb-3">
+                      AI in Research Methodology
+                    </h3>
                     <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
                       {[
-                        { icon: <MdAnalytics />, title: "Data Analysis", desc: "Machine learning, deep learning for trend identification" },
-                        { icon: <MdWarning />, title: "Disease Surveillance", desc: "Outbreak detection, early warning systems" },
-                        { icon: <MdSecurity />, title: "Risk Assessment", desc: "Individual health risk prediction" }
+                        {
+                          icon: <MdAnalytics />,
+                          title: "Data Analysis",
+                          desc: "Machine learning, deep learning for trend identification",
+                        },
+                        {
+                          icon: <MdWarning />,
+                          title: "Disease Surveillance",
+                          desc: "Outbreak detection, early warning systems",
+                        },
+                        {
+                          icon: <MdSecurity />,
+                          title: "Risk Assessment",
+                          desc: "Individual health risk prediction",
+                        },
                       ].map((item, index) => (
                         <motion.div
                           key={index}
@@ -468,14 +587,20 @@ const CommunityJournal = () => {
                           variants={cardVariants}
                           whileHover="hover"
                         >
-                          <motion.div 
+                          <motion.div
                             className="text-2xl text-purple-600 mb-2"
                             animate={{ y: [0, -5, 0] }}
-                            transition={{ duration: 2, repeat: Infinity, delay: index * 0.3 }}
+                            transition={{
+                              duration: 2,
+                              repeat: Infinity,
+                              delay: index * 0.3,
+                            }}
                           >
                             {item.icon}
                           </motion.div>
-                          <h4 className="font-semibold text-sm mb-1">{item.title}</h4>
+                          <h4 className="font-semibold text-sm mb-1">
+                            {item.title}
+                          </h4>
                           <p className="text-xs text-gray-600">{item.desc}</p>
                         </motion.div>
                       ))}
@@ -484,11 +609,21 @@ const CommunityJournal = () => {
 
                   {/* Clinical Applications */}
                   <div>
-                    <h3 className="font-semibold text-purple-600 mb-3">AI in Clinical Applications</h3>
+                    <h3 className="font-semibold text-purple-600 mb-3">
+                      AI in Clinical Applications
+                    </h3>
                     <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                       {[
-                        { icon: <MdLocalHospital />, title: "Diagnosis and Treatment", desc: "Image analysis, personalized treatment recommendations" },
-                        { icon: <MdComputer />, title: "Remote Patient Monitoring", desc: "AI-powered devices for early intervention" }
+                        {
+                          icon: <MdLocalHospital />,
+                          title: "Diagnosis and Treatment",
+                          desc: "Image analysis, personalized treatment recommendations",
+                        },
+                        {
+                          icon: <MdComputer />,
+                          title: "Remote Patient Monitoring",
+                          desc: "AI-powered devices for early intervention",
+                        },
                       ].map((item, index) => (
                         <motion.div
                           key={index}
@@ -497,7 +632,7 @@ const CommunityJournal = () => {
                           whileInView="animate"
                           whileHover={{ x: 5 }}
                         >
-                          <motion.div 
+                          <motion.div
                             className="text-2xl text-purple-600"
                             animate={{ rotate: [0, 360] }}
                             transition={{ duration: 3, repeat: Infinity }}
@@ -505,7 +640,9 @@ const CommunityJournal = () => {
                             {item.icon}
                           </motion.div>
                           <div>
-                            <h4 className="font-semibold text-sm">{item.title}</h4>
+                            <h4 className="font-semibold text-sm">
+                              {item.title}
+                            </h4>
                             <p className="text-xs text-gray-600">{item.desc}</p>
                           </div>
                         </motion.div>
@@ -515,12 +652,26 @@ const CommunityJournal = () => {
 
                   {/* Community Health Interventions */}
                   <div>
-                    <h3 className="font-semibold text-purple-600 mb-3">AI in Community Health Interventions</h3>
+                    <h3 className="font-semibold text-purple-600 mb-3">
+                      AI in Community Health Interventions
+                    </h3>
                     <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
                       {[
-                        { icon: <MdChat />, title: "Health Education", desc: "Chatbots for health information" },
-                        { icon: <MdLocationOn />, title: "Community Engagement", desc: "Community mapping, vulnerable populations" },
-                        { icon: <MdAssignment />, title: "Resource Allocation", desc: "Data-driven resource optimization" }
+                        {
+                          icon: <MdChat />,
+                          title: "Health Education",
+                          desc: "Chatbots for health information",
+                        },
+                        {
+                          icon: <MdLocationOn />,
+                          title: "Community Engagement",
+                          desc: "Community mapping, vulnerable populations",
+                        },
+                        {
+                          icon: <MdAssignment />,
+                          title: "Resource Allocation",
+                          desc: "Data-driven resource optimization",
+                        },
                       ].map((item, index) => (
                         <motion.div
                           key={index}
@@ -528,14 +679,20 @@ const CommunityJournal = () => {
                           variants={cardVariants}
                           whileHover="hover"
                         >
-                          <motion.div 
+                          <motion.div
                             className="text-2xl text-purple-600 mb-1"
                             animate={{ scale: [1, 1.2, 1] }}
-                            transition={{ duration: 2, repeat: Infinity, delay: index * 0.3 }}
+                            transition={{
+                              duration: 2,
+                              repeat: Infinity,
+                              delay: index * 0.3,
+                            }}
                           >
                             {item.icon}
                           </motion.div>
-                          <h4 className="font-semibold text-xs mb-1">{item.title}</h4>
+                          <h4 className="font-semibold text-xs mb-1">
+                            {item.title}
+                          </h4>
                           <p className="text-xs text-gray-600">{item.desc}</p>
                         </motion.div>
                       ))}
@@ -547,15 +704,15 @@ const CommunityJournal = () => {
           </motion.div>
 
           {/* Journal Structure */}
-          <motion.div 
+          <motion.div
             className="bg-white rounded-lg shadow-md p-6 mb-6"
             variants={sectionVariants}
             whileInView="whileInView"
             initial="initial"
           >
-            <motion.h2 
+            <motion.h2
               className="text-xl font-semibold text-teal-700 mb-4 flex items-center gap-2 cursor-pointer"
-              onClick={() => toggleSection('structure')}
+              onClick={() => toggleSection("structure")}
               whileHover={{ x: 10 }}
             >
               <motion.div
@@ -579,10 +736,26 @@ const CommunityJournal = () => {
                   className="grid grid-cols-1 md:grid-cols-2 gap-4"
                 >
                   {[
-                    { icon: <MdCircle />, title: "Rigorous Peer Review", desc: "Double-blind peer review with AI-assisted screening" },
-                    { icon: <MdComputer />, title: "Modern Online Platform", desc: "User-friendly website with advanced search" },
-                    { icon: <MdVideoLibrary />, title: "Multimedia Content", desc: "Infographics, podcasts, videos" },
-                    { icon: <MdPublic />, title: "Open Access Options", desc: "Increased visibility and accessibility" }
+                    {
+                      icon: <MdCircle />,
+                      title: "Rigorous Peer Review",
+                      desc: "Double-blind peer review with AI-assisted screening",
+                    },
+                    {
+                      icon: <MdComputer />,
+                      title: "Modern Online Platform",
+                      desc: "User-friendly website with advanced search",
+                    },
+                    {
+                      icon: <MdVideoLibrary />,
+                      title: "Multimedia Content",
+                      desc: "Infographics, podcasts, videos",
+                    },
+                    {
+                      icon: <MdPublic />,
+                      title: "Open Access Options",
+                      desc: "Increased visibility and accessibility",
+                    },
                   ].map((item, index) => (
                     <motion.div
                       key={index}
@@ -591,10 +764,14 @@ const CommunityJournal = () => {
                       whileInView="animate"
                       whileHover={{ x: 5, backgroundColor: "#ccfbf1" }}
                     >
-                      <motion.div 
+                      <motion.div
                         className="text-teal-500 text-xl"
                         animate={{ rotate: [0, 360] }}
-                        transition={{ duration: 2, repeat: Infinity, delay: index * 0.5 }}
+                        transition={{
+                          duration: 2,
+                          repeat: Infinity,
+                          delay: index * 0.5,
+                        }}
                       >
                         {item.icon}
                       </motion.div>
@@ -610,15 +787,15 @@ const CommunityJournal = () => {
           </motion.div>
 
           {/* Critical Components */}
-          <motion.div 
+          <motion.div
             className="bg-gradient-to-r from-amber-50 to-orange-50 p-6 rounded-lg shadow-md mb-6"
             variants={sectionVariants}
             whileInView="whileInView"
             initial="initial"
           >
-            <motion.h2 
+            <motion.h2
               className="text-xl font-semibold text-amber-700 mb-4 flex items-center gap-2 cursor-pointer"
-              onClick={() => toggleSection('critical')}
+              onClick={() => toggleSection("critical")}
               whileHover={{ x: 10 }}
             >
               <motion.div
@@ -642,9 +819,21 @@ const CommunityJournal = () => {
                   className="space-y-4"
                 >
                   {[
-                    { icon: <MdPeople />, title: "Diversity and Inclusion", desc: "Diverse representation among authors, reviewers, and editorial board" },
-                    { icon: <MdSecurity />, title: "Ethical Guidelines", desc: "Clear guidelines for research and publication, especially for AI use" },
-                    { icon: <MdVisibility />, title: "Transparency and Openness", desc: "Transparent editorial process, review criteria, and funding sources" }
+                    {
+                      icon: <MdPeople />,
+                      title: "Diversity and Inclusion",
+                      desc: "Diverse representation among authors, reviewers, and editorial board",
+                    },
+                    {
+                      icon: <MdSecurity />,
+                      title: "Ethical Guidelines",
+                      desc: "Clear guidelines for research and publication, especially for AI use",
+                    },
+                    {
+                      icon: <MdVisibility />,
+                      title: "Transparency and Openness",
+                      desc: "Transparent editorial process, review criteria, and funding sources",
+                    },
                   ].map((item, index) => (
                     <motion.div
                       key={index}
@@ -653,13 +842,17 @@ const CommunityJournal = () => {
                       whileInView="animate"
                       whileHover={{ x: 5 }}
                     >
-                      <motion.div 
+                      <motion.div
                         className="text-amber-500 text-xl"
-                        animate={{ 
+                        animate={{
                           scale: [1, 1.2, 1],
-                          rotate: [0, 10, -10, 0]
+                          rotate: [0, 10, -10, 0],
                         }}
-                        transition={{ duration: 2, repeat: Infinity, delay: index * 0.3 }}
+                        transition={{
+                          duration: 2,
+                          repeat: Infinity,
+                          delay: index * 0.3,
+                        }}
                       >
                         {item.icon}
                       </motion.div>
@@ -675,15 +868,15 @@ const CommunityJournal = () => {
           </motion.div>
 
           {/* Conclusion */}
-          <motion.div 
+          <motion.div
             className="bg-gradient-to-r from-teal-600 to-emerald-600 text-white p-6 rounded-lg shadow-md mb-6"
             variants={sectionVariants}
             whileInView="whileInView"
             initial="initial"
           >
-            <motion.h2 
+            <motion.h2
               className="text-xl font-semibold mb-4 flex items-center gap-2 cursor-pointer"
-              onClick={() => toggleSection('conclusion')}
+              onClick={() => toggleSection("conclusion")}
               whileHover={{ x: 10 }}
             >
               <motion.div
@@ -706,13 +899,13 @@ const CommunityJournal = () => {
                   transition={{ duration: 0.3 }}
                   className="text-white/90"
                 >
-                  By embracing these elements, your journal can become a leading voice
-                  in the rapidly evolving field of public and community health,
-                  leveraging the power of AI to advance research, improve health
-                  outcomes for all, and create a healthier future. Remember,
-                  continuous innovation, thoughtful adaptation, and a commitment to
-                  ethical principles are essential for your journal's sustained
-                  success and impact.
+                  By embracing these elements, your journal can become a leading
+                  voice in the rapidly evolving field of public and community
+                  health, leveraging the power of AI to advance research,
+                  improve health outcomes for all, and create a healthier
+                  future. Remember, continuous innovation, thoughtful
+                  adaptation, and a commitment to ethical principles are
+                  essential for your journal's sustained success and impact.
                 </motion.p>
               )}
             </AnimatePresence>
@@ -720,11 +913,11 @@ const CommunityJournal = () => {
         </motion.div>
 
         {/* ISSN Badge */}
-        <motion.div 
+        <motion.div
           className="mb-8 flex justify-center mt-8"
           variants={fadeInUp}
         >
-          <motion.div 
+          <motion.div
             className="bg-gradient-to-r from-teal-600 to-emerald-600 text-white px-8 py-4 rounded-lg shadow-lg inline-block"
             whileHover={{ scale: 1.05, rotate: 1 }}
             animate={pulseAnimation}
@@ -742,13 +935,13 @@ const CommunityJournal = () => {
         </motion.div>
 
         {/* Articles Section */}
-        <motion.div 
+        <motion.div
           className="mt-16 mb-12"
           variants={sectionVariants}
           whileInView="whileInView"
           initial="initial"
         >
-          <motion.div 
+          <motion.div
             className="flex items-center gap-3 mb-6"
             whileInView={{ x: [-20, 0] }}
             transition={{ duration: 0.5 }}
@@ -759,21 +952,24 @@ const CommunityJournal = () => {
             >
               <MdMenuBook className="text-3xl text-teal-600" />
             </motion.div>
-            <h2 className="text-2xl lg:text-3xl font-bold text-gray-800">Journal Articles</h2>
+            <h2 className="text-2xl lg:text-3xl font-bold text-gray-800">
+              Journal Articles
+            </h2>
           </motion.div>
-          
-          <motion.p 
+
+          <motion.p
             className="text-gray-600 mb-8 max-w-3xl"
             initial={{ opacity: 0 }}
             whileInView={{ opacity: 1 }}
             transition={{ delay: 0.2, duration: 0.6 }}
           >
-            Access our complete archive of peer-reviewed articles, research papers, and community health studies. 
-            Browse by year or use the search to find specific volumes.
+            Access our complete archive of peer-reviewed articles, research
+            papers, and community health studies. Browse by year or use the
+            search to find specific volumes.
           </motion.p>
 
           {/* Search and Filter Bar */}
-          <motion.div 
+          <motion.div
             className="bg-blue-50 p-6 rounded-lg mb-8 max-w-5xl"
             initial={{ opacity: 0, y: 20 }}
             whileInView={{ opacity: 1, y: 0 }}
@@ -781,7 +977,7 @@ const CommunityJournal = () => {
             whileHover={{ boxShadow: "0 10px 25px -5px rgba(0,0,0,0.1)" }}
           >
             <div className="flex flex-col md:flex-row gap-4">
-              <motion.div 
+              <motion.div
                 className="flex-1 relative"
                 whileHover={{ scale: 1.02 }}
               >
@@ -794,7 +990,7 @@ const CommunityJournal = () => {
                   className="w-full pl-10 pr-4 py-3 rounded-lg border border-teal-200 focus:outline-none focus:ring-2 focus:ring-teal-400 transition-all duration-300"
                 />
               </motion.div>
-              <motion.div 
+              <motion.div
                 className="md:w-48 relative"
                 whileHover={{ scale: 1.02 }}
               >
@@ -804,7 +1000,7 @@ const CommunityJournal = () => {
                   onChange={(e) => setSelectedYear(e.target.value)}
                   className="w-full pl-10 pr-4 py-3 rounded-lg border border-teal-200 focus:outline-none focus:ring-2 focus:ring-teal-400 bg-white appearance-none cursor-pointer transition-all duration-300"
                 >
-                  {years.map(year => (
+                  {years.map((year) => (
                     <option key={year} value={year}>
                       {year === "All" ? "All Years" : year}
                     </option>
@@ -817,7 +1013,7 @@ const CommunityJournal = () => {
           {/* Articles Grid */}
           <AnimatePresence mode="wait">
             {filteredArticles.length > 0 ? (
-              <motion.div 
+              <motion.div
                 key="articles"
                 className="space-y-8 max-w-5xl"
                 variants={staggerContainer}
@@ -825,26 +1021,34 @@ const CommunityJournal = () => {
                 animate="animate"
                 exit={{ opacity: 0, y: 20 }}
               >
-                {sortedYears.map(year => (
-                  <motion.div 
-                    key={year} 
+                {sortedYears.map((year) => (
+                  <motion.div
+                    key={year}
                     className="bg-white rounded-lg shadow-md overflow-hidden"
                     variants={fadeInUp}
-                    whileHover={{ boxShadow: "0 20px 25px -5px rgba(0,0,0,0.1)" }}
+                    whileHover={{
+                      boxShadow: "0 20px 25px -5px rgba(0,0,0,0.1)",
+                    }}
                   >
-                    <motion.div 
+                    <motion.div
                       className="bg-gradient-to-r from-teal-600 to-emerald-600 text-white px-6 py-3 flex items-center gap-2"
-                      whileHover={{ background: "linear-gradient(to right, #0d9488, #059669)" }}
+                      whileHover={{
+                        background:
+                          "linear-gradient(to right, #0d9488, #059669)",
+                      }}
                     >
                       <motion.div {...rotateAnimation}>
                         <MdCalendarToday />
                       </motion.div>
                       <h3 className="text-lg font-semibold">Year {year}</h3>
-                      <motion.span 
+                      <motion.span
                         className="bg-teal-400 text-sm px-2 py-1 rounded-full ml-2"
                         whileHover={{ scale: 1.1 }}
                       >
-                        {groupedArticles[year].length} {groupedArticles[year].length === 1 ? 'Article' : 'Articles'}
+                        {groupedArticles[year].length}{" "}
+                        {groupedArticles[year].length === 1
+                          ? "Article"
+                          : "Articles"}
                       </motion.span>
                     </motion.div>
                     <div className="p-6">
@@ -865,13 +1069,15 @@ const CommunityJournal = () => {
                           >
                             <div className="flex items-start justify-between">
                               <div className="flex-1">
-                                <motion.h4 
+                                <motion.h4
                                   className="font-semibold text-gray-800 group-hover:text-teal-600 transition-colors"
                                   whileHover={{ x: 5 }}
                                 >
                                   {article.vol}
                                 </motion.h4>
-                                <p className="text-sm text-gray-500 mt-1">Published: {article.year}</p>
+                                <p className="text-sm text-gray-500 mt-1">
+                                  Published: {article.year}
+                                </p>
                               </div>
                               <motion.div
                                 whileHover={{ rotate: 15, scale: 1.2 }}
@@ -880,7 +1086,7 @@ const CommunityJournal = () => {
                                 <MdDownload className="text-xl text-gray-400 group-hover:text-teal-600 transition-colors" />
                               </motion.div>
                             </div>
-                            <motion.div 
+                            <motion.div
                               className="mt-3 flex items-center text-sm text-teal-600 opacity-0 group-hover:opacity-100 transition-opacity"
                               initial={{ x: -10 }}
                               whileHover={{ x: 0 }}
@@ -901,7 +1107,7 @@ const CommunityJournal = () => {
                 ))}
               </motion.div>
             ) : (
-              <motion.div 
+              <motion.div
                 key="no-results"
                 className="text-center py-12 bg-gray-50 rounded-lg max-w-5xl"
                 initial={{ opacity: 0, scale: 0.9 }}
@@ -909,7 +1115,7 @@ const CommunityJournal = () => {
                 exit={{ opacity: 0, scale: 0.9 }}
                 transition={{ duration: 0.3 }}
               >
-                <motion.p 
+                <motion.p
                   className="text-gray-500 text-lg"
                   animate={{ y: [0, -10, 0] }}
                   transition={{ duration: 2, repeat: Infinity }}
@@ -932,18 +1138,22 @@ const CommunityJournal = () => {
           </AnimatePresence>
 
           {/* Archive Stats */}
-          <motion.div 
+          <motion.div
             className="mt-8 bg-gray-50 p-4 rounded-lg max-w-5xl"
             variants={fadeInUp}
             whileHover={{ backgroundColor: "#e5e7eb" }}
           >
-            <motion.p 
+            <motion.p
               className="text-gray-600"
               animate={{ scale: [1, 1.02, 1] }}
               transition={{ duration: 2, repeat: Infinity }}
             >
-              <span className="font-semibold">{articles.length}</span> total articles in archive • 
-              <span className="font-semibold ml-1">{new Set(articles.map(a => a.year)).size}</span> years of publication
+              <span className="font-semibold">{articles.length}</span> total
+              articles in archive •
+              <span className="font-semibold ml-1">
+                {new Set(articles.map((a) => a.year)).size}
+              </span>{" "}
+              years of publication
             </motion.p>
           </motion.div>
         </motion.div>

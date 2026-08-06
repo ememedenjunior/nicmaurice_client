@@ -1,10 +1,120 @@
-import React from "react";
+import React, { useState } from "react"; // Fixed: Added useState import
 import Header from "../../components/Header";
 import MentalLand from "../../assets/journal/mental.jpg";
+import { motion, AnimatePresence } from "framer-motion";
 import Footer from "../../components/Footer";
 import { Link } from "react-router-dom";
+import {
+  MdKeyboardArrowRight,
+  MdDownload,
+  MdCalendarToday,
+} from "react-icons/md";
+
+// Animation variants
+const staggerContainer = {
+  initial: { opacity: 0 },
+  animate: {
+    opacity: 1,
+    transition: {
+      staggerChildren: 0.1
+    }
+  }
+};
+
+const fadeInUp = {
+  initial: { opacity: 0, y: 20 },
+  animate: { opacity: 1, y: 0 }
+};
+
+const rotateAnimation = {
+  animate: {
+    rotate: [0, 10, -10, 0],
+    transition: { duration: 2, repeat: Infinity }
+  }
+};
+
+const cardVariants = {
+  initial: { opacity: 0, y: 20 },
+  animate: (index) => ({
+    opacity: 1,
+    y: 0,
+    transition: { delay: index * 0.05 }
+  }),
+  hover: {
+    scale: 1.03,
+    boxShadow: "0 10px 15px -3px rgba(0,0,0,0.1)",
+    transition: { type: "spring", stiffness: 300 }
+  },
+  tap: { scale: 0.95 }
+};
 
 const MentalHealthJournal = () => {
+  const [searchTerm, setSearchTerm] = useState("");
+  const [selectedYear, setSelectedYear] = useState("All");
+
+  // Moved articles definition BEFORE using it in filteredArticles
+  const articles = [
+    {
+      vol: "Vol 1",
+      title: "IMPACT OF SPIRITUALITY ON MENTAL HEALTH OF FAMILIES IN A DEPRESSED ECONOMY",
+      link: "https://drive.google.com/file/d/1DkWUuKPjud5hYfC6QNljHZ--HM9jw7bw/view?usp=sharing",
+      year: "2026",
+      authors: "Isabu Augustina Chikaodili",
+      abstract: "Spirituality is a deep desire and willingness to please God and adopt his ways.",
+    },
+    {
+      vol: "Vol 2",
+      title: "PSYCHIATRY NURSES' KNOWLEDGE BASE, PERCEPTIONS ON RESEARCH AND RESEARCH UTILIZATION IN CALABAR, NIGERIA.",
+      link: "https://drive.google.com/file/d/1sFmApVvKUH2KEoMvC2ld74wR8Ivm4Bak/view?usp=sharing",
+      year: "2026",
+      authors: "†EDET, O. B. RN, PhD",
+      abstract: "Evidence-based practice depends on factors such as practitioners' knowledge and perceptions of research and research utilization including access to relevant research reports.",
+    },
+    {
+      vol: "Vol 3",
+      link: "https://drive.google.com/file/d/1HlECqRUyIr6E4Y_MIeWw8HS3SIMHFWRG/view?usp=sharing",
+      year: "2026",
+    },
+    {
+      vol: "Vol 4",
+      title: "KNOWLEDGE AND ATTITUDE OF MENTAL ILLNESS AMONG PEOPLE LIVING IN NNEWI LOCAL GOVERNMENT IN ANAMBRA STATE, NIGERIA",
+      link: "https://drive.google.com/file/d/1NTIKcoL9EOANCwHz4TI0MMzhjjAhGJlG/view?usp=sharing",
+      year: "2026",
+      authors: "Olebuezie, Felicia",
+      abstract: "The study examined the knowledge and attitude of mental illness among people living in Nnewi LGAs in Anambra State.",
+    },
+    {
+      vol: "Vol 5",
+      title: "EFFECTS OF PSYCHO EDUCATION ON INTENTION TO USE SUBSTANCES AMONG ADOLESCENTS IN SOME SELECTED SCHOOLS IN ENUGU STATE, NIGERIA",
+      link: "https://drive.google.com/file/d/1JL3z6wfuyvJ4Ghi46HRdRbM8niL_rhBg/view?usp=sharing",
+      year: "2026",
+      authors: "Dede Chinwe Ezeuigbo",
+      abstract: "Adolescent substance use has become increasingly recognized with its associated range of health, educational, developmental, social risks and problems.",
+    },
+  ];
+
+  // Filter articles based on search and year
+  const filteredArticles = articles.filter((article) => {
+    const matchesSearch = article.vol
+      .toLowerCase()
+      .includes(searchTerm.toLowerCase());
+    const matchesYear = selectedYear === "All" || article.year === selectedYear;
+    return matchesSearch && matchesYear;
+  });
+
+  // Group articles by year
+  const groupedArticles = filteredArticles.reduce((groups, article) => {
+    const year = article.year;
+    if (!groups[year]) {
+      groups[year] = [];
+    }
+    groups[year].push(article);
+    return groups;
+  }, {});
+
+  // Fixed: Added sortedYears
+  const sortedYears = Object.keys(groupedArticles).sort((a, b) => b - a);
+
   return (
     <>
       <Header />
@@ -18,6 +128,25 @@ const MentalHealthJournal = () => {
             Advancing Mental Well-being and Recovery
           </p>
         </header>
+
+        {/* Search and Filter Section - Added for functionality */}
+        <div className="mb-6 flex flex-col sm:flex-row gap-4">
+          <input
+            type="text"
+            placeholder="Search by volume..."
+            value={searchTerm}
+            onChange={(e) => setSearchTerm(e.target.value)}
+            className="flex-1 px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-teal-500"
+          />
+          <select
+            value={selectedYear}
+            onChange={(e) => setSelectedYear(e.target.value)}
+            className="px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-teal-500"
+          >
+            <option value="All">All Years</option>
+            <option value="2026">2026</option>
+          </select>
+        </div>
 
         <div className="mb-8 rounded-xl overflow-hidden">
           <img
@@ -273,6 +402,126 @@ const MentalHealthJournal = () => {
             ))}
           </div>
         </section>
+
+        {/* Articles Grid */}
+        <AnimatePresence mode="wait">
+          {filteredArticles.length > 0 ? (
+            <motion.div 
+              key="articles"
+              className="space-y-8 max-w-5xl"
+              variants={staggerContainer}
+              initial="initial"
+              animate="animate"
+              exit={{ opacity: 0, y: 20 }}
+            >
+              {sortedYears.map(year => (
+                <motion.div 
+                  key={year} 
+                  className="bg-white rounded-lg shadow-md overflow-hidden"
+                  variants={fadeInUp}
+                  whileHover={{ boxShadow: "0 20px 25px -5px rgba(0,0,0,0.1)" }}
+                >
+                  <motion.div 
+                    className="bg-gradient-to-r from-teal-600 to-emerald-600 text-white px-6 py-3 flex items-center gap-2"
+                    whileHover={{ background: "linear-gradient(to right, #0d9488, #059669)" }}
+                  >
+                    <motion.div {...rotateAnimation}>
+                      <MdCalendarToday />
+                    </motion.div>
+                    <h3 className="text-lg font-semibold">Year {year}</h3>
+                    <motion.span 
+                      className="bg-teal-400 text-sm px-2 py-1 rounded-full ml-2"
+                      whileHover={{ scale: 1.1 }}
+                    >
+                      {groupedArticles[year].length} {groupedArticles[year].length === 1 ? 'Article' : 'Articles'}
+                    </motion.span>
+                  </motion.div>
+                  <div className="p-6">
+                    <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+                      {groupedArticles[year].map((article, index) => (
+                        <motion.a
+                          key={index}
+                          href={article.link}
+                          target="_blank"
+                          rel="noopener noreferrer"
+                          className="group block p-4 border border-teal-100 rounded-lg"
+                          variants={cardVariants}
+                          initial="initial"
+                          animate="animate"
+                          whileHover="hover"
+                          whileTap="tap"
+                          custom={index}
+                        >
+                          <div className="flex items-start justify-between">
+                            <div className="flex-1">
+                              <motion.h4 
+                                className="font-semibold text-gray-800 group-hover:text-teal-600 transition-colors"
+                                whileHover={{ x: 5 }}
+                              >
+                                {article.vol}
+                              </motion.h4>
+                              {article.title && (
+                                <p className="text-xs text-gray-600 mt-1">{article.title.substring(0, 60)}...</p>
+                              )}
+                              <p className="text-sm text-gray-500 mt-1">Published: {article.year}</p>
+                            </div>
+                            <motion.div
+                              whileHover={{ rotate: 15, scale: 1.2 }}
+                              transition={{ type: "spring", stiffness: 400 }}
+                            >
+                              <MdDownload className="text-xl text-gray-400 group-hover:text-teal-600 transition-colors" />
+                            </motion.div>
+                          </div>
+                          <motion.div 
+                            className="mt-3 flex items-center text-sm text-teal-600 opacity-0 group-hover:opacity-100 transition-opacity"
+                            initial={{ x: -10 }}
+                            whileHover={{ x: 0 }}
+                          >
+                            <span>Read Article</span>
+                            <motion.div
+                              animate={{ x: [0, 5, 0] }}
+                              transition={{ duration: 1, repeat: Infinity }}
+                            >
+                              <MdKeyboardArrowRight className="ml-1" />
+                            </motion.div>
+                          </motion.div>
+                        </motion.a>
+                      ))}
+                    </div>
+                  </div>
+                </motion.div>
+              ))}
+            </motion.div>
+          ) : (
+            <motion.div 
+              key="no-results"
+              className="text-center py-12 bg-gray-50 rounded-lg max-w-5xl"
+              initial={{ opacity: 0, scale: 0.9 }}
+              animate={{ opacity: 1, scale: 1 }}
+              exit={{ opacity: 0, scale: 0.9 }}
+              transition={{ duration: 0.3 }}
+            >
+              <motion.p 
+                className="text-gray-500 text-lg"
+                animate={{ y: [0, -10, 0] }}
+                transition={{ duration: 2, repeat: Infinity }}
+              >
+                No articles found matching your criteria.
+              </motion.p>
+              <motion.button
+                onClick={() => {
+                  setSearchTerm("");
+                  setSelectedYear("All");
+                }}
+                className="mt-4 text-teal-600 hover:text-teal-800 underline"
+                whileHover={{ scale: 1.1 }}
+                whileTap={{ scale: 0.95 }}
+              >
+                Clear filters
+              </motion.button>
+            </motion.div>
+          )}
+        </AnimatePresence>
 
         {/* Call for Papers */}
         <div className="bg-blue-50 border-l-4 border-blue-500 p-6 mb-8 rounded-r-lg">

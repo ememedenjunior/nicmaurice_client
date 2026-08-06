@@ -2,7 +2,16 @@ import Header from "../../components/Header";
 import Footer from "../../components/Footer";
 import React, { useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
-import { MdKeyboardArrowRight, MdDownload, MdArticle, MdCalendarToday, MdSearch, MdFilterList, MdMenuBook, MdCircle } from "react-icons/md";
+import { 
+  MdKeyboardArrowRight, 
+  MdDownload, 
+  MdCalendarToday, 
+  MdSearch, 
+  MdFilterList, 
+  MdMenuBook, 
+  MdCircle,
+  MdStar // Fixed: Added missing MdStar import
+} from "react-icons/md";
 import { 
   FaFlask, 
   FaHeartbeat, 
@@ -12,15 +21,13 @@ import {
   FaBalanceScale,
   FaChartLine,
   FaLeaf,
-  FaMicroscope,
+  FaMicroscope, 
   FaCalculator,
   FaHistory,
   FaHandshake
 } from "react-icons/fa";
 import { 
-  GiHealthNormal, 
-  GiBrain, 
-  GiEarthAmerica, 
+  GiHealthNormal,  
   GiMicroscope, 
   GiMaterialsScience,
   GiThink
@@ -34,14 +41,71 @@ const MultidisciplinaryJournal = () => {
   const [expandedSections, setExpandedSections] = useState({});
 
   const articles = [
-    { vol: "Vol. 2 No. 2", link: "https://drive.google.com/file/d/1TJmz2k2WS2Dmho9wM6uhCmnPjlU4cN2q/view?usp=sharing", year: "2024" },
-    { vol: "Vol. 2 No. 1", link: "https://drive.google.com/file/d/1klCCW_XPVd5bZtfIotpm6CEpyVUAeeOS/view?usp=sharing", year: "2024" },
-    { vol: "Vol 1. No. 2", link: "https://drive.google.com/file/d/11TvBFjw4MH4SB9B3q5thHqn-3pkJFc2_/view?usp=sharing", year: "2023" },
-    { vol: "Vol 1. No. 1", link: "https://drive.google.com/file/d/1c5a4Hb4xdyQGICmAvR_EYrmezPGve-iQ/view?usp=sharing", year: "2023" },
-    { vol: "No. 26", link: "https://drive.google.com/file/d/1KRgZ4aKOUmV00uv5KdBB8cdCZsSnJ_jz/view?usp=drive_link", year: "2026" }
+   {
+      vol: "Vol 1",
+      link: "https://drive.google.com/file/d/1g_jPpTQjJmFBfdhSwbdDt4CSMqpwEVKP/view?usp=sharing",
+      year: "2024",
+      authors: "Dr. Kapila Jain",
+      abstract:
+        "We believe that this journal will serve as a vital platform for researchers to share their findings and engage in meaningful dialogue.",
+    },
+    {
+      vol: "Vol 2",
+      title:
+        "Effect Of Preksha Meditation On Autonomic And Central Nervous System Functions Of Adolescents",
+      link: "https://drive.google.com/file/d/1svLDWIqqQTWqBh0ump-IySjm6NKqoaoz/view?usp=drive_link",
+      year: "2025",
+      authors: "Dr. Uttam Nikita",
+      abstract:
+        "Introduction- Preksha Meditation is a key to a spiritual treasure trove in addition to being a means of attaining physical, mental, and emotional well-being.",
+    },
+
+    {
+      vol: "Vol 3",
+      title:
+        "Assessment of Drug Compliance and Relapse among Psychiatric Patients in the University Teaching Hospital, Jos, Plateau State, Nigeria.",
+      link: "https://drive.google.com/file/d/1NLJM0vjn810UoHK_YFrLDwlpoyKF6TZc/view?usp=sharing",
+      year: "2025",
+      authors: "Ajio Daniel K. B.N. Sc, M. NSc, PhD. B.TH. ADHE. FWAPCNM RN. RNE.",
+      abstract:
+        "This study on assessment of drugs compliance and relapse among psychiatric patients in the Jos University Teaching Hospital, a descriptive survey involving (20) patient's/ persons, Data obtained through questionnaire was analysed and presented.",
+    },
+
+    {
+      vol: "Vol 4",
+      title:
+        "Immediate Effect of Different Physiotherapy Intervention in Reducing DOMS induced Biochemical Markers among College Level Players",
+      link: "https://drive.google.com/file/d/1ev7l50U_kn-TU86sRSC84h_YbGD_iivN/view?usp=sharing",
+      year: "2025",
+      authors: "Dr. Kapilla Jain",
+      abstract:
+        "To examine the effects of three distinct physiotherapy modalities on biochemical indicators, the reduction of muscle pain perception in recreational athletes, and the effects of delayed onset muscle soreness.",
+    },
+
+    {
+      vol: "Vol 5 No. 1",
+      title:
+        "Assessment of Current Diseases, Factors And Utilization of Healthcare Services By The Elderly In Jos North Local Government, Plateau State, Nigeria",
+      link: "https://drive.google.com/file/d/1OXMfH_Vk7WtnywFwAgvWEwHOl6TYTtPL/view?usp=sharing",
+      year: "2025",
+      authors: "Ajio D. K, RN, BNSc, MSc., PhD., FWAPCNM",
+      abstract:
+        "This study is the assessment of current diseases, factors and utilization of Health care services by the elderly (persons) in Jos, North LGAof Plateau State, Nigeria.",
+    },
+
+    {
+      vol: "Vol 6 No. 2",
+      title:
+        "The Role Of Research Journal Publications In The Exercise Therapy Enterprise: International Journal Of Multidiciplinary Research And Innovation (IJMRI) Perspectives",
+      link: "https://drive.google.com/file/d/11eS8O-kpdYnFTbCkrsZc_eSw6kLur-YL/view?usp=sharing",
+      year: "2025",
+      authors: "Nic Maurice",
+      abstract:
+        "Regular physical activity should be considered a fundamental pillar of preventative healthcare, besides, the compelling evidence supporting the benefits of exercise in preventing chronic diseases, promoting mental well-being, and enhancing overall quality of life.,",
+    },
   ];
 
-  // Animation variants
+  // Animation variants - Fixed structure
   const fadeInUp = {
     initial: { opacity: 0, y: 20 },
     animate: { opacity: 1, y: 0 },
@@ -61,7 +125,9 @@ const MultidisciplinaryJournal = () => {
   };
 
   const staggerContainer = {
+    initial: { opacity: 0 },
     animate: {
+      opacity: 1,
       transition: {
         staggerChildren: 0.1
       }
@@ -712,7 +778,7 @@ const MultidisciplinaryJournal = () => {
           <motion.div 
             className="bg-gradient-to-r from-orange-600 to-amber-600 text-white px-8 py-4 rounded-lg shadow-lg inline-block"
             whileHover={{ scale: 1.05, rotate: 1 }}
-            animate={pulseAnimation}
+            animate={pulseAnimation.animate}
           >
             <p className="font-bold text-lg">
               <span className="mr-2">ISSN</span>

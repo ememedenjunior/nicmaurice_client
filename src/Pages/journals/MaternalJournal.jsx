@@ -18,16 +18,10 @@ import {
   MdHealthAndSafety,
   MdRocketLaunch,
   MdMedicalServices,
-  MdLocalHospital,
-  MdComputer,
   MdCheckCircle,
   MdStar,
-  MdTrendingUp,
   MdChildCare,
   MdPregnantWoman,
-  MdFamilyRestroom,
-  MdPedalBike,
-  MdBabyChangingStation,
   MdHeartBroken,
 } from "react-icons/md";
 import { FaBaby } from "react-icons/fa";
@@ -41,7 +35,51 @@ const MaternalChildJournal = () => {
     {
       vol: "Vol 1 No. 1",
       link: "https://drive.google.com/file/d/1vjnS4Fn6uTyzLuZq7rZwD3pt0fIBVSGq/view?usp=sharing",
-      year: "2023",
+      year: "2025",
+    },
+
+    {
+      vol: "Vol 2",
+      title:
+        "AN ASSESSMENT ON UTILIZATION OF MODERN CONTRACEPTIVE METHODS",
+      link: "https://drive.google.com/file/d/110hc3hhonSLmImBnRs00zd7DJp1vYzkC/view?usp=sharing",
+      year: "2026",
+      authors: "Dr. Hendrith Esene",
+      abstract:
+        "Modern contraceptive methods utilize a range products or procedures which prevent conception.",
+    },
+
+    {
+      vol: "Vol 3",
+      title:
+        "SOME FEATURES OF CHILD ABUSE IN A DEVELOPING ECONOMY",
+      link: "https://drive.google.com/file/d/1kSf6IOm7WFUrKNfBOOVsC0LBSHc6QFSr/view?usp=drive_link",
+      year: "2026",
+      authors: "TERESA .A. OSAJI, RN; RM; RMT; B.SC NSG; MPH; PhD; FWACN",
+      abstract:
+        "Hundreds of children each year are neglected, physically, sexually and emotionally traumatized by parents, adults, care givers and even other children.",
+    },
+
+    {
+      vol: "Vol 4",
+      title:
+        "CERVICAL CANCER: ARE YOU SEXUALLY ACTIVE, HAVE YOU BEEN SCREENED?",
+      link: "https://drive.google.com/file/d/1MpWpIxE2NSLXrNHBtCCVREY0pJYSVGVJ/view?usp=drive_link",
+      year: "2026",
+      authors: "Maureen D. Frank -RN, RM, B.NSc",
+      abstract:
+        "Cervical Cancer is one of the leading causes of cancer death in women in the developing world.",
+    },
+
+    {
+      vol: "Vol 5",
+      title:
+        "ISSUES ON SIDE EFFECTS: REPOSITIONING FAMILY PLANNING FOR WIDER ACCEPTABILITY",
+      link: "https://drive.google.com/file/d/1OpvFBv9oSiQ5b9lqZvMqEQXXQjF25wne/view?usp=drive_link",
+      year: "2026",
+      authors: "DIEPIRI, BASSEY BOMA (MRS.) RM, RN, B.NSc (UNCIAL) PNO",
+      abstract:
+        "Family planning has been identified as a valuable strategy for promoting safe motherhood and indeed a reproductive right for families in the childbearing age.",
     },
   ];
 
@@ -785,25 +823,6 @@ const MaternalChildJournal = () => {
                 )}
               </AnimatePresence>
             </motion.section>
-          </motion.div>
-
-          {/* ISSN Badge */}
-          <motion.div className="mb-8 flex justify-center" variants={fadeInUp}>
-            <motion.div
-              className="bg-gradient-to-r from-pink-600 to-blue-600 text-white px-8 py-4 rounded-lg shadow-lg inline-block"
-              whileHover={{ scale: 1.05, rotate: 1 }}
-              animate={pulseAnimation}
-            >
-              <p className="font-bold text-lg">
-                <span className="mr-2">ISSN</span>
-                <motion.span
-                  animate={{ opacity: [1, 0.8, 1] }}
-                  transition={{ duration: 2, repeat: Infinity }}
-                >
-                  3043-5196
-                </motion.span>
-              </p>
-            </motion.div>
           </motion.div>
 
           {/* Articles Section */}

@@ -6,7 +6,6 @@ import { Link } from "react-router-dom";
 import { 
   MdKeyboardArrowRight, 
   MdDownload, 
-  MdArticle, 
   MdCalendarToday,
   MdSearch,
   MdFilterList,
@@ -30,7 +29,70 @@ const ClinicalNursingJournal = () => {
   const [expandedSections, setExpandedSections] = useState({});
 
   const articles = [
-    { vol: "Vol 1 No. 1", link: "https://drive.google.com/file/d/1TUSnfyZ6jn8jgeau5yevkXrlpCFeR-GQ/view?usp=sharing", year: "2023" }
+    {
+      vol: "Vol 1",
+      title:
+        "THE IMPACT OF SIMULATION ON SIMULATED PATIENTS AMONG MEDICAL STUDENTS",
+      link: "https://drive.google.com/file/d/1LnjBwDbLTaQQTSuzNMLLVoiDnQ_oJNFY/view?usp=sharing",
+      year: "2026",
+      authors: "Isaac Newton Omoregbe (BSc, MBBS, MWACP) 1, 3",
+      abstract:
+        "To supplement or replace real life experience with guided experiences, simulation-based education is a training or instructional strategy.",
+    },
+
+    {
+      vol: "Vol 2",
+      title:
+        "AN ASSESSMENT ON UTILIZATION OF MODERN CONTRACEPTIVE METHODS: A STUDY AMONG FEMALE UNDERGRADUATES IN SOUTHERN NIGERIA.",
+      link: "https://drive.google.com/file/d/1fLCnPwkA8nbFmjWnsQ6IsHA5CgMujMcW/view?usp=sharing",
+      year: "2026",
+      authors: "Dr. Hendrith Esene,",
+      abstract:
+        "Modern contraceptive methods utilize a range products or procedures which prevent conception.",
+    },
+
+    {
+      vol: "Vol 3 No. 1",
+      title:
+        "SOME FEATURES OF CHILD ABUSE IN A DEVELOPING ECONOMY: THE EXPERIENCE OF CROSS RIVER STATE, NIGERIA",
+      link: "https://drive.google.com/file/d/1hM--M_2T0gsl36nrcFJP_e1xdAFYYdOe/view?usp=sharing",
+      year: "2026",
+      authors: "PRISCILLA .W. MADUENYI (RN, RM, RPHN, RPHNT, B.Sc, M.Sc)",
+      abstract:
+        "Evidence abound on the fact that significant amount of health care practice remains firmly rooted in tradition.",
+    },
+
+    {
+      vol: "Vol 3 No. 2",
+      title:
+        "ASSESSMENT OF NURSE’S COMPETENCY IN PATIENTS WITH IMPAIRED SENSORY PERCEPTION IN ACCIDEN AND EMERGENCY DEPARTMENT OF UNIVERSITY OF PORT HARCOURT TEACHING HOSPITAL",
+      link: "https://drive.google.com/file/d/1CZ0A32RGgiSco7Tt1FC9SrK-eanhw14m/view?usp=sharing",
+      year: "2026",
+      authors: "DR TIMIGHE, GIFT CORNELIUS",
+      abstract:
+        "This study was carried out to assess Nurses competency in patients with impaired sensory perception in accident and emergency department of university of PortHarcourt teaching hospital (UPTH).",
+    },
+
+    {
+      vol: "Vol 4",
+      title:
+        "NURSING MANAGEMENT OF CHRONIC WOUNDS IN PATIENTS",
+      link: "https://drive.google.com/file/d/1CZ0A32RGgiSco7Tt1FC9SrK-eanhw14m/view?usp=sharing",
+      year: "2026",
+      authors: "ANIEKAN F. UMOH, RN, RNA, RPN, BNSC",
+      abstract:
+        "People with chronic wounds generally spend a lot of money, stays longer in hospital and have psychological distress.",
+    },
+    {
+      vol: "Vol 5",
+      title:
+        "CONSUMERS’ SATISFACTION WITH NURSING CARE IN AHMADU BELLO UNIVERSITY TEACHING HOSPITAL ZARIA, NIGERIA",
+      link: "https://drive.google.com/file/d/1CZ0A32RGgiSco7Tt1FC9SrK-eanhw14m/view?usp=sharing",
+      year: "2026",
+      authors: "1A.D Ajayi RN, B.Sc, PGDE, M.Sc; 1E.A Oyedele RN, RNT, B.Sc, M.Ed;",
+      abstract:
+        "Ensuring quality nursing care is a challenge because of limited financial and material resources, inappropriate technology and increase in the population of consumers of nursing services.",
+    },
   ];
 
   // Animation variants
@@ -78,29 +140,6 @@ const ClinicalNursingJournal = () => {
       transition: { duration: 0.6 }
     },
     viewport: { once: true, amount: 0.2 }
-  };
-
-  const floatingAnimation = {
-    animate: {
-      y: [0, -10, 0],
-      transition: {
-        duration: 3,
-        repeat: Infinity,
-        ease: "easeInOut"
-      }
-    }
-  };
-
-  const pulseAnimation = {
-    animate: {
-      scale: [1, 1.05, 1],
-      opacity: [1, 0.8, 1],
-      transition: {
-        duration: 2,
-        repeat: Infinity,
-        ease: "easeInOut"
-      }
-    }
   };
 
   const rotateAnimation = {
@@ -516,28 +555,6 @@ const ClinicalNursingJournal = () => {
             )}
           </AnimatePresence>
         </motion.section>
-
-        {/* ISSN Badge */}
-        <motion.div 
-          className="mb-8 flex justify-center"
-          variants={fadeInUp}
-        >
-          <motion.div 
-            className="bg-gradient-to-r from-blue-600 to-indigo-600 text-white px-8 py-4 rounded-lg shadow-lg inline-block"
-            whileHover={{ scale: 1.05, rotate: 1 }}
-            animate={pulseAnimation}
-          >
-            <p className="font-bold text-lg">
-              <span className="mr-2">ISSN</span>
-              <motion.span
-                animate={{ opacity: [1, 0.8, 1] }}
-                transition={{ duration: 2, repeat: Infinity }}
-              >
-                3043-517X
-              </motion.span>
-            </p>
-          </motion.div>
-        </motion.div>
 
         {/* Conclusion */}
         <motion.section 

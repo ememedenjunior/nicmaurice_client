@@ -6,18 +6,14 @@ import Header from "../../components/Header";
 import {
   MdKeyboardArrowRight,
   MdDownload,
-  MdArticle,
   MdCalendarToday,
   MdSearch,
   MdFilterList,
   MdMenuBook,
   MdScience,
   MdPublic,
-  MdPeople,
   MdLightbulb,
   MdVisibility,
-  MdShare,
-  MdSchool,
   MdHealthAndSafety,
   MdPsychology,
   MdRestaurant,
@@ -27,7 +23,6 @@ import {
   MdTranslate,
   MdForum,
   MdRocketLaunch,
-  MdLink,
 } from "react-icons/md";
 import { Link } from "react-router-dom";
 
@@ -37,45 +32,67 @@ const InnovationJournal = () => {
   const [expandedSections, setExpandedSections] = useState({});
 
   const articles = [
-    {
-      vol: "Vol 2 No. 1",
-      link: "https://drive.google.com/file/d/1mi4K5LbymGHDLMI4DYk2h2uZu1a68nWW/view?usp=sharing",
+   {
+      vol: "Vol 1",
+      link: "https://drive.google.com/file/d/1g_jPpTQjJmFBfdhSwbdDt4CSMqpwEVKP/view?usp=sharing",
       year: "2024",
+      authors: "Dr. Kapila Jain",
+      abstract:
+        "We believe that this journal will serve as a vital platform for researchers to share their findings and engage in meaningful dialogue.",
     },
     {
-      vol: "Art. 1 Vol. 2 No. 1 (Main work)",
-      link: "https://drive.google.com/file/d/195sarNHLSMfx9MIYNaLoqHW98TxNNTGp/view?usp=drive_link",
-      year: "2024",
+      vol: "Vol 2",
+      title:
+        "Effect Of Preksha Meditation On Autonomic And Central Nervous System Functions Of Adolescents",
+      link: "https://drive.google.com/file/d/1svLDWIqqQTWqBh0ump-IySjm6NKqoaoz/view?usp=drive_link",
+      year: "2025",
+      authors: "Dr. Uttam Nikita",
+      abstract:
+        "Introduction- Preksha Meditation is a key to a spiritual treasure trove in addition to being a means of attaining physical, mental, and emotional well-being.",
     },
+
     {
-      vol: "Art. 1 Vol. 2 No. 1 (Prelim)",
-      link: "https://drive.google.com/file/d/1GWso94KesaGyoZnplTkb7UvB9ZOxPcbX/view?usp=drive_link",
-      year: "2024",
+      vol: "Vol 3",
+      title:
+        "Assessment of Drug Compliance and Relapse among Psychiatric Patients in the University Teaching Hospital, Jos, Plateau State, Nigeria.",
+      link: "https://drive.google.com/file/d/1NLJM0vjn810UoHK_YFrLDwlpoyKF6TZc/view?usp=sharing",
+      year: "2025",
+      authors: "Ajio Daniel K. B.N. Sc, M. NSc, PhD. B.TH. ADHE. FWAPCNM RN. RNE.",
+      abstract:
+        "This study on assessment of drugs compliance and relapse among psychiatric patients in the Jos University Teaching Hospital, a descriptive survey involving (20) patient's/ persons, Data obtained through questionnaire was analysed and presented.",
     },
+
     {
-      vol: "Art. 3 Vol. 2 No. 1",
-      link: "https://drive.google.com/file/d/1kcKUDYsuEo0hPfYK4hdxp29orwJHo3px/view?usp=drive_link",
-      year: "2024",
+      vol: "Vol 4",
+      title:
+        "Immediate Effect of Different Physiotherapy Intervention in Reducing DOMS induced Biochemical Markers among College Level Players",
+      link: "https://drive.google.com/file/d/1ev7l50U_kn-TU86sRSC84h_YbGD_iivN/view?usp=sharing",
+      year: "2025",
+      authors: "Dr. Kapilla Jain",
+      abstract:
+        "To examine the effects of three distinct physiotherapy modalities on biochemical indicators, the reduction of muscle pain perception in recreational athletes, and the effects of delayed onset muscle soreness.",
     },
+
     {
-      vol: "Art. 4 Vol. 2 No. 1",
-      link: "https://drive.google.com/file/d/1lXbAQ9F57pN4Y_I8K_9R9zg-1BIr-hqM/view?usp=drive_link",
-      year: "2024",
+      vol: "Vol 5 No. 1",
+      title:
+        "Assessment of Current Diseases, Factors And Utilization of Healthcare Services By The Elderly In Jos North Local Government, Plateau State, Nigeria",
+      link: "https://drive.google.com/file/d/1OXMfH_Vk7WtnywFwAgvWEwHOl6TYTtPL/view?usp=sharing",
+      year: "2025",
+      authors: "Ajio D. K, RN, BNSc, MSc., PhD., FWAPCNM",
+      abstract:
+        "This study is the assessment of current diseases, factors and utilization of Health care services by the elderly (persons) in Jos, North LGAof Plateau State, Nigeria.",
     },
+
     {
-      vol: "Art. 5 Vol. 2 No. 1",
-      link: "https://drive.google.com/file/d/14BbWmdJjGjWKSHeFw39miOG572rPOjaY/view?usp=drive_link",
-      year: "2024",
-    },
-    {
-      vol: "Art. 6 Vol. 2 No. 1",
-      link: "https://drive.google.com/file/d/1VF_3RUwzlMjQMXfQVoOhKFgT-rajcSb9/view?usp=drive_link",
-      year: "2024",
-    },
-    {
-      vol: "Art. 8 Vol. 2 No. 1",
-      link: "https://drive.google.com/file/d/1wIGnNOA0tzvO1jw-ZFcUO7cPEdf-rWzO/view?usp=drive_link",
-      year: "2024",
+      vol: "Vol 6 No. 2",
+      title:
+        "The Role Of Research Journal Publications In The Exercise Therapy Enterprise: International Journal Of Multidiciplinary Research And Innovation (IJMRI) Perspectives",
+      link: "https://drive.google.com/file/d/11eS8O-kpdYnFTbCkrsZc_eSw6kLur-YL/view?usp=sharing",
+      year: "2025",
+      authors: "Nic Maurice",
+      abstract:
+        "Regular physical activity should be considered a fundamental pillar of preventative healthcare, besides, the compelling evidence supporting the benefits of exercise in preventing chronic diseases, promoting mental well-being, and enhancing overall quality of life.,",
     },
   ];
 
@@ -99,7 +116,9 @@ const InnovationJournal = () => {
   };
 
   const staggerContainer = {
+    initial: { opacity: 0 },
     animate: {
+      opacity: 1,
       transition: {
         staggerChildren: 0.1,
       },
@@ -110,7 +129,8 @@ const InnovationJournal = () => {
     initial: { opacity: 0, scale: 0.9 },
     animate: { opacity: 1, scale: 1 },
     hover: {
-      scale: 1.05,
+      scale: 1.03,
+      boxShadow: "0 10px 25px -5px rgba(0,0,0,0.1)",
       transition: { duration: 0.2 },
     },
     tap: { scale: 0.95 },
@@ -423,7 +443,6 @@ const InnovationJournal = () => {
                         variants={cardVariants}
                         whileHover="hover"
                         whileTap="tap"
-                        custom={index}
                       >
                         <div className="flex items-center gap-2 mb-3">
                           <motion.div
@@ -646,7 +665,7 @@ const InnovationJournal = () => {
             <motion.div
               className="bg-gradient-to-r from-indigo-600 to-purple-600 text-white px-8 py-4 rounded-lg shadow-lg inline-block"
               whileHover={{ scale: 1.05, rotate: 1 }}
-              animate={pulseAnimation}
+              animate={pulseAnimation.animate}
             >
               <p className="font-bold text-lg">
                 <span className="mr-2">ISSN</span>
@@ -701,7 +720,7 @@ const InnovationJournal = () => {
 
                   <motion.h3
                     className="text-xl font-semibold text-indigo-700 mb-4 text-center"
-                    animate={floatingAnimation}
+                    animate={floatingAnimation.animate}
                   >
                     The Future of Health: A Tapestry Woven from Science, Art,
                     and the Human Spirit.
@@ -788,7 +807,7 @@ const InnovationJournal = () => {
             </div>
           </motion.div>
 
-          {/* Articles Grid */}
+          {/* Articles Grid - FIXED: Now includes title, authors, and abstract */}
           <AnimatePresence mode="wait">
             {filteredArticles.length > 0 ? (
               <motion.div
@@ -837,38 +856,70 @@ const InnovationJournal = () => {
                       </motion.span>
                     </motion.div>
                     <div className="p-6">
-                      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+                      <div className="grid grid-cols-1 gap-4">
                         {groupedArticles[year].map((article, index) => (
                           <motion.a
                             key={index}
                             href={article.link}
                             target="_blank"
                             rel="noopener noreferrer"
-                            className="group block p-4 border border-indigo-100 rounded-lg"
+                            className="group block p-6 border border-indigo-100 rounded-lg hover:shadow-md transition-all duration-300"
                             variants={cardVariants}
                             initial="initial"
                             animate="animate"
                             whileHover="hover"
                             whileTap="tap"
-                            custom={index}
                           >
                             <div className="flex items-start justify-between">
                               <div className="flex-1">
-                                <motion.h4
-                                  className="font-semibold text-gray-800 group-hover:text-indigo-600 transition-colors"
-                                  whileHover={{ x: 5 }}
-                                >
-                                  {article.vol}
-                                </motion.h4>
-                                <p className="text-sm text-gray-500 mt-1">
-                                  Published: {article.year}
-                                </p>
+                                <div className="flex items-center gap-3 mb-2">
+                                  <motion.span
+                                    className="bg-indigo-100 text-indigo-800 text-xs font-semibold px-3 py-1 rounded-full"
+                                    whileHover={{ scale: 1.05 }}
+                                  >
+                                    {article.vol}
+                                  </motion.span>
+                                  <span className="text-xs text-gray-400">
+                                    Published: {article.year}
+                                  </span>
+                                </div>
+                                
+                                {/* Article Title */}
+                                {article.title && (
+                                  <motion.h4
+                                    className="font-semibold text-lg text-gray-800 group-hover:text-indigo-600 transition-colors mb-2"
+                                    whileHover={{ x: 5 }}
+                                  >
+                                    {article.title}
+                                  </motion.h4>
+                                )}
+
+                                {/* Authors */}
+                                {article.authors && (
+                                  <p className="text-sm text-gray-600 mb-2">
+                                    <span className="font-medium">Authors:</span> {article.authors}
+                                  </p>
+                                )}
+
+                                {/* Abstract */}
+                                {article.abstract && (
+                                  <motion.p
+                                    className="text-sm text-gray-500 line-clamp-2"
+                                    initial={{ opacity: 0.8 }}
+                                    whileHover={{ opacity: 1 }}
+                                  >
+                                    {article.abstract.length > 150
+                                      ? `${article.abstract.substring(0, 150)}...`
+                                      : article.abstract}
+                                  </motion.p>
+                                )}
                               </div>
                               <motion.div
                                 whileHover={{ rotate: 15, scale: 1.2 }}
                                 transition={{ type: "spring", stiffness: 400 }}
+                                className="ml-4 flex-shrink-0"
                               >
-                                <MdDownload className="text-xl text-gray-400 group-hover:text-indigo-600 transition-colors" />
+                                <MdDownload className="text-2xl text-gray-400 group-hover:text-indigo-600 transition-colors" />
                               </motion.div>
                             </div>
                             <motion.div
@@ -876,7 +927,7 @@ const InnovationJournal = () => {
                               initial={{ x: -10 }}
                               whileHover={{ x: 0 }}
                             >
-                              <span>Read Article</span>
+                              <span>Read Full Article</span>
                               <motion.div
                                 animate={{ x: [0, 5, 0] }}
                                 transition={{ duration: 1, repeat: Infinity }}
