@@ -10,9 +10,9 @@ const Journals = ({ head }) => {
     {
       id: 1,
       image: Community,
-      alt: "International Research Journal of Public and Community Health",
+      alt: "International Research Journal of Public and Community",
       path: "/journal/irjpch",
-      title: "International Research Journal of Public and Community Health",
+      title: "International Research Journal of Public and Community",
       description: "Our journal stands at a pivotal moment in the evolution of public and community health research.",
       imageHeight: "h-[150px]",
       imageWidth: "w-auto"

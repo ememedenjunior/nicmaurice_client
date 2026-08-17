@@ -1,0 +1,797 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>GameHub - Latest Games Download</title>
+    <!-- Font Awesome for icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" />
+    <style>
+        /* ---------- RESET & BASE ---------- */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: #0f0f1a;
+            color: #e0e0e0;
+            min-height: 100vh;
+        }
+
+        a {
+            text-decoration: none;
+            color: inherit;
+        }
+
+        /* ---------- SCROLLBAR ---------- */
+        ::-webkit-scrollbar {
+            width: 8px;
+        }
+        ::-webkit-scrollbar-track {
+            background: #1a1a2e;
+        }
+        ::-webkit-scrollbar-thumb {
+            background: #6c5ce7;
+            border-radius: 10px;
+        }
+        ::-webkit-scrollbar-thumb:hover {
+            background: #5a4bd1;
+        }
+
+        /* ---------- HEADER ---------- */
+        header {
+            background: linear-gradient(135deg, #1a1a2e, #16213e);
+            padding: 18px 40px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border-bottom: 2px solid #6c5ce7;
+            position: sticky;
+            top: 0;
+            z-index: 100;
+            box-shadow: 0 4px 20px rgba(108, 92, 231, 0.2);
+        }
+
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            font-size: 26px;
+            font-weight: 800;
+            color: #fff;
+        }
+
+        .logo i {
+            color: #6c5ce7;
+            font-size: 32px;
+        }
+
+        .logo span {
+            background: linear-gradient(90deg, #6c5ce7, #a29bfe);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        nav {
+            display: flex;
+            align-items: center;
+            gap: 30px;
+        }
+
+        nav a {
+            color: #aaa;
+            font-weight: 500;
+            transition: 0.3s;
+            font-size: 15px;
+        }
+
+        nav a:hover {
+            color: #fff;
+        }
+
+        nav a i {
+            margin-right: 6px;
+        }
+
+        .search-box {
+            display: flex;
+            align-items: center;
+            background: #2a2a4a;
+            border-radius: 30px;
+            padding: 8px 18px;
+            border: 1px solid #3a3a5a;
+            transition: 0.3s;
+        }
+
+        .search-box:focus-within {
+            border-color: #6c5ce7;
+            box-shadow: 0 0 15px rgba(108, 92, 231, 0.2);
+        }
+
+        .search-box input {
+            background: transparent;
+            border: none;
+            outline: none;
+            color: #fff;
+            font-size: 14px;
+            width: 180px;
+        }
+
+        .search-box input::placeholder {
+            color: #777;
+        }
+
+        .search-box i {
+            color: #777;
+            font-size: 16px;
+        }
+
+        /* ---------- HERO ---------- */
+        .hero {
+            background: linear-gradient(135deg, #1a1a2e, #0f0f1a);
+            padding: 50px 40px 40px;
+            text-align: center;
+            border-bottom: 1px solid #2a2a4a;
+        }
+
+        .hero h1 {
+            font-size: 42px;
+            font-weight: 800;
+            margin-bottom: 10px;
+        }
+
+        .hero h1 span {
+            background: linear-gradient(90deg, #6c5ce7, #fd79a8);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .hero p {
+            color: #999;
+            font-size: 18px;
+            max-width: 600px;
+            margin: 0 auto 20px;
+        }
+
+        /* ---------- FILTERS ---------- */
+        .filters {
+            display: flex;
+            justify-content: center;
+            gap: 15px;
+            flex-wrap: wrap;
+            padding: 20px 40px;
+            background: #141425;
+            border-bottom: 1px solid #2a2a4a;
+        }
+
+        .filters button {
+            padding: 10px 28px;
+            border: none;
+            border-radius: 30px;
+            background: #2a2a4a;
+            color: #aaa;
+            font-weight: 600;
+            cursor: pointer;
+            transition: 0.3s;
+            font-size: 14px;
+        }
+
+        .filters button:hover {
+            background: #3a3a5a;
+            color: #fff;
+            transform: translateY(-2px);
+        }
+
+        .filters button.active {
+            background: #6c5ce7;
+            color: #fff;
+            box-shadow: 0 4px 20px rgba(108, 92, 231, 0.4);
+        }
+
+        .filters button i {
+            margin-right: 8px;
+        }
+
+        /* ---------- GAME GRID ---------- */
+        .container {
+            max-width: 1300px;
+            margin: 0 auto;
+            padding: 30px 40px;
+        }
+
+        .section-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 25px;
+        }
+
+        .section-header h2 {
+            font-size: 28px;
+            font-weight: 700;
+        }
+
+        .section-header h2 i {
+            color: #6c5ce7;
+            margin-right: 10px;
+        }
+
+        .section-header span {
+            color: #777;
+            font-size: 14px;
+        }
+
+        .game-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+            gap: 25px;
+        }
+
+        /* ---------- GAME CARD ---------- */
+        .game-card {
+            background: #1a1a2e;
+            border-radius: 16px;
+            overflow: hidden;
+            border: 1px solid #2a2a4a;
+            transition: 0.3s;
+            cursor: default;
+        }
+
+        .game-card:hover {
+            transform: translateY(-8px);
+            border-color: #6c5ce7;
+            box-shadow: 0 12px 40px rgba(108, 92, 231, 0.15);
+        }
+
+        .game-card .thumbnail {
+            height: 170px;
+            background: linear-gradient(135deg, #2a2a4a, #1a1a2e);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 60px;
+            color: #6c5ce7;
+            position: relative;
+        }
+
+        .game-card .thumbnail .badge {
+            position: absolute;
+            top: 12px;
+            right: 12px;
+            background: #6c5ce7;
+            color: #fff;
+            font-size: 11px;
+            font-weight: 700;
+            padding: 4px 14px;
+            border-radius: 20px;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        .game-card .thumbnail .badge.new {
+            background: #00b894;
+        }
+
+        .game-card .thumbnail .badge.popular {
+            background: #fd79a8;
+        }
+
+        .game-card .body {
+            padding: 18px 20px 20px;
+        }
+
+        .game-card .body h3 {
+            font-size: 18px;
+            font-weight: 700;
+            margin-bottom: 6px;
+            color: #fff;
+        }
+
+        .game-card .body .meta {
+            display: flex;
+            gap: 15px;
+            font-size: 13px;
+            color: #888;
+            margin-bottom: 12px;
+        }
+
+        .game-card .body .meta i {
+            margin-right: 4px;
+        }
+
+        .game-card .body .desc {
+            font-size: 14px;
+            color: #999;
+            line-height: 1.5;
+            margin-bottom: 16px;
+            display: -webkit-box;
+            -webkit-line-clamp: 2;
+            -webkit-box-orient: vertical;
+            overflow: hidden;
+        }
+
+        .game-card .body .actions {
+            display: flex;
+            gap: 12px;
+        }
+
+        .game-card .body .actions .btn {
+            flex: 1;
+            padding: 10px 0;
+            border: none;
+            border-radius: 10px;
+            font-weight: 600;
+            font-size: 14px;
+            cursor: pointer;
+            transition: 0.3s;
+            text-align: center;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+        }
+
+        .btn-download {
+            background: #6c5ce7;
+            color: #fff;
+        }
+
+        .btn-download:hover {
+            background: #5a4bd1;
+            transform: scale(1.02);
+        }
+
+        .btn-info {
+            background: #2a2a4a;
+            color: #aaa;
+        }
+
+        .btn-info:hover {
+            background: #3a3a5a;
+            color: #fff;
+        }
+
+        /* ---------- PAGINATION ---------- */
+        .pagination {
+            display: flex;
+            justify-content: center;
+            gap: 10px;
+            margin-top: 40px;
+        }
+
+        .pagination button {
+            padding: 10px 18px;
+            border: none;
+            border-radius: 10px;
+            background: #2a2a4a;
+            color: #aaa;
+            font-weight: 600;
+            cursor: pointer;
+            transition: 0.3s;
+        }
+
+        .pagination button:hover {
+            background: #3a3a5a;
+            color: #fff;
+        }
+
+        .pagination button.active {
+            background: #6c5ce7;
+            color: #fff;
+        }
+
+        /* ---------- FOOTER ---------- */
+        footer {
+            text-align: center;
+            padding: 30px 20px;
+            border-top: 1px solid #2a2a4a;
+            color: #666;
+            font-size: 14px;
+            margin-top: 20px;
+        }
+
+        footer a {
+            color: #6c5ce7;
+        }
+
+        footer .social {
+            display: flex;
+            justify-content: center;
+            gap: 20px;
+            margin-bottom: 12px;
+        }
+
+        footer .social a {
+            color: #888;
+            font-size: 20px;
+            transition: 0.3s;
+        }
+
+        footer .social a:hover {
+            color: #6c5ce7;
+            transform: translateY(-3px);
+        }
+
+        /* ---------- RESPONSIVE ---------- */
+        @media (max-width: 768px) {
+            header {
+                flex-direction: column;
+                gap: 15px;
+                padding: 15px 20px;
+            }
+
+            nav {
+                flex-wrap: wrap;
+                justify-content: center;
+                gap: 15px;
+            }
+
+            .search-box input {
+                width: 120px;
+            }
+
+            .hero h1 {
+                font-size: 28px;
+            }
+
+            .container {
+                padding: 20px;
+            }
+
+            .game-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .filters {
+                gap: 10px;
+                padding: 15px 20px;
+            }
+
+            .filters button {
+                padding: 8px 18px;
+                font-size: 12px;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .search-box input {
+                width: 80px;
+                font-size: 12px;
+            }
+
+            .hero h1 {
+                font-size: 22px;
+            }
+
+            .game-card .body .actions {
+                flex-direction: column;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- ===== HEADER ===== -->
+    <header>
+        <div class="logo">
+            <i class="fas fa-gamepad"></i>
+            <span>GameHub</span>
+        </div>
+        <nav>
+            <a href="#"><i class="fas fa-home"></i> Home</a>
+            <a href="#"><i class="fas fa-fire"></i> Trending</a>
+            <a href="#"><i class="fas fa-download"></i> Downloads</a>
+            <a href="#"><i class="fas fa-user"></i> Profile</a>
+            <div class="search-box">
+                <i class="fas fa-search"></i>
+                <input type="text" placeholder="Search games..." id="searchInput" />
+            </div>
+        </nav>
+    </header>
+
+    <!-- ===== HERO ===== -->
+    <section class="hero">
+        <h1>Discover <span>Latest</span> Games</h1>
+        <p>Browse, explore, and download the newest and most exciting games — all in one place.</p>
+    </section>
+
+    <!-- ===== FILTERS ===== -->
+    <div class="filters" id="filterButtons">
+        <button class="active" data-filter="all"><i class="fas fa-th-large"></i> All</button>
+        <button data-filter="new"><i class="fas fa-star"></i> New</button>
+        <button data-filter="popular"><i class="fas fa-fire"></i> Popular</button>
+        <button data-filter="action"><i class="fas fa-crosshairs"></i> Action</button>
+        <button data-filter="adventure"><i class="fas fa-map"></i> Adventure</button>
+        <button data-filter="rpg"><i class="fas fa-dice-d6"></i> RPG</button>
+    </div>
+
+    <!-- ===== GAME GRID ===== -->
+    <div class="container">
+        <div class="section-header">
+            <h2><i class="fas fa-rocket"></i> Latest Games</h2>
+            <span id="gameCount">6 games</span>
+        </div>
+
+        <div class="game-grid" id="gameGrid">
+            <!-- Games will be inserted by JavaScript -->
+        </div>
+
+        <!-- ===== PAGINATION ===== -->
+        <div class="pagination">
+            <button><i class="fas fa-chevron-left"></i></button>
+            <button class="active">1</button>
+            <button>2</button>
+            <button>3</button>
+            <button><i class="fas fa-chevron-right"></i></button>
+        </div>
+    </div>
+
+    <!-- ===== FOOTER ===== -->
+    <footer>
+        <div class="social">
+            <a href="#"><i class="fab fa-discord"></i></a>
+            <a href="#"><i class="fab fa-twitter"></i></a>
+            <a href="#"><i class="fab fa-youtube"></i></a>
+            <a href="#"><i class="fab fa-github"></i></a>
+        </div>
+        <p>&copy; 2026 <a href="#">GameHub</a> — All rights reserved. Made for gamers.</p>
+    </footer>
+
+    <script>
+        // ============================================================
+        //  DATA — Game list
+        // ============================================================
+        const games = [{
+            id: 1,
+            title: 'CyberStrike 2077',
+            category: 'action',
+            genre: 'Action / Sci-Fi',
+            size: '18.4 GB',
+            rating: '4.8',
+            badge: 'new',
+            desc: 'Immerse yourself in a futuristic open-world where your choices shape the outcome of a digital revolution.',
+            icon: 'fa-robot'
+        }, {
+            id: 2,
+            title: 'Elder Quest',
+            category: 'rpg',
+            genre: 'RPG / Fantasy',
+            size: '32.1 GB',
+            rating: '4.9',
+            badge: 'popular',
+            desc: 'An epic fantasy RPG with deep lore, massive dungeons, and a living world that reacts to your every decision.',
+            icon: 'fa-dragon'
+        }, {
+            id: 3,
+            title: 'Sky Riders',
+            category: 'adventure',
+            genre: 'Adventure / Open World',
+            size: '22.7 GB',
+            rating: '4.6',
+            badge: 'new',
+            desc: 'Soar through the clouds on mystical creatures, discover hidden islands, and unravel the secrets of the sky.',
+            icon: 'fa-feather-alt'
+        }, {
+            id: 4,
+            title: 'Neon Drift',
+            category: 'action',
+            genre: 'Racing / Action',
+            size: '14.2 GB',
+            rating: '4.3',
+            badge: null,
+            desc: 'High-speed neon racing with futuristic vehicles, intense drifts, and pulse-pounding multiplayer battles.',
+            icon: 'fa-car-side'
+        }, {
+            id: 5,
+            title: 'Shadow Legends',
+            category: 'rpg',
+            genre: 'RPG / Strategy',
+            size: '28.9 GB',
+            rating: '4.7',
+            badge: 'popular',
+            desc: 'Build your army, conquer kingdoms, and lead your faction to glory in this tactical RPG masterpiece.',
+            icon: 'fa-crown'
+        }, {
+            id: 6,
+            title: 'Island Escape',
+            category: 'adventure',
+            genre: 'Adventure / Survival',
+            size: '12.5 GB',
+            rating: '4.4',
+            badge: null,
+            desc: 'Stranded on a mysterious island, craft, explore, and fight to survive against nature and ancient secrets.',
+            icon: 'fa-umbrella-beach'
+        }, {
+            id: 7,
+            title: 'Mech Warriors',
+            category: 'action',
+            genre: 'Action / Mecha',
+            size: '45.3 GB',
+            rating: '4.9',
+            badge: 'new',
+            desc: 'Pilot giant mechs in massive battles across a war-torn planet — customize, upgrade, and dominate.',
+            icon: 'fa-robot'
+        }, {
+            id: 8,
+            title: 'Fable Woods',
+            category: 'adventure',
+            genre: 'Adventure / Story',
+            size: '16.8 GB',
+            rating: '4.2',
+            badge: null,
+            desc: 'A heartwarming story-driven adventure through enchanted woods, where every creature has a tale to tell.',
+            icon: 'fa-tree'
+        }, {
+            id: 9,
+            title: 'Dungeon Raiders',
+            category: 'rpg',
+            genre: 'RPG / Dungeon Crawler',
+            size: '20.1 GB',
+            rating: '4.5',
+            badge: 'popular',
+            desc: 'Form your party, descend into the depths, and battle monstrous foes in this classic dungeon-crawling RPG.',
+            icon: 'fa-skull'
+        }];
+
+        // ============================================================
+        //  RENDER FUNCTION
+        // ============================================================
+        const grid = document.getElementById('gameGrid');
+        const gameCount = document.getElementById('gameCount');
+        const searchInput = document.getElementById('searchInput');
+
+        let currentFilter = 'all';
+        let currentSearch = '';
+
+        function getFilteredGames() {
+            let result = games;
+
+            // Filter by category
+            if (currentFilter !== 'all') {
+                result = result.filter(g => g.category === currentFilter);
+            }
+
+            // Filter by search
+            if (currentSearch.trim() !== '') {
+                const q = currentSearch.toLowerCase().trim();
+                result = result.filter(g =>
+                    g.title.toLowerCase().includes(q) ||
+                    g.genre.toLowerCase().includes(q)
+                );
+            }
+
+            return result;
+        }
+
+        function render() {
+            const filtered = getFilteredGames();
+            gameCount.textContent = filtered.length + ' games';
+
+            if (filtered.length === 0) {
+                grid.innerHTML = `
+                    <div style="grid-column: 1 / -1; text-align: center; padding: 60px 20px; color: #666;">
+                        <i class="fas fa-gamepad" style="font-size: 48px; color: #2a2a4a; margin-bottom: 16px; display: block;"></i>
+                        <h3 style="color: #aaa;">No games found</h3>
+                        <p style="font-size: 14px;">Try adjusting your search or filters</p>
+                    </div>
+                `;
+                return;
+            }
+
+            grid.innerHTML = filtered.map(game => {
+                // Choose icon
+                const iconMap = {
+                    'fa-robot': 'fas fa-robot',
+                    'fa-dragon': 'fas fa-dragon',
+                    'fa-feather-alt': 'fas fa-feather-alt',
+                    'fa-car-side': 'fas fa-car-side',
+                    'fa-crown': 'fas fa-crown',
+                    'fa-umbrella-beach': 'fas fa-umbrella-beach',
+                    'fa-tree': 'fas fa-tree',
+                    'fa-skull': 'fas fa-skull'
+                };
+                const iconClass = iconMap[game.icon] || 'fas fa-gamepad';
+
+                // Badge HTML
+                let badgeHtml = '';
+                if (game.badge === 'new') {
+                    badgeHtml = `<span class="badge new">🔥 New</span>`;
+                } else if (game.badge === 'popular') {
+                    badgeHtml = `<span class="badge popular">⭐ Popular</span>`;
+                }
+
+                return `
+                    <div class="game-card" data-id="${game.id}">
+                        <div class="thumbnail">
+                            <i class="${iconClass}"></i>
+                            ${badgeHtml}
+                        </div>
+                        <div class="body">
+                            <h3>${game.title}</h3>
+                            <div class="meta">
+                                <span><i class="fas fa-tag"></i> ${game.genre}</span>
+                                <span><i class="fas fa-hdd"></i> ${game.size}</span>
+                                <span><i class="fas fa-star" style="color: #fdcb6e;"></i> ${game.rating}</span>
+                            </div>
+                            <p class="desc">${game.desc}</p>
+                            <div class="actions">
+                                <button class="btn btn-download" onclick="downloadGame('${game.title}')">
+                                    <i class="fas fa-download"></i> Download
+                                </button>
+                                <button class="btn btn-info" onclick="showInfo('${game.title}')">
+                                    <i class="fas fa-info-circle"></i>
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                `;
+            }).join('');
+        }
+
+        // ============================================================
+        //  FILTER & SEARCH
+        // ============================================================
+        document.querySelectorAll('#filterButtons button').forEach(btn => {
+            btn.addEventListener('click', function() {
+                document.querySelectorAll('#filterButtons button').forEach(b => b.classList.remove('active'));
+                this.classList.add('active');
+                currentFilter = this.dataset.filter;
+                render();
+            });
+        });
+
+        searchInput.addEventListener('input', function() {
+            currentSearch = this.value;
+            render();
+        });
+
+        // ============================================================
+        //  ACTION FUNCTIONS
+        // ============================================================
+        function downloadGame(title) {
+            alert(`⬇️ Downloading "${title}" ...\n(Simulated download — your file would start now.)`);
+        }
+
+        function showInfo(title) {
+            const game = games.find(g => g.title === title);
+            if (game) {
+                alert(
+                    `🎮 ${game.title}\n\n` +
+                    `Genre: ${game.genre}\n` +
+                    `Size: ${game.size}\n` +
+                    `Rating: ${game.rating} ⭐\n\n` +
+                    `${game.desc}`
+                );
+            }
+        }
+
+        // Make functions globally accessible for inline onclick
+        window.downloadGame = downloadGame;
+        window.showInfo = showInfo;
+
+        // ============================================================
+        //  PAGINATION (simulated)
+        // ============================================================
+        document.querySelectorAll('.pagination button').forEach(btn => {
+            btn.addEventListener('click', function() {
+                if (this.textContent.trim() === '' || this.textContent.trim() === '1' || this.textContent
+                    .trim() === '2' || this.textContent.trim() === '3') {
+                    document.querySelectorAll('.pagination button').forEach(b => b.classList.remove('active'));
+                    this.classList.add('active');
+                    // Scroll to top of grid smoothly
+                    document.querySelector('.container').scrollIntoView({ behavior: 'smooth', block: 'start' });
+                }
+            });
+        });
+
+        // ============================================================
+        //  INIT
+        // ============================================================
+        render();
+    </script>
+
+</body>
+</html>

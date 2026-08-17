@@ -43,7 +43,7 @@ const MultidisciplinaryJournal = () => {
   const articles = [
    {
       vol: "Vol 1",
-      link: "https://drive.google.com/file/d/1g_jPpTQjJmFBfdhSwbdDt4CSMqpwEVKP/view?usp=sharing",
+      link: "https://drive.google.com/file/d/1TJmz2k2WS2Dmho9wM6uhCmnPjlU4cN2q/view?usp=sharing",
       year: "2024",
       authors: "Dr. Kapila Jain",
       abstract:

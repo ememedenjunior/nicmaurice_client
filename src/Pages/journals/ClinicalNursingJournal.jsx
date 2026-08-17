@@ -33,7 +33,7 @@ const ClinicalNursingJournal = () => {
       vol: "Vol 1",
       title:
         "THE IMPACT OF SIMULATION ON SIMULATED PATIENTS AMONG MEDICAL STUDENTS",
-      link: "https://drive.google.com/file/d/1LnjBwDbLTaQQTSuzNMLLVoiDnQ_oJNFY/view?usp=sharing",
+      link: "https://drive.google.com/file/d/1rMxoFee0tls6_A7wdfKNk5icL_ftjNp-/view?usp=sharing",
       year: "2026",
       authors: "Isaac Newton Omoregbe (BSc, MBBS, MWACP) 1, 3",
       abstract:

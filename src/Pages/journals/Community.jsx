@@ -59,47 +59,14 @@ const CommunityJournal = () => {
 
   const articles = [
     {
-      vol: "Vol 1",
-      title:
-        "A CASE STUDY OF SUDDEN OCCURENCES OF HEALTH CONCERN TO THE PUBLIC HEALTH NURSE IN THE COMMUNITY.",
-      link: "https://drive.google.com/file/d/1deiO3tTaX83W9lZPPB2Xt7kmSMC24eaj/view?usp=sharing",
-      year: "2026",
-      authors: "Rose Ebieroba Ezonbodor-Akwagbe, RNM, RPHN, BSN, MED, PhD, FWACN, RSPH (U.K)",
-      abstract:
-        "Literature has shown that accidents claim more lives of children between ages one and fifteen than the six leading pediatrics disorders combined and 91% of all injuries to children under five occurred at home.",
-    },
-
-     {
-      vol: "Vol 2",
-      title:
-        "PREVALENCE, TYPES AND PREDICTORS OF SEXUAL ABUSE AMONG IN-SCHOOL ADOLESCENTS IN AKWA IBOM STATE, NIGERIA: AN URBAN-RURAL QUANTITATIVE SURVEY",
-      link: "https://drive.google.com/file/d/1F4mO6EKEsFmFpIhOiJ4vvhLV-MRea_oQ/view?usp=sharing",
+      vol: "Vol 2 No. 1",
+      link: "https://drive.google.com/file/d/11A4ct_shlliMyrVi00-LLl2l51bU2Sjy/view?usp=sharing",
       year: "2024",
-      authors: "Akpan A. M.",
-      abstract:
-        "Background:Sexual abuse among adolescents is a serious public health problem.",
     },
-
     {
-      vol: "Vol 3",
-      title:
-        "PERCEPTION OF THE ROLE OF TRADITIONAL HEALERS IN PRIMARY HEALTH CARE",
-      link: "https://drive.google.com/file/d/1dzIzXv4-_3ljZHomMrxc_BvNiTFTr8ek/view?usp=sharing",
-      year: "2024",
-      authors: "O. A. OGUNYEWO, MSC [N], MSC [Med Soc], RN",
-      abstract:
-        "AIM: The aim of this study was to examine the contributions of traditional healers towards the activities of Primary Health Care.",
-    },
-
-    {
-      vol: "Vol 4",
-      title:
-        "HOSPITAL NOISE AND OVERCROWDING: DETERMINING FACTORS ON PATIENTS’ RECOVERY RATE",
-      link: "https://drive.google.com/file/d/1dzIzXv4-_3ljZHomMrxc_BvNiTFTr8ek/view?usp=sharing",
-      year: "2024",
-      authors: "O. A. OGUNYEWO, MSC [N], MSC [Med Soc], RN",
-      abstract:
-        "AIM: The aim of this study was to examine the contributions of traditional healers towards the activities of Primary Health Care.",
+      vol: "Vol 1 No. 1",
+      link: "https://drive.google.com/file/d/1-y37ZKyNZLSP6OvATvUeCopBd2ojHcDa/view?usp=sharing",
+      year: "2023",
     },
   ];
 

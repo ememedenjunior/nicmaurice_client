@@ -32,7 +32,7 @@ const JournalsCol2 = () => {
       id: 3,
       image: Maternal,
       alt: "Maternal & Child Health Nursing Research",
-      path: "/journal/mchnr",
+      path: "/journal/isj-mchnr",
       title: "Maternal & Child Health Nursing Research",
       description: "Click on the read more button to get more information.",
       marginTop: "mt-[45px]",

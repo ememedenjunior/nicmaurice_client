@@ -65,7 +65,7 @@ const MidwiferyJournal = () => {
     {
       vol: "Vol. 4",
       title: "ATTITUDE OF FAMILY PLANNING PROVIDERS TOWARDS THE USE OF CONTRACEPTIVES BY ADOLESCENTS",
-      link: "https://drive.google.com/file/d/1kcKUDYsuEo0hPfYK4hdxp29orwJHo3px/view?usp=drive_link",
+      link: "https://drive.google.com/file/d/1CZUBcWVx0Rz3Hga9KzDg3SK9OY7qjulA/view?usp=sharing",
       year: "2026",
       authors: "Samson-Akpan, Patience E.",
       abstract: "An unmet need for contraception seems to exist among adolescents."
@@ -73,7 +73,7 @@ const MidwiferyJournal = () => {
     {
       vol: "Vol. 5",
       title: "ATTITUDE OF PREGNANT WOMEN TOWARDS GROUP HEALTH TALK DURING ANTENATAL CARE",
-      link: "https://drive.google.com/file/d/1lXbAQ9F57pN4Y_I8K_9R9zg-1BIr-hqM/view?usp=drive_link",
+      link: "https://drive.google.com/file/d/1JmxOyCQm0U7P63zmYDTmYZhTrCxcYjh8/view?usp=sharing",
       year: "2026",
       authors: "MARAGRET OMOWALEOLA AKINWAARE. RN, BNSc.",
       abstract: "Antenatal care is widely established and provides an opportunity to inform and educate pregnant women about pregnancy, childbirth and care of the newborn."

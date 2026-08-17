@@ -122,7 +122,7 @@ const MentalHealthJournal = () => {
         {/* Header */}
         <header className="bg-indigo-900 text-white rounded-xl shadow-lg mb-8 p-8">
           <h1 className="text-3xl md:text-4xl font-bold border-b-2 border-blue-400 pb-4">
-            INTERNATIONAL SPECIALTY JOURNAL OF MENTAL HEALTH AND PSYCHIATRY
+            INTERNATIONAL SPECIALTY JOURNAL OF MENTAL HEALTH AND PSYCHIATRIC NURSING RESEARCH
           </h1>
           <p className="mt-4 text-xl text-blue-200">
             Advancing Mental Well-being and Recovery

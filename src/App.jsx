@@ -116,9 +116,9 @@ const App = () => {
         <Route path="/journal/irjmpch" element={<Multidisciplinary />} />
         <Route path="/journal/wjwihpr" element={<WellspringJournal />} />
         <Route path="/journal/irjpch" element={<CommunityJournal />} />
-        <Route path="/journal/isjchnr" element={<ISJCHNR />} />
+        <Route path="/journal/isj-chnr" element={<ISJCHNR />} />
         <Route
-          path="/journal/isjpchnr"
+          path="/journal/isj-pchnr"
           element={<SpecialtyCommunityJournal />}
         />
         <Route path="/journal/isj-ner" element={<SpecialtyNursingJournal />} />
@@ -126,7 +126,7 @@ const App = () => {
           path="/journal/isj-msnr"
           element={<MedicalSurgicalNursingJournal />}
         />
-        <Route path="/journal/mchnr" element={<MaternalChildJournal />} />
+        <Route path="/journal/isj-mchnr" element={<MaternalChildJournal />} />
 
         <Route path="/nsu" element={<NSUNProfilePage />} />
         <Route path="/icvs" element={<ICVSPage />} />

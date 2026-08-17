@@ -38,7 +38,7 @@ const JournalsCol = () => {
       id: 3,
       image: SpecialtyCommunityJournalImg,
       alt: "International Specialty Journal of Public and Community Health Nursing Research",
-      path: "/journal/isjpchnr",
+      path: "/journal/isj-pchnr",
       title: "International Specialty Journal of Public and Community Health Nursing Research",
       description: "Click on the read more button to get more information.",
       fullDescription: "Advancing community health nursing through evidence-based research and practical applications in public health settings.",
