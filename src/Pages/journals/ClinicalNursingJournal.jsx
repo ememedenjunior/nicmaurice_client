@@ -3,9 +3,9 @@ import { motion, AnimatePresence } from "framer-motion";
 import Header from "../../components/Header";
 import Footer from "../../components/Footer";
 import { Link } from "react-router-dom";
-import { 
-  MdKeyboardArrowRight, 
-  MdDownload, 
+import {
+  MdKeyboardArrowRight,
+  MdDownload,
   MdCalendarToday,
   MdSearch,
   MdFilterList,
@@ -20,7 +20,7 @@ import {
   MdComputer,
   MdCheckCircle,
   MdStar,
-  MdTrendingUp
+  MdTrendingUp,
 } from "react-icons/md";
 
 const ClinicalNursingJournal = () => {
@@ -31,67 +31,30 @@ const ClinicalNursingJournal = () => {
   const articles = [
     {
       vol: "Vol 1",
-      title:
-        "THE IMPACT OF SIMULATION ON SIMULATED PATIENTS AMONG MEDICAL STUDENTS",
-      link: "https://drive.google.com/file/d/1rMxoFee0tls6_A7wdfKNk5icL_ftjNp-/view?usp=sharing",
-      year: "2026",
-      authors: "Isaac Newton Omoregbe (BSc, MBBS, MWACP) 1, 3",
-      abstract:
-        "To supplement or replace real life experience with guided experiences, simulation-based education is a training or instructional strategy.",
+
+      link: "https://drive.google.com/file/d/1G2Ny0EzrLYVIAMtLzTwvnl1L_q-q6tXO/view?usp=sharing",
+      year: "2023",
     },
 
     {
       vol: "Vol 2",
-      title:
-        "AN ASSESSMENT ON UTILIZATION OF MODERN CONTRACEPTIVE METHODS: A STUDY AMONG FEMALE UNDERGRADUATES IN SOUTHERN NIGERIA.",
-      link: "https://drive.google.com/file/d/1fLCnPwkA8nbFmjWnsQ6IsHA5CgMujMcW/view?usp=sharing",
-      year: "2026",
-      authors: "Dr. Hendrith Esene,",
-      abstract:
-        "Modern contraceptive methods utilize a range products or procedures which prevent conception.",
+
+      link: "https://drive.google.com/file/d/1UXS9vTu51v21MCilhokOloR2f-BGqi85/view?usp=sharing",
+      year: "2023",
     },
 
     {
-      vol: "Vol 3 No. 1",
-      title:
-        "SOME FEATURES OF CHILD ABUSE IN A DEVELOPING ECONOMY: THE EXPERIENCE OF CROSS RIVER STATE, NIGERIA",
-      link: "https://drive.google.com/file/d/1hM--M_2T0gsl36nrcFJP_e1xdAFYYdOe/view?usp=sharing",
-      year: "2026",
-      authors: "PRISCILLA .W. MADUENYI (RN, RM, RPHN, RPHNT, B.Sc, M.Sc)",
-      abstract:
-        "Evidence abound on the fact that significant amount of health care practice remains firmly rooted in tradition.",
-    },
+      vol: "Vol 3",
 
-    {
-      vol: "Vol 3 No. 2",
-      title:
-        "ASSESSMENT OF NURSE’S COMPETENCY IN PATIENTS WITH IMPAIRED SENSORY PERCEPTION IN ACCIDEN AND EMERGENCY DEPARTMENT OF UNIVERSITY OF PORT HARCOURT TEACHING HOSPITAL",
-      link: "https://drive.google.com/file/d/1CZ0A32RGgiSco7Tt1FC9SrK-eanhw14m/view?usp=sharing",
+      link: "https://drive.google.com/file/d/1GnlHVApSoW8Fe3r9oFrpYrAEUxegOgfu/view?usp=drive_link",
       year: "2026",
-      authors: "DR TIMIGHE, GIFT CORNELIUS",
-      abstract:
-        "This study was carried out to assess Nurses competency in patients with impaired sensory perception in accident and emergency department of university of PortHarcourt teaching hospital (UPTH).",
     },
 
     {
       vol: "Vol 4",
-      title:
-        "NURSING MANAGEMENT OF CHRONIC WOUNDS IN PATIENTS",
-      link: "https://drive.google.com/file/d/1CZ0A32RGgiSco7Tt1FC9SrK-eanhw14m/view?usp=sharing",
+
+      link: "https://drive.google.com/file/d/1JlSmDpv2BfiaxAFDW25Y4MM7yevEhx6R/view?usp=drive_link",
       year: "2026",
-      authors: "ANIEKAN F. UMOH, RN, RNA, RPN, BNSC",
-      abstract:
-        "People with chronic wounds generally spend a lot of money, stays longer in hospital and have psychological distress.",
-    },
-    {
-      vol: "Vol 5",
-      title:
-        "CONSUMERS’ SATISFACTION WITH NURSING CARE IN AHMADU BELLO UNIVERSITY TEACHING HOSPITAL ZARIA, NIGERIA",
-      link: "https://drive.google.com/file/d/1CZ0A32RGgiSco7Tt1FC9SrK-eanhw14m/view?usp=sharing",
-      year: "2026",
-      authors: "1A.D Ajayi RN, B.Sc, PGDE, M.Sc; 1E.A Oyedele RN, RNT, B.Sc, M.Ed;",
-      abstract:
-        "Ensuring quality nursing care is a challenge because of limited financial and material resources, inappropriate technology and increase in the population of consumers of nursing services.",
     },
   ];
 
@@ -99,47 +62,47 @@ const ClinicalNursingJournal = () => {
   const fadeInUp = {
     initial: { opacity: 0, y: 20 },
     animate: { opacity: 1, y: 0 },
-    transition: { duration: 0.6 }
+    transition: { duration: 0.6 },
   };
 
   const fadeInLeft = {
     initial: { opacity: 0, x: -20 },
     animate: { opacity: 1, x: 0 },
-    transition: { duration: 0.6 }
+    transition: { duration: 0.6 },
   };
 
   const fadeInRight = {
     initial: { opacity: 0, x: 20 },
     animate: { opacity: 1, x: 0 },
-    transition: { duration: 0.6 }
+    transition: { duration: 0.6 },
   };
 
   const staggerContainer = {
     animate: {
       transition: {
-        staggerChildren: 0.1
-      }
-    }
+        staggerChildren: 0.1,
+      },
+    },
   };
 
   const cardVariants = {
     initial: { opacity: 0, scale: 0.9 },
     animate: { opacity: 1, scale: 1 },
-    hover: { 
+    hover: {
       scale: 1.05,
-      transition: { duration: 0.2 }
+      transition: { duration: 0.2 },
     },
-    tap: { scale: 0.95 }
+    tap: { scale: 0.95 },
   };
 
   const sectionVariants = {
     initial: { opacity: 0, y: 30 },
-    whileInView: { 
-      opacity: 1, 
+    whileInView: {
+      opacity: 1,
       y: 0,
-      transition: { duration: 0.6 }
+      transition: { duration: 0.6 },
     },
-    viewport: { once: true, amount: 0.2 }
+    viewport: { once: true, amount: 0.2 },
   };
 
   const rotateAnimation = {
@@ -148,21 +111,26 @@ const ClinicalNursingJournal = () => {
       transition: {
         duration: 20,
         repeat: Infinity,
-        ease: "linear"
-      }
-    }
+        ease: "linear",
+      },
+    },
   };
 
   // Get unique years for filter
-  const years = ["All", ...new Set(articles.map(article => article.year))].sort((a, b) => {
+  const years = [
+    "All",
+    ...new Set(articles.map((article) => article.year)),
+  ].sort((a, b) => {
     if (a === "All") return -1;
     if (b === "All") return 1;
     return b.localeCompare(a);
   });
 
   // Filter articles based on search and year
-  const filteredArticles = articles.filter(article => {
-    const matchesSearch = article.vol.toLowerCase().includes(searchTerm.toLowerCase());
+  const filteredArticles = articles.filter((article) => {
+    const matchesSearch = article.vol
+      .toLowerCase()
+      .includes(searchTerm.toLowerCase());
     const matchesYear = selectedYear === "All" || article.year === selectedYear;
     return matchesSearch && matchesYear;
   });
@@ -178,13 +146,15 @@ const ClinicalNursingJournal = () => {
   }, {});
 
   // Sort years in descending order
-  const sortedYears = Object.keys(groupedArticles).sort((a, b) => b.localeCompare(a));
+  const sortedYears = Object.keys(groupedArticles).sort((a, b) =>
+    b.localeCompare(a),
+  );
 
   // Toggle section expansion
   const toggleSection = (sectionId) => {
-    setExpandedSections(prev => ({
+    setExpandedSections((prev) => ({
       ...prev,
-      [sectionId]: !prev[sectionId]
+      [sectionId]: !prev[sectionId],
     }));
   };
 
@@ -193,32 +163,36 @@ const ClinicalNursingJournal = () => {
       <Header />
       <div className="min-h-screen bg-gray-50 py-8 px-4 sm:px-6 lg:px-8">
         {/* Header with Image */}
-        <motion.header 
+        <motion.header
           className="relative bg-gradient-to-r from-blue-900 to-blue-700 text-white rounded-xl shadow-lg mb-8 overflow-hidden"
           initial={{ opacity: 0, y: -20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.6 }}
         >
-          <motion.div 
+          <motion.div
             className="relative z-10 p-8"
             variants={staggerContainer}
             initial="initial"
             animate="animate"
           >
-            <motion.h1 
+            <motion.h1
               variants={fadeInLeft}
               className="text-3xl md:text-4xl font-bold border-b-2 border-blue-400 pb-4"
             >
               INTERNATIONAL SPECIALTY JOURNAL OF ADVANCED CLINICAL NURSING
               RESEARCH
             </motion.h1>
-            <motion.p 
+            <motion.p
               variants={fadeInLeft}
               className="mt-4 text-xl text-blue-200"
             >
               <motion.span
-                animate={{ 
-                  textShadow: ["0 0 0 rgba(96,165,250,0)", "0 0 8px rgba(96,165,250,0.5)", "0 0 0 rgba(96,165,250,0)"]
+                animate={{
+                  textShadow: [
+                    "0 0 0 rgba(96,165,250,0)",
+                    "0 0 8px rgba(96,165,250,0.5)",
+                    "0 0 0 rgba(96,165,250,0)",
+                  ],
                 }}
                 transition={{ duration: 2, repeat: Infinity }}
               >
@@ -229,15 +203,15 @@ const ClinicalNursingJournal = () => {
         </motion.header>
 
         {/* Introduction */}
-        <motion.section 
+        <motion.section
           className="bg-white rounded-xl shadow-md p-6 mb-8"
           variants={sectionVariants}
           whileInView="whileInView"
           initial="initial"
         >
-          <motion.h2 
+          <motion.h2
             className="text-2xl font-bold text-blue-900 border-l-4 border-blue-500 pl-4 mb-6 flex items-center gap-2 cursor-pointer"
-            onClick={() => toggleSection('intro')}
+            onClick={() => toggleSection("intro")}
             whileHover={{ x: 10 }}
           >
             <motion.div
@@ -253,7 +227,7 @@ const ClinicalNursingJournal = () => {
           </motion.h2>
           <AnimatePresence>
             {expandedSections.intro && (
-              <motion.p 
+              <motion.p
                 className="text-gray-700 mb-4"
                 initial={{ opacity: 0, height: 0 }}
                 animate={{ opacity: 1, height: "auto" }}
@@ -261,26 +235,26 @@ const ClinicalNursingJournal = () => {
                 transition={{ duration: 0.3 }}
               >
                 The International Specialty Journal of Advanced Clinical Nursing
-                Research (ISJACNR) stands as a beacon of excellence in the field of
-                nursing scholarship. Dedicated to publishing cutting-edge, original
-                research that advances clinical nursing practice, ISJACNR serves as
-                a vital platform for disseminating knowledge and fostering
-                innovation within the global nursing community.
+                Research (ISJACNR) stands as a beacon of excellence in the field
+                of nursing scholarship. Dedicated to publishing cutting-edge,
+                original research that advances clinical nursing practice,
+                ISJACNR serves as a vital platform for disseminating knowledge
+                and fostering innovation within the global nursing community.
               </motion.p>
             )}
           </AnimatePresence>
         </motion.section>
 
         {/* Scope and Focus */}
-        <motion.section 
+        <motion.section
           className="bg-white rounded-xl shadow-md p-6 mb-8"
           variants={sectionVariants}
           whileInView="whileInView"
           initial="initial"
         >
-          <motion.h2 
+          <motion.h2
             className="text-2xl font-bold text-blue-900 border-l-4 border-blue-500 pl-4 mb-6 flex items-center gap-2 cursor-pointer"
-            onClick={() => toggleSection('scope')}
+            onClick={() => toggleSection("scope")}
             whileHover={{ x: 10 }}
           >
             <motion.div
@@ -296,7 +270,7 @@ const ClinicalNursingJournal = () => {
           </motion.h2>
           <AnimatePresence>
             {expandedSections.scope && (
-              <motion.div 
+              <motion.div
                 className="space-y-8"
                 initial={{ opacity: 0, height: 0 }}
                 animate={{ opacity: 1, height: "auto" }}
@@ -335,8 +309,8 @@ const ClinicalNursingJournal = () => {
                       "Research on technology integration in clinical practice including telehealth, EHRs, AI applications, and the ethical implications of technology in patient care.",
                   },
                 ].map((item, index) => (
-                  <motion.div 
-                    key={index} 
+                  <motion.div
+                    key={index}
                     className="bg-gradient-to-r from-blue-50 to-indigo-50 p-4 rounded-lg"
                     variants={cardVariants}
                     whileHover="hover"
@@ -346,7 +320,11 @@ const ClinicalNursingJournal = () => {
                     <div className="flex items-center gap-2 mb-2">
                       <motion.div
                         animate={{ rotate: [0, 10, -10, 0] }}
-                        transition={{ duration: 2, repeat: Infinity, delay: index * 0.3 }}
+                        transition={{
+                          duration: 2,
+                          repeat: Infinity,
+                          delay: index * 0.3,
+                        }}
                         className="text-blue-600"
                       >
                         {item.icon}
@@ -364,15 +342,15 @@ const ClinicalNursingJournal = () => {
         </motion.section>
 
         {/* Target Audience */}
-        <motion.section 
+        <motion.section
           className="bg-white rounded-xl shadow-md p-6 mb-8"
           variants={sectionVariants}
           whileInView="whileInView"
           initial="initial"
         >
-          <motion.h2 
+          <motion.h2
             className="text-2xl font-bold text-blue-900 border-l-4 border-blue-500 pl-4 mb-6 flex items-center gap-2 cursor-pointer"
-            onClick={() => toggleSection('audience')}
+            onClick={() => toggleSection("audience")}
             whileHover={{ x: 10 }}
           >
             <motion.div
@@ -388,7 +366,7 @@ const ClinicalNursingJournal = () => {
           </motion.h2>
           <AnimatePresence>
             {expandedSections.audience && (
-              <motion.div 
+              <motion.div
                 className="grid grid-cols-1 md:grid-cols-2 gap-4"
                 initial={{ opacity: 0, height: 0 }}
                 animate={{ opacity: 1, height: "auto" }}
@@ -411,13 +389,17 @@ const ClinicalNursingJournal = () => {
                     viewport={{ once: true }}
                     whileHover={{ scale: 1.02, x: 5 }}
                   >
-                    <motion.span 
+                    <motion.span
                       className="bg-blue-500 text-white rounded-full p-1 mr-3 mt-1"
-                      animate={{ 
+                      animate={{
                         scale: [1, 1.2, 1],
-                        backgroundColor: ["#3b82f6", "#2563eb", "#3b82f6"]
+                        backgroundColor: ["#3b82f6", "#2563eb", "#3b82f6"],
                       }}
-                      transition={{ duration: 2, repeat: Infinity, delay: index * 0.3 }}
+                      transition={{
+                        duration: 2,
+                        repeat: Infinity,
+                        delay: index * 0.3,
+                      }}
                     >
                       <MdCheckCircle className="h-4 w-4" />
                     </motion.span>
@@ -430,15 +412,15 @@ const ClinicalNursingJournal = () => {
         </motion.section>
 
         {/* Key Features */}
-        <motion.section 
+        <motion.section
           className="bg-white rounded-xl shadow-md p-6 mb-8"
           variants={sectionVariants}
           whileInView="whileInView"
           initial="initial"
         >
-          <motion.h2 
+          <motion.h2
             className="text-2xl font-bold text-blue-900 border-l-4 border-blue-500 pl-4 mb-6 flex items-center gap-2 cursor-pointer"
-            onClick={() => toggleSection('features')}
+            onClick={() => toggleSection("features")}
             whileHover={{ x: 10 }}
           >
             <motion.div
@@ -454,7 +436,7 @@ const ClinicalNursingJournal = () => {
           </motion.h2>
           <AnimatePresence>
             {expandedSections.features && (
-              <motion.div 
+              <motion.div
                 className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4"
                 initial={{ opacity: 0, height: 0 }}
                 animate={{ opacity: 1, height: "auto" }}
@@ -476,10 +458,14 @@ const ClinicalNursingJournal = () => {
                     whileHover="hover"
                     whileTap="tap"
                   >
-                    <motion.span 
+                    <motion.span
                       className="bg-blue-500 text-white rounded-full p-1 mr-3 mt-1"
                       animate={{ rotate: [0, 360] }}
-                      transition={{ duration: 2, repeat: Infinity, delay: index * 0.2 }}
+                      transition={{
+                        duration: 2,
+                        repeat: Infinity,
+                        delay: index * 0.2,
+                      }}
                     >
                       <MdCheckCircle className="h-4 w-4" />
                     </motion.span>
@@ -492,15 +478,15 @@ const ClinicalNursingJournal = () => {
         </motion.section>
 
         {/* Benefits */}
-        <motion.section 
+        <motion.section
           className="bg-gradient-to-r from-blue-50 to-indigo-50 rounded-xl p-6 mb-8"
           variants={sectionVariants}
           whileInView="whileInView"
           initial="initial"
         >
-          <motion.h2 
+          <motion.h2
             className="text-2xl font-bold text-blue-900 mb-6 flex items-center gap-2 cursor-pointer"
-            onClick={() => toggleSection('benefits')}
+            onClick={() => toggleSection("benefits")}
             whileHover={{ x: 10 }}
           >
             <motion.div
@@ -516,7 +502,7 @@ const ClinicalNursingJournal = () => {
           </motion.h2>
           <AnimatePresence>
             {expandedSections.benefits && (
-              <motion.ul 
+              <motion.ul
                 className="space-y-4"
                 initial={{ opacity: 0, height: 0 }}
                 animate={{ opacity: 1, height: "auto" }}
@@ -530,21 +516,25 @@ const ClinicalNursingJournal = () => {
                   "Career Advancement: Demonstrate your research leadership",
                   "Practice Impact: Directly influence clinical nursing improvements",
                 ].map((benefit, index) => (
-                  <motion.li 
-                    key={index} 
+                  <motion.li
+                    key={index}
                     className="flex items-start"
                     variants={fadeInLeft}
                     whileInView="animate"
                     initial="initial"
                     viewport={{ once: true }}
                   >
-                    <motion.span 
+                    <motion.span
                       className="bg-blue-500 text-white rounded-full p-1 mr-3"
-                      animate={{ 
+                      animate={{
                         scale: [1, 1.2, 1],
-                        rotate: [0, 360]
+                        rotate: [0, 360],
                       }}
-                      transition={{ duration: 2, repeat: Infinity, delay: index * 0.3 }}
+                      transition={{
+                        duration: 2,
+                        repeat: Infinity,
+                        delay: index * 0.3,
+                      }}
                     >
                       <MdCheckCircle className="h-5 w-5" />
                     </motion.span>
@@ -557,15 +547,15 @@ const ClinicalNursingJournal = () => {
         </motion.section>
 
         {/* Conclusion */}
-        <motion.section 
+        <motion.section
           className="bg-white rounded-xl shadow-md p-6 mb-8"
           variants={sectionVariants}
           whileInView="whileInView"
           initial="initial"
         >
-          <motion.h2 
+          <motion.h2
             className="text-2xl font-bold text-blue-900 border-l-4 border-blue-500 pl-4 mb-6 flex items-center gap-2 cursor-pointer"
-            onClick={() => toggleSection('conclusion')}
+            onClick={() => toggleSection("conclusion")}
             whileHover={{ x: 10 }}
           >
             <motion.div
@@ -581,7 +571,7 @@ const ClinicalNursingJournal = () => {
           </motion.h2>
           <AnimatePresence>
             {expandedSections.conclusion && (
-              <motion.p 
+              <motion.p
                 className="text-gray-700"
                 initial={{ opacity: 0, height: 0 }}
                 animate={{ opacity: 1, height: "auto" }}
@@ -589,26 +579,26 @@ const ClinicalNursingJournal = () => {
                 transition={{ duration: 0.3 }}
               >
                 The International Specialty Journal of Advanced Clinical Nursing
-                Research stands as a leading platform for disseminating cutting-edge
-                research that advances clinical nursing practice. Its rigorous peer
-                review process, open access policy, high impact factor,
-                international scope, commitment to innovation, and focus on future
-                trends make it a valuable resource for researchers, clinicians,
-                policymakers, and patients seeking to improve patient care and shape
-                the future of nursing.
+                Research stands as a leading platform for disseminating
+                cutting-edge research that advances clinical nursing practice.
+                Its rigorous peer review process, open access policy, high
+                impact factor, international scope, commitment to innovation,
+                and focus on future trends make it a valuable resource for
+                researchers, clinicians, policymakers, and patients seeking to
+                improve patient care and shape the future of nursing.
               </motion.p>
             )}
           </AnimatePresence>
         </motion.section>
 
         {/* Articles Section */}
-        <motion.div 
+        <motion.div
           className="mt-16 mb-12"
           variants={sectionVariants}
           whileInView="whileInView"
           initial="initial"
         >
-          <motion.div 
+          <motion.div
             className="flex items-center gap-3 mb-6"
             whileInView={{ x: [-20, 0] }}
             transition={{ duration: 0.5 }}
@@ -619,21 +609,24 @@ const ClinicalNursingJournal = () => {
             >
               <MdMenuBook className="text-3xl text-blue-600" />
             </motion.div>
-            <h2 className="text-2xl lg:text-3xl font-bold text-gray-800">Journal Articles</h2>
+            <h2 className="text-2xl lg:text-3xl font-bold text-gray-800">
+              Journal Articles
+            </h2>
           </motion.div>
-          
-          <motion.p 
+
+          <motion.p
             className="text-gray-600 mb-8 max-w-3xl"
             initial={{ opacity: 0 }}
             whileInView={{ opacity: 1 }}
             transition={{ delay: 0.2, duration: 0.6 }}
           >
-            Access our complete archive of peer-reviewed articles, research papers, and clinical studies. 
-            Browse by year or use the search to find specific volumes.
+            Access our complete archive of peer-reviewed articles, research
+            papers, and clinical studies. Browse by year or use the search to
+            find specific volumes.
           </motion.p>
 
           {/* Search and Filter Bar */}
-          <motion.div 
+          <motion.div
             className="bg-blue-50 p-6 rounded-lg mb-8 max-w-5xl"
             initial={{ opacity: 0, y: 20 }}
             whileInView={{ opacity: 1, y: 0 }}
@@ -641,7 +634,7 @@ const ClinicalNursingJournal = () => {
             whileHover={{ boxShadow: "0 10px 25px -5px rgba(0,0,0,0.1)" }}
           >
             <div className="flex flex-col md:flex-row gap-4">
-              <motion.div 
+              <motion.div
                 className="flex-1 relative"
                 whileHover={{ scale: 1.02 }}
               >
@@ -654,7 +647,7 @@ const ClinicalNursingJournal = () => {
                   className="w-full pl-10 pr-4 py-3 rounded-lg border border-blue-200 focus:outline-none focus:ring-2 focus:ring-blue-400 transition-all duration-300"
                 />
               </motion.div>
-              <motion.div 
+              <motion.div
                 className="md:w-48 relative"
                 whileHover={{ scale: 1.02 }}
               >
@@ -664,7 +657,7 @@ const ClinicalNursingJournal = () => {
                   onChange={(e) => setSelectedYear(e.target.value)}
                   className="w-full pl-10 pr-4 py-3 rounded-lg border border-blue-200 focus:outline-none focus:ring-2 focus:ring-blue-400 bg-white appearance-none cursor-pointer transition-all duration-300"
                 >
-                  {years.map(year => (
+                  {years.map((year) => (
                     <option key={year} value={year}>
                       {year === "All" ? "All Years" : year}
                     </option>
@@ -677,7 +670,7 @@ const ClinicalNursingJournal = () => {
           {/* Articles Grid */}
           <AnimatePresence mode="wait">
             {filteredArticles.length > 0 ? (
-              <motion.div 
+              <motion.div
                 key="articles"
                 className="space-y-8 max-w-5xl"
                 variants={staggerContainer}
@@ -685,26 +678,34 @@ const ClinicalNursingJournal = () => {
                 animate="animate"
                 exit={{ opacity: 0, y: 20 }}
               >
-                {sortedYears.map(year => (
-                  <motion.div 
-                    key={year} 
+                {sortedYears.map((year) => (
+                  <motion.div
+                    key={year}
                     className="bg-white rounded-lg shadow-md overflow-hidden"
                     variants={fadeInUp}
-                    whileHover={{ boxShadow: "0 20px 25px -5px rgba(0,0,0,0.1)" }}
+                    whileHover={{
+                      boxShadow: "0 20px 25px -5px rgba(0,0,0,0.1)",
+                    }}
                   >
-                    <motion.div 
+                    <motion.div
                       className="bg-gradient-to-r from-blue-600 to-indigo-600 text-white px-6 py-3 flex items-center gap-2"
-                      whileHover={{ background: "linear-gradient(to right, #2563eb, #4f46e5)" }}
+                      whileHover={{
+                        background:
+                          "linear-gradient(to right, #2563eb, #4f46e5)",
+                      }}
                     >
                       <motion.div {...rotateAnimation}>
                         <MdCalendarToday />
                       </motion.div>
                       <h3 className="text-lg font-semibold">Year {year}</h3>
-                      <motion.span 
+                      <motion.span
                         className="bg-blue-400 text-sm px-2 py-1 rounded-full ml-2"
                         whileHover={{ scale: 1.1 }}
                       >
-                        {groupedArticles[year].length} {groupedArticles[year].length === 1 ? 'Article' : 'Articles'}
+                        {groupedArticles[year].length}{" "}
+                        {groupedArticles[year].length === 1
+                          ? "Article"
+                          : "Articles"}
                       </motion.span>
                     </motion.div>
                     <div className="p-6">
@@ -725,13 +726,15 @@ const ClinicalNursingJournal = () => {
                           >
                             <div className="flex items-start justify-between">
                               <div className="flex-1">
-                                <motion.h4 
+                                <motion.h4
                                   className="font-semibold text-gray-800 group-hover:text-blue-600 transition-colors"
                                   whileHover={{ x: 5 }}
                                 >
                                   {article.vol}
                                 </motion.h4>
-                                <p className="text-sm text-gray-500 mt-1">Published: {article.year}</p>
+                                <p className="text-sm text-gray-500 mt-1">
+                                  Published: {article.year}
+                                </p>
                               </div>
                               <motion.div
                                 whileHover={{ rotate: 15, scale: 1.2 }}
@@ -740,7 +743,7 @@ const ClinicalNursingJournal = () => {
                                 <MdDownload className="text-xl text-gray-400 group-hover:text-blue-600 transition-colors" />
                               </motion.div>
                             </div>
-                            <motion.div 
+                            <motion.div
                               className="mt-3 flex items-center text-sm text-blue-600 opacity-0 group-hover:opacity-100 transition-opacity"
                               initial={{ x: -10 }}
                               whileHover={{ x: 0 }}
@@ -761,7 +764,7 @@ const ClinicalNursingJournal = () => {
                 ))}
               </motion.div>
             ) : (
-              <motion.div 
+              <motion.div
                 key="no-results"
                 className="text-center py-12 bg-gray-50 rounded-lg max-w-5xl"
                 initial={{ opacity: 0, scale: 0.9 }}
@@ -769,7 +772,7 @@ const ClinicalNursingJournal = () => {
                 exit={{ opacity: 0, scale: 0.9 }}
                 transition={{ duration: 0.3 }}
               >
-                <motion.p 
+                <motion.p
                   className="text-gray-500 text-lg"
                   animate={{ y: [0, -10, 0] }}
                   transition={{ duration: 2, repeat: Infinity }}
@@ -792,18 +795,22 @@ const ClinicalNursingJournal = () => {
           </AnimatePresence>
 
           {/* Archive Stats */}
-          <motion.div 
+          <motion.div
             className="mt-8 bg-gray-50 p-4 rounded-lg max-w-5xl"
             variants={fadeInUp}
             whileHover={{ backgroundColor: "#e5e7eb" }}
           >
-            <motion.p 
+            <motion.p
               className="text-gray-600"
               animate={{ scale: [1, 1.02, 1] }}
               transition={{ duration: 2, repeat: Infinity }}
             >
-              <span className="font-semibold">{articles.length}</span> total articles in archive • 
-              <span className="font-semibold ml-1">{new Set(articles.map(a => a.year)).size}</span> years of publication
+              <span className="font-semibold">{articles.length}</span> total
+              articles in archive •
+              <span className="font-semibold ml-1">
+                {new Set(articles.map((a) => a.year)).size}
+              </span>{" "}
+              years of publication
             </motion.p>
           </motion.div>
         </motion.div>
