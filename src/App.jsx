@@ -46,7 +46,7 @@ import Login from "./Pages/Admin/AdminLogin";
 import TeacherLoginPage from "./components/Teacher/Login";
 import TeacherDashboard from "./components/Teacher/TeacherPortal";
 import HRDashboard from "./Pages/Admin/HrOfficer";
-import Seminar from "./Pages/Seminar";
+// import Seminar from "./Pages/Seminar";
 import RegistrarDashboard from "./Pages/Admin/Registrar";
 
 const App = () => {
@@ -54,7 +54,7 @@ const App = () => {
     <BrowserRouter>
       <Routes>
         <Route path="/" element={<Home />} />
-        <Route path="/seminar" element={<Seminar />} />
+        {/* <Route path="/seminar" element={<Seminar />} /> */}
         <Route path="/academy" element={<AcademyPage />} />
         <Route
           path="/academy/specializations"

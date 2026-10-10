@@ -232,7 +232,7 @@ const InnovationJournal = () => {
             variants={fadeInUp}
             className="text-3xl md:text-4xl font-bold text-indigo-800 mb-2"
           >
-            THE INTERNATIONAL JOURNAL OF MULTIDISCIPLINARY RESEARCHES AND
+            THE INTERNATIONAL JOURNAL OF MULTIHEALTH-TECHNOLOGIES RESEARCH AND
             INNOVATIONS (IJMRI)
           </motion.h1>
           <motion.p
