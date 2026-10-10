@@ -31,30 +31,63 @@ const ClinicalNursingJournal = () => {
   const articles = [
     {
       vol: "Vol 1",
-
-      link: "https://drive.google.com/file/d/1G2Ny0EzrLYVIAMtLzTwvnl1L_q-q6tXO/view?usp=sharing",
-      year: "2023",
+      title:
+        "DETERMINANTS AND INTERVENTION STRATEGIES FOR ENHANCING HAND HYGIENE PRACTICES IN CHOLERA INFECTION CONTROL AMONG STUDENTS OF COMMUNITY SECONDARY SCHOOL BIOGBOLO, BAYELSA",
+      link: "https://drive.google.com/file/d/1rMxoFee0tls6_A7wdfKNk5icL_ftjNp-/view?usp=drive_link",
+      year: "2025",
+      authors: "Timighe, Gift Cornelius",
+      abstract:
+        "This study assessed the determinants and intervention strategies for enhancing hand hygiene practices in Cholera infection control among students in Community Secondary School BIOGBOLO, Bayelsa.",
     },
-
     {
       vol: "Vol 2",
-
-      link: "https://drive.google.com/file/d/1UXS9vTu51v21MCilhokOloR2f-BGqi85/view?usp=sharing",
-      year: "2023",
-    },
-
-    {
-      vol: "Vol 3",
-
-      link: "https://drive.google.com/file/d/1GnlHVApSoW8Fe3r9oFrpYrAEUxegOgfu/view?usp=drive_link",
+      title:
+        "ASSESSING NURSES’ COMPETENCY LEVEL IN THE MANAGEMENT OF SPINAL CORD PROLAPSED PATIENTS IN ACCIDENT AND EMERGENCY AND ORTHOPAEDIC UNITS DEPARTMENT IN UNIVERSITY OF PORT HARCOURT TEACHING HOSPITAL, RIVERS STATE",
+      link: "https://drive.google.com/file/d/1fLCnPwkA8nbFmjWnsQ6IsHA5CgMujMcW/view?usp=drive_link",
       year: "2026",
+      authors: "DR. (MRS.) TIMIGHE, GIFT CORNELIUS",
+      abstract:
+        "A traumatic spinal cord prolapsed affects the lives of the individual involved both the patient and family pass through many level of grief and loss.",
     },
-
     {
-      vol: "Vol 4",
-
-      link: "https://drive.google.com/file/d/1JlSmDpv2BfiaxAFDW25Y4MM7yevEhx6R/view?usp=drive_link",
+      vol: "Vol 3 NO. 1",
+      title:
+        "ASSESSMENT OF NURSE’S COMPETENCY IN PATIENTS WITH IMPAIRED SENSORY PERCEPTION IN ACCIDENT AND EMERGENCY DEPARTMENT OF UNIVERSITY OF PORT HARCOURT TEACHING HOSPITAL, PORT HARCOURT.",
+      link: "https://drive.google.com/file/d/1CZ0A32RGgiSco7Tt1FC9SrK-eanhw14m/view?usp=drive_link",
       year: "2026",
+      authors: "DR TIMIGHE, GIFT CORNELIUS",
+      abstract:
+        "This study was carried out to assess Nurses competency in patients with impaired sensory perception in accident and emergency department of university of Port Harcourt teaching hospital (UPTH).",
+    },
+    {
+      vol: "Vol. 3 No. 2",
+      title:
+        "APPROACHES TO REFLECTIVE THINKING IN CLINICAL PRACTICE",
+      link: "https://drive.google.com/file/d/1hM--M_2T0gsl36nrcFJP_e1xdAFYYdOe/view?usp=drive_link",
+      year: "2026",
+      authors: "PRISCILLA .W. MADUENYI",
+      abstract:
+        "Evidence abound on the fact that significant amount of health care practice remains firmly rooted in tradition.",
+    },
+    {
+      vol: "Vol. 4",
+      title:
+        "NURSING MANAGEMENT OF CHRONIC WOUNDS IN PATIENTS (A CASE STUDY OF TWO HOSPITALS IN AKWA IBOM STATE)",
+      link: "https://drive.google.com/file/d/157TWDVUkBuGD1CIsuEu3kVk8ndCVrsVn/view?usp=drive_link",
+      year: "2026",
+      authors: "ANIEKAN F. UMOH, RN, RNA, RPN, BNSC",
+      abstract:
+        "People with chronic wounds generally spend a lot of money, stays longer in hospital and have psychological distress.",
+    },
+    {
+      vol: "Vol. 5",
+      title:
+        "CONSUMERS’ SATISFACTION WITH NURSING CARE IN AHMADU BELLO UNIVERSITY TEACHING HOSPITAL ZARIA, NIGERIA",
+      link: "https://drive.google.com/file/d/1N7ArRnouy6vq9oLstVT3CB6TslXd7ieA/view?usp=drive_link",
+      year: "2026",
+      authors: "1A.D Ajayi",
+      abstract:
+        "Ensuring quality nursing care is a challenge because of limited financial and material resources, inappropriate technology and increase in the population of consumers of nursing services.",
     },
   ];
 

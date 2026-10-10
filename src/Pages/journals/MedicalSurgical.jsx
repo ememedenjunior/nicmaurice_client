@@ -45,7 +45,7 @@ const MedicalSurgicalNursingJournal = () => {
     },
 
     {
-      vol: "Vol 2",
+      vol: "Vol 3 No. 1",
       title:
         "OPINION OF STUDENTS IN UNIVERSITY OF CALABAR ABOUT HIV SCREENING BEFORE MARRIAGE: IMPLICATION FOR CREATING AWARENESS THROUGH HEALTH EDUCATION INTERVENTION",
       link: "https://drive.google.com/file/d/1BU0Fn7uKiwHHsQyVKhwHcwAmIMJW48yd/view?usp=drive_link",
@@ -56,7 +56,7 @@ const MedicalSurgicalNursingJournal = () => {
     },
 
     {
-      vol: "Vol 3",
+      vol: "Vol 3 No. 2",
       title:
         "HEALTHCARE WASTE MANAGEMENT PRACTICES AMONG HEALTH WORKERS IN UNIVERSITY OF BENIN TEACHING HOSPITAL (UBTH), BENIN CITY, EDO STATE",
       link: "https://drive.google.com/file/d/1BU0Fn7uKiwHHsQyVKhwHcwAmIMJW48yd/view?usp=drive_link",
@@ -69,12 +69,12 @@ const MedicalSurgicalNursingJournal = () => {
     {
       vol: "Vol 4",
       title:
-        "HEALTHCARE WASTE MANAGEMENT PRACTICES AMONG HEALTH WORKERS IN UNIVERSITY OF BENIN TEACHING HOSPITAL (UBTH), BENIN CITY, EDO STATE",
-      link: "https://drive.google.com/file/d/1V_87dPPWzbIocnLp7xHmix2WlnssImly/view?usp=drive_link",
+        "EFFECT OF ARTEMISIN COMBINATION THERAPY ON MALARIA TREATMENT IN IBADAN, NIGERIA",
+      link: "https://drive.google.com/file/d/1IDHr59QJkdCf78ZUSh6036B7oiRUZd5s/view?usp=drive_link",
       year: "2026",
-      authors: "EWEKA Abieyuwa",
+      authors: "TIJANI W. ADELANI",
       abstract:
-        "Medical waste management (MWM) has become a critical issue due to its potential environmental hazards and public health risks, with high propensity to result into epidemics especially in this era of covid-19 pandemic.",
+        "Malaria is an infectious disease caused by a parasite called plasmodium, four species of which are known.",
     },
 
     {

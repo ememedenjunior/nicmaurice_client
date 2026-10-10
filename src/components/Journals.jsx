@@ -21,7 +21,7 @@ const Journals = ({ head }) => {
       id: 2,
       image: Nursing,
       alt: "International Journal of Advanced Nursing Research",
-      path: "/journal/isj-acnr",
+      path: "/journal/ijanr",
       title: "International Journal of Advanced Nursing Research",
       description: "A call to revolutionize the journal, to transform it into a platform that truly reflects the global landscape of nursing, its challenges.",
       imageHeight: "h-[130px]",
