@@ -45,8 +45,8 @@ const Footer = () => {
               <div>
                 <div className="text-white font-medium mb-3">Contact</div>
                 <div className="space-y-2 text-sm">
-                  <div>admissions@nicmaurice.edu</div>
-                  <div>(555) 123-4567</div>
+                  <div>nicmauricecollege@gmail.com</div>
+                  <div>08023113691</div>
                   <div>Hours: Mon-Fri 9-5</div>
                 </div>
               </div>

@@ -421,13 +421,6 @@ export const AcademyPage = () => {
                 </motion.button>
               </Link>
 
-              {/* <motion.button
-                whileHover={{ scale: 1.05 }}
-                whileTap={{ scale: 0.95 }}
-                className="border-2 border-white text-white px-10 py-4 rounded-xl font-bold hover:bg-white/10 transition-colors"
-              >
-                Schedule a Consultation
-              </motion.button> */}
             </div>
           </motion.div>
         </div>
