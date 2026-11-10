@@ -41,7 +41,7 @@ import {
   Gift,
   Clock3,
 } from "lucide-react";
-import axios from "axios";
+import api, { clearSession, errorMessage } from "../../utils/api";
 import Cookies from "js-cookie";
 import { useNavigate } from "react-router-dom";
 import { motion, AnimatePresence } from "framer-motion";
@@ -81,20 +81,19 @@ const HRDashboard = () => {
     fetchEmployees();
   }, []);
 
-  const fetchEmployees = async () => {
-    const token = Cookies.get("token");
+  const flash = (setter, message) => {
+    setter(message);
+    setTimeout(() => setter(""), 3000);
+  };
 
+  const fetchEmployees = async () => {
     setIsLoading(true);
     try {
-      const res = await axios.get("nicmauricebackend-production.up.railway.app/staff", {
-        headers: {
-          Authorization: `Bearer ${token}`,
-        },
-      });
+      const res = await api.get("/staff");
       setEmployees(res.data.data || []);
     } catch (err) {
       console.error("Error fetching employees:", err);
-      setErrors("Failed to load employee data");
+      setErrors(errorMessage(err, "Failed to load employee data"));
     } finally {
       setIsLoading(false);
       setIsRefreshing(false);
@@ -107,101 +106,43 @@ const HRDashboard = () => {
   };
 
   const handleLogout = () => {
-    Cookies.remove("token");
-    Cookies.remove("data");
+    clearSession();
     navigate("/academy/admin/login");
   };
 
   const handleEmployeeStatusChange = async (employeeId, newStatus, reason = "") => {
-    const token = Cookies.get("token");
-
     try {
-      const res = await axios.put(
-        `nicmauricebackend-production.up.railway.app/hr/employees/${employeeId}/status`,
-        { status: newStatus, reason },
-        {
-          headers: {
-            Authorization: `Bearer ${token}`,
-          },
-        }
-      );
-
-      if (res.status === 200) {
-        setSuccessMessage(`Employee status updated to ${newStatus}`);
-        setSelectedEmployee(null);
-        setShowTerminationModal(false);
-        setTerminationReason("");
-        fetchEmployees();
-        
-        // Clear success message after 3 seconds
-        setTimeout(() => setSuccessMessage(""), 3000);
-      }
+      await api.put(`/staff/${employeeId}/status`, { status: newStatus, reason });
+      flash(setSuccessMessage, `Employee status updated to ${newStatus}`);
+      setSelectedEmployee(null);
+      setShowTerminationModal(false);
+      setTerminationReason("");
+      fetchEmployees();
     } catch (err) {
-      setErrors(err.response?.data?.message || "Failed to update employee status");
-      
-      // Clear error after 3 seconds
-      setTimeout(() => setErrors(""), 3000);
+      flash(setErrors, errorMessage(err, "Failed to update employee status"));
     }
   };
 
   const handleAddEmployee = async (employeeData) => {
-    const token = Cookies.get("token");
-
     try {
-      const res = await axios.post(
-        "nicmauricebackend-production.up.railway.app/staff/",
-        employeeData,
-        {
-          headers: {
-            Authorization: `Bearer ${token}`,
-          },
-        }
-      );
-
-      if (res.status === 201) {
-        setSuccessMessage("Employee added successfully");
-        setShowAddEmployee(false);
-        fetchEmployees();
-        
-        // Clear success message after 3 seconds
-        setTimeout(() => setSuccessMessage(""), 3000);
-      }
+      await api.post("/staff", employeeData);
+      flash(setSuccessMessage, "Employee added successfully");
+      setShowAddEmployee(false);
+      fetchEmployees();
     } catch (err) {
-      setErrors(err.response?.data?.message || "Failed to add employee");
-      
-      // Clear error after 3 seconds
-      setTimeout(() => setErrors(""), 3000);
+      flash(setErrors, errorMessage(err, "Failed to add employee"));
     }
   };
 
   const handleUpdateEmployee = async (employeeId, employeeData) => {
-    const token = Cookies.get("token");
-
     try {
-      const res = await axios.put(
-        `nicmauricebackend-production.up.railway.app/staff/${employeeId}`,
-        employeeData,
-        {
-          headers: {
-            Authorization: `Bearer ${token}`,
-          },
-        }
-      );
-
-      if (res.status === 200) {
-        setSuccessMessage("Employee information updated");
-        setShowEditEmployee(false);
-        setSelectedEmployee(null);
-        fetchEmployees();
-        
-        // Clear success message after 3 seconds
-        setTimeout(() => setSuccessMessage(""), 3000);
-      }
+      await api.put(`/staff/${employeeId}`, employeeData);
+      flash(setSuccessMessage, "Employee information updated");
+      setShowEditEmployee(false);
+      setSelectedEmployee(null);
+      fetchEmployees();
     } catch (err) {
-      setErrors(err.response?.data?.message || "Failed to update employee");
-      
-      // Clear error after 3 seconds
-      setTimeout(() => setErrors(""), 3000);
+      flash(setErrors, errorMessage(err, "Failed to update employee"));
     }
   };
 
@@ -1495,7 +1436,11 @@ const AddEmployeeModal = ({ onClose, onAdd }) => {
 
 // Edit Employee Modal Component
 const EditEmployeeModal = ({ employee, onClose, onUpdate }) => {
-  const [formData, setFormData] = useState(employee);
+  const [formData, setFormData] = useState({
+    ...employee,
+    hireDate: employee.hireDate ? String(employee.hireDate).slice(0, 10) : "",
+    emergencyContact: employee.emergencyContact || { name: "", relationship: "", phone: "" },
+  });
 
   const handleSubmit = (e) => {
     e.preventDefault();

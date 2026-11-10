@@ -13,7 +13,7 @@ import {
 } from "lucide-react";
 import Cookies from "js-cookie";
 import { useNavigate } from "react-router-dom";
-import axios from "axios";
+import api, { errorMessage } from "../../utils/api";
 
 const Login = () => {
   const [formData, setFormData] = useState({
@@ -73,7 +73,7 @@ const Login = () => {
     setLoginError("");
 
     try {
-      const response = await axios.post("https://nicmauricebackend-production.up.railway.app/admin/login", {
+      const response = await api.post("/admin/login", {
         adminId: formData.adminId,
         password: formData.password,
       });
@@ -84,7 +84,7 @@ const Login = () => {
         // ✅ Store token in cookie
         Cookies.set("token", data.data.token, {
           expires: 7, // days
-          secure: false, // only https (set false if testing on http localhost)
+          secure: window.location.protocol === "https:",
           sameSite: "Strict",
         });
 
@@ -93,7 +93,6 @@ const Login = () => {
           expires: 7,
         });
 
-        setLoginError(data.message);
 
         // Redirect
         if (data.data.admin.role === "AdmissionOfficer") {
@@ -107,11 +106,7 @@ const Login = () => {
         setLoginError(data.message || "Invalid email or password");
       }
     } catch (error) {
-      if (error.response) {
-        setLoginError(error.response.data.message || "Login failed");
-      } else {
-        setLoginError("Server not reachable");
-      }
+      setLoginError(errorMessage(error, "Login failed"));
     } finally {
       setIsLoading(false);
     }

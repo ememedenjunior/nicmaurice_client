@@ -16,10 +16,11 @@ import {
   FaQuestionCircle,
   FaGraduationCap as FaGradCap,
 } from "react-icons/fa";
-import axios from "axios";
+import api, { errorMessage } from "../../utils/api";
 
 const ApplicationSection = () => {
   const [step, setStep] = useState(1);
+  const [isSubmitting, setIsSubmitting] = useState(false);
   const [formData, setFormData] = useState({
     // Personal Information
     firstName: "",
@@ -98,6 +99,8 @@ const ApplicationSection = () => {
   const nextStep = () => {
     if (validateStep(step)) {
       setStep((prev) => Math.min(prev + 1, 5));
+    } else {
+      alert("Please complete all the required fields on this step.");
     }
   };
 
@@ -112,12 +115,19 @@ const ApplicationSection = () => {
           formData.firstName &&
           formData.lastName &&
           formData.email &&
-          formData.phoneNumber
+          formData.phoneNumber &&
+          formData.dateOfBirth &&
+          formData.gender &&
+          formData.address
         );
       case 2:
-        return formData.highestQualification && formData.institutionAttended;
+        return (
+          formData.highestQualification &&
+          formData.institutionAttended &&
+          formData.graduationYear
+        );
       case 3:
-        return formData.programAppliedFor;
+        return formData.programAppliedFor && formData.intakeYear;
 
       default:
         return true;
@@ -127,24 +137,26 @@ const ApplicationSection = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
 
-    if (!validateStep(5)) return;
+    if (!formData.agreeTerms) {
+      alert("Please agree to the terms before submitting.");
+      return;
+    }
+    if (isSubmitting) return;
+    setIsSubmitting(true);
 
     try {
-      // Send formData to backend
-      const response = await axios.post(
-        "https://nicmauricebackend-production.up.railway.app/applicant/apply",
-        formData,
+      // Uploaded files are not sent here (the API takes text fields only)
+      const { resume, transcripts, recommendationLetters, ...payload } = formData; // eslint-disable-line no-unused-vars
+      const { data } = await api.post("/applicant/apply", payload);
+      alert(
+        data.message ||
+          "Application submitted successfully! Please check your email to verify.",
       );
-
-      if (response.status === 204  || response.status === 201) {
-        alert(
-          "Application submitted successfully! We'll contact you within 3 business days.",
-        );
-      }
     } catch (error) {
-      // Handle errors
       console.error("Error submitting application:", error);
-      alert("Failed to submit application. Please try again.");
+      alert(errorMessage(error, "Failed to submit application. Please try again."));
+    } finally {
+      setIsSubmitting(false);
     }
   };
 

@@ -26,7 +26,7 @@ import {
   Sparkles,
   RefreshCw,
 } from "lucide-react";
-import axios from "axios";
+import api, { clearSession, errorMessage } from "../../utils/api";
 import Cookies from "js-cookie";
 import { useNavigate } from "react-router-dom";
 import { motion, AnimatePresence } from "framer-motion";
@@ -62,18 +62,13 @@ const AdmissionsDashboard = () => {
   }, []);
 
   const fetchApplicants = async () => {
-    const token = Cookies.get("token");
-
     setIsLoading(true);
     try {
-      const res = await axios.get("https://nicmauricebackend-production.up.railway.app/applicant/", {
-        headers: {
-          Authorization: `Bearer ${token}`,
-        },
-      });
+      const res = await api.get("/applicant/");
       setApplications(res.data.data || []);
     } catch (err) {
       console.error("Error fetching applicants:", err);
+      setErrors(errorMessage(err, "Failed to load applications"));
     } finally {
       setIsLoading(false);
       setIsRefreshing(false);
@@ -86,88 +81,36 @@ const AdmissionsDashboard = () => {
   };
 
   const handleLogout = () => {
-    Cookies.remove("token");
-    Cookies.remove("data");
+    clearSession();
     navigate("/academy/admin/login");
   };
 
-  const handleAdmissionConfirmation = async () => {
-    const token = Cookies.get("token");
-
+  // Runs one admissions action, then refreshes the list in place (no page reload)
+  const runAction = async (request, { clearReason = false } = {}) => {
+    setErrors("");
     try {
-      const res = await axios.get(
-        `https://nicmauricebackend-production.up.railway.app/applicant/confirm-admission/${selectedApplication._id}`,
-        {
-          headers: {
-            Authorization: `Bearer ${token}`,
-          },
-        },
-      );
-
-      if (res.status === 200) {
-        setSelectedApplication(null);
-        window.location.reload();
-      } else {
-        setSelectedApplication(null);
-      }
+      await request();
+      setSelectedApplication(null);
+      if (clearReason) setReason("");
     } catch (err) {
-      setErrors(err.response.data.message);
-      window.location.reload();
+      setErrors(errorMessage(err, "Action failed"));
+      setSelectedApplication(null);
     }
+    await fetchApplicants();
   };
 
-  const handleAdmissionReview = async () => {
-    const token = Cookies.get("token");
+  const handleAdmissionConfirmation = () =>
+    runAction(() => api.post(`/applicant/confirm-admission/${selectedApplication._id}`));
 
-    try {
-      const res = await axios.get(
-        `https://nicmauricebackend-production.up.railway.app/applicant/review-admission/${selectedApplication._id}`,
-        {
-          headers: {
-            Authorization: `Bearer ${token}`,
-          },
-        },
-      );
+  const handleAdmissionReview = () =>
+    runAction(() => api.post(`/applicant/review-admission/${selectedApplication._id}`));
 
-      if (res.status === 200) {
-        setSelectedApplication(null);
-        window.location.reload();
-      } else {
-        setSelectedApplication(null);
-      }
-    } catch (err) {
-      window.location.reload();
-      setErrors(err.response.data.message); 
-    }
-  };
+  const handleAdmissionRejection = () =>
+    runAction(
+      () => api.put(`/applicant/reject-admission/${selectedApplication._id}`, { reason }),
+      { clearReason: true },
+    );
 
-  const handleAdmissionRejection = async () => {
-    const token = Cookies.get("token");
-
-    try {
-      const res = await axios.put(
-        `nicmauricebackend-production.up.railway.app/applicant/reject-admission/${selectedApplication._id}`,
-        { reason },
-
-        {
-          headers: {
-            Authorization: `Bearer ${token}`,
-          },
-        },
-      );
-
-      if (res.status === 200) {
-        setSelectedApplication(null);
-        window.location.reload();
-      } else {
-        setSelectedApplication(null);
-        window.location.reload();
-      }
-    } catch (err) {
-      setErrors(err.response.data.message);
-      window.location.reload();
-    }
-  };
   const tabs = [
     {
       id: "all",

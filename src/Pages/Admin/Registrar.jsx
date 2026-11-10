@@ -24,7 +24,7 @@ import {
   FaGraduationCap,
 } from "react-icons/fa";
 import Cookies from "js-cookie";
-import axios from "axios";
+import api, { clearSession, errorMessage } from "../../utils/api";
 
 const RegistrarDashboard = () => {
   const navigate = useNavigate();
@@ -89,15 +89,42 @@ const RegistrarDashboard = () => {
   const [departments] = useState(["Nursing"]);
   const [levels] = useState(["100", "200", "300", "400", "500"]);
 
-  useEffect(() => {
-    // Get HR info from cookies
-    const registrarData = Cookies.get("data");
+  const [lecturers, setLecturers] = useState([]);
 
-    if (registrarData) {
+  const showNotification = (message, type = "success") => {
+    setNotification({ show: true, message, type });
+    setTimeout(
+      () => setNotification({ show: false, message: "", type: "" }),
+      3000,
+    );
+  };
+
+  const fetchRegistrarDashboard = async () => {
+    setLoading(true);
+    try {
+      const [dash, lect] = await Promise.all([
+        api.get("/registrar"),
+        api.get("/registrar/lecturers"),
+      ]);
+      setStudents(dash.data.data.students);
+      setCourses(dash.data.data.courses);
+      setRegistrations(dash.data.data.enrollments);
+      setLecturers(lect.data.lecturers || []);
+    } catch (err) {
+      console.error("Error fetching registrar data:", err);
+      showNotification(errorMessage(err, "Failed to load registrar data"), "error");
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  useEffect(() => {
+    const registrarCookie = Cookies.get("data");
+    if (registrarCookie) {
       try {
-        setRegistrarData(JSON.parse(registrarData));
+        setRegistrarData(JSON.parse(registrarCookie));
       } catch (error) {
-        console.error("Error parsing HR data:", error);
+        console.error("Error parsing registrar data:", error);
       }
     }
 
@@ -113,53 +140,40 @@ const RegistrarDashboard = () => {
     fetchRegistrarDashboard();
   }, []);
 
-  const fetchRegistrarDashboard = async () => {
-    const token = Cookies.get("token");
-
-    setLoading(true);
-    try {
-      const res = await axios.get("nicmauricebackend-production.up.railway.app/registrar", {
-        headers: {
-          Authorization: `Bearer ${token}`,
-        },
-      });
-
-      setStudents(res.data.data.students);
-      setCourses(res.data.data.courses);
-      setRegistrations(res.data.data.enrollments);
-    } catch (err) {
-      console.error("Error fetching registrar data:", err);
-      showNotification("Failed to load registrar data", "error");
-    } finally {
-      setLoading(false);
-    }
-  };
-
   useEffect(() => {
     localStorage.setItem("registrarSettings", JSON.stringify(settings));
   }, [settings]);
 
-  const showNotification = (message, type = "success") => {
-    setNotification({ show: true, message, type });
-    setTimeout(
-      () => setNotification({ show: false, message: "", type: "" }),
-      3000,
-    );
-  };
-
   const handleLogout = () => {
-    Cookies.remove("token");
-    Cookies.remove("data");
+    clearSession();
     navigate("/academy/admin/login");
   };
-  
+
   const handleSettingChange = (key, value) => {
     setSettings((prev) => ({ ...prev, [key]: value }));
     showNotification(`Setting updated: ${key}`, "success");
   };
 
-  // Student CRUD operations
-  const handleAddStudent = () => {
+  // Runs a saving request, refreshes the lists and reports the outcome
+  const save = async (request, successMessage, onDone) => {
+    setLoading(true);
+    try {
+      const res = await request();
+      if (onDone) onDone(res);
+      await fetchRegistrarDashboard();
+      showNotification(successMessage, "success");
+      return res;
+    } catch (error) {
+      console.error("Registrar request failed:", error);
+      showNotification(errorMessage(error, "Something went wrong"), "error");
+      return null;
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  // ---- Students ----
+  const handleAddStudent = async () => {
     if (
       !studentForm.firstName ||
       !studentForm.lastName ||
@@ -169,22 +183,23 @@ const RegistrarDashboard = () => {
       showNotification("Please fill in all required fields", "error");
       return;
     }
-
     if (students.some((s) => s.studentId === studentForm.studentId)) {
       showNotification("Student ID already exists", "error");
       return;
     }
-
-    const newStudent = {
-      id: Date.now(),
-      ...studentForm,
-      status: "active",
-      enrollmentDate: new Date().toISOString().split("T")[0],
-    };
-    setStudents([...students, newStudent]);
-    setShowStudentModal(false);
-    resetStudentForm();
-    showNotification("Student added successfully", "success");
+    const res = await save(
+      () => api.post("/registrar/student", studentForm),
+      "Student added",
+      () => {
+        setShowStudentModal(false);
+        resetStudentForm();
+      },
+    );
+    if (res && res.data.emailSent === false) {
+      window.alert(
+        `The login email could not be sent. Give the student this temporary password:\n\n${res.data.tempPassword}`,
+      );
+    }
   };
 
   const handleEditStudent = (student) => {
@@ -200,33 +215,26 @@ const RegistrarDashboard = () => {
     setShowStudentModal(true);
   };
 
-  const handleUpdateStudent = () => {
-    setStudents(
-      students.map((s) =>
-        s.id === editingItem.id ? { ...s, ...studentForm } : s,
-      ),
+  const handleUpdateStudent = () =>
+    save(
+      () => api.put(`/registrar/student/${editingItem._id || editingItem.id}`, studentForm),
+      "Student updated",
+      () => {
+        setEditingItem(null);
+        setShowStudentModal(false);
+        resetStudentForm();
+      },
     );
-    setEditingItem(null);
-    setShowStudentModal(false);
-    resetStudentForm();
-    showNotification("Student updated successfully", "success");
-  };
 
-  const handleDeleteStudent = (studentId) => {
+  const handleDeleteStudent = (id) => {
     if (
-      window.confirm(
-        "Are you sure you want to delete this student? This action cannot be undone.",
+      !window.confirm(
+        "Are you sure you want to delete this student and all their registrations? This cannot be undone.",
       )
     ) {
-      const student = students.find((s) => s.id === studentId);
-      if (student) {
-        setRegistrations(
-          registrations.filter((r) => r.studentId !== student.studentId),
-        );
-      }
-      setStudents(students.filter((s) => s.id !== studentId));
-      showNotification("Student deleted successfully", "success");
+      return;
     }
+    save(() => api.delete(`/registrar/student/${id}`), "Student deleted");
   };
 
   const resetStudentForm = () => {
@@ -240,165 +248,81 @@ const RegistrarDashboard = () => {
     });
   };
 
-  // Course CRUD operations
-  const handleAddCourse = async () => {
-    const token = Cookies.get("token");
-
-    try {
-      // Validate fields
-      if (!courseForm.code || !courseForm.name || !courseForm.department) {
-        showNotification("Please fill in all required fields", "error");
-        return;
-      }
-
-      // Optional loading state
-      setLoading(true);
-
-      // Send request to backend
-      const response = await axios.post(
-        "nicmauricebackend-production.up.railway.app/registrar/course",
-        courseForm,
-        {
-          headers: {
-            Authorization: `Bearer ${token}`,
-          },
-        },
-      );
-
-      // Close modal
-      setShowCourseModal(false);
-
-      // Reset form
-      resetCourseForm();
-
-      // Refresh the course list
-      await fetchRegistrarDashboard();
-
-      // Success notification
-      showNotification("Course added successfully", "success");
-    } catch (error) {
-      console.error("Add Course Error:", error);
-      showNotification(error.response?.data?.message || "Something went wrong", "error");
-    } finally {
-      setLoading(false);
+  // ---- Courses ----
+  const courseFormValid = () => {
+    if (
+      !courseForm.code ||
+      !courseForm.name ||
+      !courseForm.department ||
+      !courseForm.lecturer
+    ) {
+      showNotification("Code, name, department and lecturer are required", "error");
+      return false;
     }
+    return true;
+  };
+
+  const handleAddCourse = () => {
+    if (!courseFormValid()) return;
+    return save(
+      () => api.post("/registrar/course", courseForm),
+      "Course added successfully",
+      () => {
+        setShowCourseModal(false);
+        resetCourseForm();
+      },
+    );
   };
 
   const handleEditCourse = (course) => {
     setEditingItem(course);
-    // Get the correct ID (handle both _id and id)
-    const courseId = course._id || course.id;
     setCourseForm({
       code: course.code,
       name: course.name,
       department: course.department,
       level: course.level,
       credits: course.credits,
-      lecturer: course.lecturer,
+      lecturer: course.lecturerId || "",
       capacity: course.capacity,
       semester: course.semester,
-      id: courseId, // Store the ID in the form
+      id: course._id || course.id,
     });
     setShowCourseModal(true);
   };
 
-  const handleUpdateCourse = async () => {
-    const token = Cookies.get("token");
-
-    try {
-      // Get course ID from editingItem or from courseForm
-      const courseId = editingItem?._id || editingItem?.id || courseForm?.id;
-
-      if (!courseId) {
-        showNotification("No course selected for update", "error");
-        return;
-      }
-
-      if (!courseForm.code || !courseForm.name || !courseForm.department) {
-        showNotification("Please fill in all required fields", "error");
-        return;
-      }
-
-      setLoading(true);
-
-      // Prepare the update data without the id field
-      const updateData = {
-        code: courseForm.code,
-        name: courseForm.name,
-        department: courseForm.department,
-        level: courseForm.level,
-        credits: courseForm.credits,
-        lecturer: courseForm.lecturer,
-        capacity: courseForm.capacity,
-        semester: courseForm.semester,
-      };
-
-      const response = await axios.put(
-        `nicmauricebackend-production.up.railway.appregistrar/course/${courseId}`,
-        updateData,
-        {
-          headers: {
-            Authorization: `Bearer ${token}`,
-          },
-        },
-      );
-
-      setEditingItem(null);
-      setShowCourseModal(false);
-      resetCourseForm();
-
-      // Refresh the course list instead of reloading the page
-      await fetchRegistrarDashboard();
-
-      showNotification("Course updated successfully", "success");
-    } catch (error) {
-      console.error("Update Course Error:", error);
-      showNotification(error.response?.data?.message || "Something went wrong", "error");
-    } finally {
-      setLoading(false);
+  const handleUpdateCourse = () => {
+    const courseId = editingItem?._id || editingItem?.id || courseForm?.id;
+    if (!courseId) {
+      showNotification("No course selected for update", "error");
+      return;
     }
+    if (!courseFormValid()) return;
+    const { id, ...updateData } = courseForm; // eslint-disable-line no-unused-vars
+    return save(
+      () => api.put(`/registrar/course/${courseId}`, updateData),
+      "Course updated successfully",
+      () => {
+        setEditingItem(null);
+        setShowCourseModal(false);
+        resetCourseForm();
+      },
+    );
   };
 
-  const handleDeleteCourse = async (courseId) => {
-    const token = Cookies.get("token");
-
-    // Ensure courseId is provided - handle both _id and id
+  const handleDeleteCourse = (courseId) => {
     const idToDelete = courseId?._id || courseId?.id || courseId;
-
     if (!idToDelete) {
       showNotification("No course ID provided for deletion", "error");
       return;
     }
-
-    const confirmDelete = window.confirm(
-      "Are you sure you want to delete this course? This action cannot be undone.",
-    );
-
-    if (!confirmDelete) return;
-
-    try {
-      setLoading(true);
-      
-      const response = await axios.delete(
-        `nicmauricebackend-production.up.railway.app/registrar/course/${idToDelete}`,
-        {
-          headers: {
-            Authorization: `Bearer ${token}`,
-          },
-        },
-      );
-
-      showNotification("Course deleted successfully", "success");
-      
-      // Refresh the course list instead of reloading the page
-      await fetchRegistrarDashboard();
-      
-    } catch (error) {
-      console.error("Delete Course Error:", error);
-      showNotification(error.response?.data?.message || "Failed to delete course", "error");
-    } finally {
-      setLoading(false);
+    if (
+      !window.confirm(
+        "Delete this course? Students' registrations for it will be removed too. This cannot be undone.",
+      )
+    ) {
+      return;
     }
+    save(() => api.delete(`/registrar/course/${idToDelete}`), "Course deleted successfully");
   };
 
   const resetCourseForm = () => {
@@ -407,31 +331,25 @@ const RegistrarDashboard = () => {
       name: "",
       department: "",
       level: "100",
-      credits: 0,
+      credits: 3,
       lecturer: "",
       capacity: 100,
       semester: "First",
     });
   };
 
-  // Registration operations
-  const handleApproveRegistration = (registrationId) => {
-    setRegistrations(
-      registrations.map((r) =>
-        r.id === registrationId ? { ...r, status: "approved" } : r,
-      ),
+  // ---- Registrations ----
+  const handleApproveRegistration = (registrationId) =>
+    save(
+      () => api.put(`/registrar/registration/${registrationId}/status`, { status: "approved" }),
+      "Registration approved",
     );
-    showNotification("Registration approved", "success");
-  };
 
-  const handleRejectRegistration = (registrationId) => {
-    setRegistrations(
-      registrations.map((r) =>
-        r.id === registrationId ? { ...r, status: "rejected" } : r,
-      ),
+  const handleRejectRegistration = (registrationId) =>
+    save(
+      () => api.put(`/registrar/registration/${registrationId}/status`, { status: "rejected" }),
+      "Registration rejected",
     );
-    showNotification("Registration rejected", "success");
-  };
 
   const handleAddRegistration = () => {
     setRegistrationForm({ studentId: "", courseCode: "" });
@@ -439,52 +357,30 @@ const RegistrarDashboard = () => {
   };
 
   const handleSubmitRegistration = () => {
-    const student = students.find(
-      (s) => s.studentId === registrationForm.studentId,
-    );
     const course = courses.find((c) => c.code === registrationForm.courseCode);
-
-    if (!student || !course) {
-      showNotification("Invalid student or course", "error");
+    if (!registrationForm.studentId || !course) {
+      showNotification("Select a student and a course", "error");
       return;
     }
-
-    // Check if already registered
     const alreadyRegistered = registrations.some(
       (r) =>
         r.studentId === registrationForm.studentId &&
-        r.courseCode === registrationForm.courseCode,
+        r.courseCode === course.code &&
+        r.status !== "rejected",
     );
-
     if (alreadyRegistered) {
       showNotification("Student already registered for this course", "error");
       return;
     }
-
-    if (course.enrolled >= course.capacity) {
-      showNotification("Course is full", "error");
-      return;
-    }
-
-    const newRegistration = {
-      id: Date.now(),
-      studentId: registrationForm.studentId,
-      studentName: `${student.firstName} ${student.lastName}`,
-      courseCode: registrationForm.courseCode,
-      courseName: course.name,
-      semester: `${settings.academicYear} ${settings.currentSemester}`,
-      registrationDate: new Date().toISOString().split("T")[0],
-      status: "pending",
-    };
-
-    setRegistrations([...registrations, newRegistration]);
-    setCourses(
-      courses.map((c) =>
-        c.id === course.id ? { ...c, enrolled: c.enrolled + 1 } : c,
-      ),
+    return save(
+      () =>
+        api.post("/registrar/registration", {
+          studentId: registrationForm.studentId,
+          courseId: course._id || course.id,
+        }),
+      "Registration created",
+      () => setShowRegistrationModal(false),
     );
-    setShowRegistrationModal(false);
-    showNotification("Registration submitted successfully", "success");
   };
 
   const getStatusColor = (status) => {
@@ -1142,7 +1038,7 @@ const RegistrarDashboard = () => {
                         <td className="px-6 py-4">
                           {reg.name} - {reg.code}
                         </td>
-                        <td className="px-6 py-4">{reg.live}</td>
+                        <td className="px-6 py-4">{reg.semester}</td>
                         <td className="px-6 py-4">
                           <span
                             className={`px-2 py-1 rounded-full text-xs font-medium ${getStatusColor(reg.status)}`}
@@ -1417,14 +1313,12 @@ const RegistrarDashboard = () => {
                       onChange={(e) =>
                         setCourseForm({
                           ...courseForm,
-                          credits: parseInt(e.target.value),
+                          credits: parseInt(e.target.value) || 0,
                         })
                       }
                       className="p-2 border rounded-lg dark:bg-gray-700"
                     />
-                    <input
-                      type="text"
-                      placeholder="Lecturer Name"
+                    <select
                       value={courseForm.lecturer}
                       onChange={(e) =>
                         setCourseForm({
@@ -1433,7 +1327,14 @@ const RegistrarDashboard = () => {
                         })
                       }
                       className="p-2 border rounded-lg dark:bg-gray-700"
-                    />
+                    >
+                      <option value="">Select Lecturer *</option>
+                      {lecturers.map((l) => (
+                        <option key={l.id} value={l.id}>
+                          {l.name}
+                        </option>
+                      ))}
+                    </select>
                     <input
                       type="number"
                       placeholder="Capacity"
@@ -1441,7 +1342,7 @@ const RegistrarDashboard = () => {
                       onChange={(e) =>
                         setCourseForm({
                           ...courseForm,
-                          capacity: parseInt(e.target.value),
+                          capacity: parseInt(e.target.value) || 0,
                         })
                       }
                       className="p-2 border rounded-lg dark:bg-gray-700"

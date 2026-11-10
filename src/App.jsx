@@ -1,3 +1,4 @@
+import { lazy, Suspense } from "react";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import Home from "./Pages/Home";
 import PublishArticle from "./Pages/Publish";
@@ -37,21 +38,22 @@ import { AcademyPage } from "./Pages/Academy";
 import LoginPage from "./Pages/PortalLogin";
 import ProtectedRoute from "./components/ProtectRoute";
 import Applicant from "./Pages/Applicant";
-import PortalDashboard from "./components/Student/PortalDashboard";
+const PortalDashboard = lazy(() => import("./components/Student/PortalDashboard"));
 import NursingDepartment from "./components/Academy/NursingDepartment";
 import AdmissionsSection from "./components/Academy/AcademicSection";
 import AboutUsSection from "./components/Academy/About";
-import AdmissionsDashboard from "./Pages/Admin/AdmissionOffer";
+const AdmissionsDashboard = lazy(() => import("./Pages/Admin/AdmissionOffer"));
 import Login from "./Pages/Admin/AdminLogin";
 import TeacherLoginPage from "./components/Teacher/Login";
-import TeacherDashboard from "./components/Teacher/TeacherPortal";
-import HRDashboard from "./Pages/Admin/HrOfficer";
+const TeacherDashboard = lazy(() => import("./components/Teacher/TeacherPortal"));
+const HRDashboard = lazy(() => import("./Pages/Admin/HrOfficer"));
 // import Seminar from "./Pages/Seminar";
-import RegistrarDashboard from "./Pages/Admin/Registrar";
+const RegistrarDashboard = lazy(() => import("./Pages/Admin/Registrar"));
 
 const App = () => {
   return (
     <BrowserRouter>
+      <Suspense fallback={<div style={{ padding: 40, textAlign: "center" }}>Loading…</div>}>
       <Routes>
         <Route path="/" element={<Home />} />
         {/* <Route path="/seminar" element={<Seminar />} /> */}
@@ -67,7 +69,7 @@ const App = () => {
         <Route
           path="/academy/portal"
           element={
-            <ProtectedRoute route="/academy/login">
+            <ProtectedRoute route="/academy/login" roles={["student"]}>
               <PortalDashboard />
             </ProtectedRoute>
           }
@@ -77,7 +79,10 @@ const App = () => {
         <Route
           path="/academy/admin/admission"
           element={
-            <ProtectedRoute route="/academy/admin/login">
+            <ProtectedRoute
+              route="/academy/admin/login"
+              roles={["AdmissionOfficer", "SuperAdmin"]}
+            >
               <AdmissionsDashboard />
             </ProtectedRoute>
           }
@@ -86,7 +91,10 @@ const App = () => {
         <Route
           path="/academy/admin/hr"
           element={
-            <ProtectedRoute route="/academy/admin/login">
+            <ProtectedRoute
+              route="/academy/admin/login"
+              roles={["HROfficer", "SuperAdmin"]}
+            >
               <HRDashboard />
             </ProtectedRoute>
           }
@@ -95,13 +103,23 @@ const App = () => {
         <Route
           path="/academy/admin/registrar"
           element={
-            <ProtectedRoute route="/academy/admin/login">
+            <ProtectedRoute
+              route="/academy/admin/login"
+              roles={["RegistrarOfficer", "SuperAdmin"]}
+            >
               <RegistrarDashboard />
             </ProtectedRoute>
           }
         />
         <Route path="/academy/teacher/login" element={<TeacherLoginPage />} />
-        <Route path="/academy/teacher/portal" element={<TeacherDashboard />} />
+        <Route
+          path="/academy/teacher/portal"
+          element={
+            <ProtectedRoute route="/academy/teacher/login" roles={["teacher"]}>
+              <TeacherDashboard />
+            </ProtectedRoute>
+          }
+        />
 
         <Route path="/publish" element={<PublishArticle />} />
         <Route path="/journal" element={<Journal />} />
@@ -144,6 +162,7 @@ const App = () => {
         <Route path="/about" element={<About />} />
         <Route path="/articles" element={<Articles />} />
       </Routes>
+      </Suspense>
     </BrowserRouter>
   );
 };

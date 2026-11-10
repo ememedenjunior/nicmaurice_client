@@ -38,11 +38,14 @@ import {
   FaMicrophoneSlash,
   FaVideoSlash,
   FaComments,
-  FaCalendarDay
+  FaCalendarDay,
+  FaDesktop,
+  FaFilePdf,
+  FaPaperPlane as FaSend,
 } from "react-icons/fa";
 import Cookies from "js-cookie";
-import axios from "axios";
-import io from "socket.io-client";
+import api, { clearSession, errorMessage } from "../../utils/api";
+import useStudentLive from "../../hooks/useStudentLive";
 
 const PortalDashboard = () => {
   const navigate = useNavigate();
@@ -64,20 +67,9 @@ const PortalDashboard = () => {
   const [error, setError] = useState(null);
 
   // WebRTC Live Class States
-  const [showLiveClassModal, setShowLiveClassModal] = useState(false);
-  const [selectedCourse, setSelectedCourse] = useState(null);
-  const [isLiveActive, setIsLiveActive] = useState(false);
-  const [participantCount, setParticipantCount] = useState(0);
-  const [remoteStream, setRemoteStream] = useState(null);
-  const [chatMessages, setChatMessages] = useState([]);
   const [newMessage, setNewMessage] = useState("");
   const [showChat, setShowChat] = useState(true);
-  const [isConnecting, setIsConnecting] = useState(false);
-  const [connectionStatus, setConnectionStatus] = useState("disconnected");
-  const [teacherVideoEnabled, setTeacherVideoEnabled] = useState(true);
-  const [teacherAudioEnabled, setTeacherAudioEnabled] = useState(true);
-  const [isScreenSharing, setIsScreenSharing] = useState(false);
-  
+
   // Video player controls
   const [isPlaying, setIsPlaying] = useState(true);
   const [volume, setVolume] = useState(1);
@@ -86,11 +78,7 @@ const PortalDashboard = () => {
   const [controlsTimeout, setControlsTimeout] = useState(null);
   
   // Refs
-  const remoteVideoRef = useRef(null);
   const videoContainerRef = useRef(null);
-  const chatContainerRef = useRef(null);
-  const socketRef = useRef(null);
-  const peerConnectionRef = useRef(null);
 
   // Course registration states
   const [availableCourses, setAvailableCourses] = useState([]);
@@ -102,252 +90,56 @@ const PortalDashboard = () => {
   const [filterLevel, setFilterLevel] = useState("all");
   const [cartTotal, setCartTotal] = useState(0);
 
-  // WebRTC Configuration
-  const configuration = {
-    iceServers: [
-      { urls: 'stun:stun.l.google.com:19302' },
-      { urls: 'stun:stun1.l.google.com:19302' },
-      { urls: 'stun:stun2.l.google.com:19302' },
-    ]
+  // Temporary notification
+  const [tempNotification, setTempNotification] = useState({
+    show: false,
+    message: "",
+    type: "",
+  });
+
+  const showTemporaryNotification = (message, type = "success") => {
+    setTempNotification({ show: true, message, type });
+    setTimeout(
+      () => setTempNotification({ show: false, message: "", type: "" }),
+      3000,
+    );
   };
 
-  // Initialize Socket.IO connection
-  const initSocketConnection = () => {
-    const token = Cookies.get("token");
-    
-    socketRef.current = io("https://nicmauricebackend-production.up.railway.app", {
-      auth: { token },
-      transports: ['websocket', 'polling']
-    });
-
-    socketRef.current.on('connect', () => {
-      console.log('Connected to live class server');
-      setConnectionStatus("connected");
-    });
-
-    socketRef.current.on('disconnect', () => {
-      console.log('Disconnected from live class server');
-      setConnectionStatus("disconnected");
-    });
-
-    // WebRTC Signaling Handlers
-    socketRef.current.on('webrtc:offer', handleWebRTCOffer);
-    socketRef.current.on('webrtc:answer', handleWebRTCAnswer);
-    socketRef.current.on('webrtc:ice-candidate', handleICECandidate);
-    
-    // Session Handlers
-    socketRef.current.on('session:started', handleSessionStarted);
-    socketRef.current.on('session:ended', handleSessionEnded);
-    socketRef.current.on('session:participants-updated', handleParticipantsUpdated);
-    
-    // Teacher Status Handlers
-    socketRef.current.on('teacher:video-status', handleTeacherVideoStatus);
-    socketRef.current.on('teacher:audio-status', handleTeacherAudioStatus);
-    socketRef.current.on('teacher:screen-share-status', handleScreenShareStatus);
-    
-    // Chat Handlers
-    socketRef.current.on('chat:new-message', handleNewChatMessage);
-    socketRef.current.on('session:chat-history', handleChatHistory);
-  };
-
-  // WebRTC Handlers
-  const handleWebRTCOffer = async (data) => {
-    const { from, offer } = data;
-    
+  // Live class (signalling + WebRTC) lives in the shared hook
+  const studentName = (() => {
     try {
-      if (peerConnectionRef.current) {
-        peerConnectionRef.current.close();
-      }
-      
-      const pc = new RTCPeerConnection(configuration);
-      peerConnectionRef.current = pc;
-      
-      pc.ontrack = (event) => {
-        setRemoteStream(event.streams[0]);
-        if (remoteVideoRef.current) {
-          remoteVideoRef.current.srcObject = event.streams[0];
-        }
-      };
-      
-      pc.onicecandidate = (event) => {
-        if (event.candidate) {
-          socketRef.current.emit('webrtc:ice-candidate', {
-            sessionId: selectedCourse?.sessionId,
-            targetUserId: from,
-            candidate: event.candidate
-          });
-        }
-      };
-      
-      await pc.setRemoteDescription(new RTCSessionDescription(offer));
-      const answer = await pc.createAnswer();
-      await pc.setLocalDescription(answer);
-      
-      socketRef.current.emit('webrtc:answer', {
-        sessionId: selectedCourse?.sessionId,
-        targetUserId: from,
-        answer
-      });
-      
-      setConnectionStatus("connected");
-    } catch (error) {
-      console.error('Error handling WebRTC offer:', error);
-      setConnectionStatus("error");
+      const d = JSON.parse(Cookies.get("data") || "null");
+      return d ? `${d.firstName || ""} ${d.lastName || ""}`.trim() : "";
+    } catch {
+      return "";
     }
-  };
-  
-  const handleWebRTCAnswer = async (data) => {
-    const { answer } = data;
-    
-    try {
-      if (peerConnectionRef.current) {
-        await peerConnectionRef.current.setRemoteDescription(new RTCSessionDescription(answer));
-        setConnectionStatus("connected");
-      }
-    } catch (error) {
-      console.error('Error handling WebRTC answer:', error);
-      setConnectionStatus("error");
-    }
-  };
-  
-  const handleICECandidate = async (data) => {
-    const { candidate } = data;
-    
-    try {
-      if (peerConnectionRef.current && candidate) {
-        await peerConnectionRef.current.addIceCandidate(new RTCIceCandidate(candidate));
-      }
-    } catch (error) {
-      console.error('Error adding ICE candidate:', error);
-    }
-  };
-  
-  // Session Handlers
-  const handleSessionStarted = (data) => {
-    console.log('Session started:', data);
-    showTemporaryNotification(`Live session has started for ${data.courseCode}`, "success");
-  };
-  
-  const handleSessionEnded = (data) => {
-    console.log('Session ended:', data);
-    setIsLiveActive(false);
-    setShowLiveClassModal(false);
-    showTemporaryNotification("The live session has ended", "info");
-    
-    // Clean up peer connection
-    if (peerConnectionRef.current) {
-      peerConnectionRef.current.close();
-      peerConnectionRef.current = null;
-    }
-    setRemoteStream(null);
-  };
-  
-  const handleParticipantsUpdated = (data) => {
-    setParticipantCount(data.count);
-  };
-  
-  // Teacher Status Handlers
-  const handleTeacherVideoStatus = (data) => {
-    setTeacherVideoEnabled(data.enabled);
-  };
-  
-  const handleTeacherAudioStatus = (data) => {
-    setTeacherAudioEnabled(data.enabled);
-  };
-  
-  const handleScreenShareStatus = (data) => {
-    setIsScreenSharing(data.sharing);
-  };
-  
-  // Chat Handlers
-  const handleNewChatMessage = (message) => {
-    setChatMessages(prev => [...prev, message]);
-    setTimeout(() => {
-      if (chatContainerRef.current) {
-        chatContainerRef.current.scrollTop = chatContainerRef.current.scrollHeight;
-      }
-    }, 100);
-  };
-  
-  const handleChatHistory = (history) => {
-    setChatMessages(history);
-  };
-  
-  // Join Live Class
-  const joinLiveClass = async (course) => {
-    try {
-      setIsConnecting(true);
-      setSelectedCourse(course);
-      
-      // Check if course has active session
-      const token = Cookies.get("token");
-      const response = await axios.get(
-        `https://nicmauricebackend-production.up.railway.app/api/live/course/${course._id || course.id}/active`,
-        {
-          headers: { Authorization: `Bearer ${token}` }
-        }
-      );
-      
-      if (response.data.isLive) {
-        course.sessionId = response.data.sessionId;
-        setSelectedCourse(course);
-        
-        // Join the session via Socket.IO
-        socketRef.current.emit('student:join-session', {
-          sessionId: response.data.sessionId,
-          studentId: studentData?.studentId,
-          studentName: `${studentData?.firstName} ${studentData?.lastName}`
-        });
-        
-        setShowLiveClassModal(true);
-        setIsLiveActive(true);
-        setConnectionStatus("connecting");
-      } else {
-        showTemporaryNotification("No active live session for this course", "error");
-      }
-    } catch (error) {
-      console.error('Error joining live class:', error);
-      showTemporaryNotification("Failed to join live session", "error");
-    } finally {
-      setIsConnecting(false);
-    }
-  };
-  
-  // Leave Live Class
-  const leaveLiveClass = () => {
-    if (socketRef.current && selectedCourse?.sessionId) {
-      socketRef.current.emit('student:leave-session', {
-        sessionId: selectedCourse.sessionId
-      });
-    }
-    
-    if (peerConnectionRef.current) {
-      peerConnectionRef.current.close();
-      peerConnectionRef.current = null;
-    }
-    
-    setRemoteStream(null);
-    setIsLiveActive(false);
-    setShowLiveClassModal(false);
-    setChatMessages([]);
-    setParticipantCount(0);
-    setConnectionStatus("disconnected");
-  };
-  
-  // Send Chat Message
+  })();
+
+  const {
+    showLiveClassModal,
+    selectedCourse,
+    isLiveActive,
+    isConnecting,
+    connectionStatus,
+    participantCount,
+    chatMessages,
+    teacherVideoEnabled,
+    teacherAudioEnabled,
+    isScreenSharing,
+    autoplayBlocked,
+    liveCourseIds,
+    remoteVideoRef,
+    chatContainerRef,
+    joinLiveClass,
+    leaveLiveClass,
+    sendChatMessage: sendLiveChat,
+    resumePlayback,
+  } = useStudentLive({ notify: showTemporaryNotification, studentName });
+
   const sendChatMessage = () => {
-    if (!newMessage.trim() || !selectedCourse?.sessionId) return;
-    
-    const messageData = {
-      sessionId: selectedCourse.sessionId,
-      message: newMessage,
-      isTeacher: false
-    };
-    
-    socketRef.current.emit('chat:message', messageData);
-    setNewMessage("");
+    if (sendLiveChat(newMessage)) setNewMessage("");
   };
-  
+
   // Video Controls
   const togglePlayPause = () => {
     if (remoteVideoRef.current) {
@@ -397,69 +189,40 @@ const PortalDashboard = () => {
     setControlsTimeout(timeout);
   };
   
-  // Fetch courses from server
+  // Course catalogue
   const fetchCoursesFromServer = async () => {
-    const token = Cookies.get("token");
     setLoading(true);
     setError(null);
-
     try {
-      const response = await axios.get(
-        "https://nicmauricebackend-production.up.railway.app/registrar/courses",
-        {
-          headers: { Authorization: `Bearer ${token}` }
-        }
-      );
-
-      if (response.statusText !== "OK") {
-        throw new Error(response.message || "Failed to fetch courses");
-      }
-
-      setAvailableCourses(response.data.courses);
+      const response = await api.get("/registrar/courses");
+      setAvailableCourses(response.data.courses || []);
     } catch (err) {
-      setError("Failed to load courses. Please try again.");
+      setError(errorMessage(err, "Failed to load courses. Please try again."));
       console.error("Error fetching courses:", err);
     } finally {
       setLoading(false);
     }
   };
-  
-  // Check live status for enrolled courses
-  const checkCourseLiveStatus = async (course) => {
+
+  // The student's own registrations
+  const fetchEnrolledCourses = async () => {
+    const sid = studentData?.studentId || JSON.parse(Cookies.get("data") || "{}").studentId;
+    if (!sid) return;
     try {
-      const token = Cookies.get("token");
-      const response = await axios.get(
-        `https://nicmauricebackend-production.up.railway.app/api/live/course/${course._id || course.id}/active`,
-        {
-          headers: { Authorization: `Bearer ${token}` }
-        }
-      );
-      
-      if (response.data.isLive) {
-        joinLiveClass(course);
-      } else {
-        showTemporaryNotification("No active live session for this course", "info");
-      }
-    } catch (error) {
-      console.error('Error checking live status:', error);
-      showTemporaryNotification("Failed to check live status", "error");
+      setLoading(true);
+      setError(null);
+      const response = await api.get(`/registrar/student/${encodeURIComponent(sid)}`);
+      setRegisteredCourses(response.data.enrollments || []);
+    } catch (err) {
+      console.error("Fetch Enrollments Error:", err);
+      setError(errorMessage(err, "Unable to load enrolled courses"));
+    } finally {
+      setLoading(false);
     }
   };
-  
-  // Temporary notification
-  const [tempNotification, setTempNotification] = useState({
-    show: false,
-    message: "",
-    type: "",
-  });
 
-  const showTemporaryNotification = (message, type = "success") => {
-    setTempNotification({ show: true, message, type });
-    setTimeout(
-      () => setTempNotification({ show: false, message: "", type: "" }),
-      3000,
-    );
-  };
+  // The hook checks that the class is live, then connects
+  const checkCourseLiveStatus = (course) => joinLiveClass(course);
 
   useEffect(() => {
     // Get student info from cookies
@@ -482,49 +245,7 @@ const PortalDashboard = () => {
       }
     }
 
-    // Initialize Socket.IO connection
-    initSocketConnection();
-
-    const fetchEnrolledCourses = async () => {
-      const token = Cookies.get("token");
-      const userData = Cookies.get("data");
-      const parsedUserData = userData ? JSON.parse(userData) : null;
-
-      try {
-        setLoading(true);
-        setError(null);
-
-        const response = await axios.get(
-          `https://nicmauricebackend-production.up.railway.app/registrar/student/${parsedUserData?.studentId}`,
-          {
-            headers: { Authorization: `Bearer ${token}` }
-          }
-        );
-
-        if (response.statusText !== "OK") {
-          throw new Error(response.message || "Failed to fetch enrolled courses");
-        }
-
-        setRegisteredCourses(response.data.enrollments);
-      } catch (error) {
-        console.error("Fetch Enrollments Error:", error);
-        setError("Unable to load enrolled courses");
-      } finally {
-        setLoading(false);
-      }
-    };
-
     fetchEnrolledCourses();
-    
-    // Cleanup on unmount
-    return () => {
-      if (socketRef.current) {
-        socketRef.current.disconnect();
-      }
-      if (peerConnectionRef.current) {
-        peerConnectionRef.current.close();
-      }
-    };
   }, []);
 
   // Save settings to localStorage when they change
@@ -739,8 +460,7 @@ const PortalDashboard = () => {
   };
 
   const handleLogout = () => {
-    Cookies.remove("token");
-    Cookies.remove("data");
+    clearSession();
     localStorage.removeItem("dashboardSettings");
     navigate("/academy/login");
   };
@@ -770,31 +490,25 @@ const PortalDashboard = () => {
   };
 
   const handleConfirmRegistration = async () => {
-    const token = Cookies.get("token");
+    if (!selectedCourses.length) return;
     setLoading(true);
-
     try {
-      const response = await axios.post(
-        "https://nicmauricebackend-production.up.railway.app/registrar/course/enroll",
-        { courseId: selectedCourses[0]._id, studentId: studentData.studentId },
-        {
-          headers: { Authorization: `Bearer ${token}` }
-        }
-      );
-
-      if (response.status !== 200) {
-        throw new Error(response.message || "Enrollment failed");
+      const response = await api.post("/registrar/course/enroll", {
+        courseIds: selectedCourses.map((c) => c._id || c.id),
+      });
+      if (response.data.failed && response.data.failed.length) {
+        showTemporaryNotification(response.data.message, "info");
       }
-
       setRegistrationStep(3);
+      await fetchEnrolledCourses();
       setTimeout(() => {
         setShowRegisterModal(false);
         setRegistrationStep(1);
-        window.location.reload();
+        setSelectedCourses([]);
       }, 2000);
     } catch (error) {
       console.error("Enrollment Error:", error);
-      showTemporaryNotification("Enrollment failed", "error");
+      showTemporaryNotification(errorMessage(error, "Enrollment failed"), "error");
     } finally {
       setLoading(false);
     }
@@ -1022,6 +736,15 @@ const PortalDashboard = () => {
                     onMouseMove={handleMouseMove}
                     onMouseLeave={() => setShowControls(true)}
                   />
+
+                  {autoplayBlocked && (
+                    <button
+                      onClick={resumePlayback}
+                      className="absolute inset-0 flex items-center justify-center bg-black/60 text-white text-lg font-semibold"
+                    >
+                      Tap to start the class video
+                    </button>
+                  )}
                   
                   {/* Teacher Status Indicators */}
                   <div className="absolute top-4 left-4 flex space-x-2">
@@ -2060,14 +1783,18 @@ const PortalDashboard = () => {
                       <button
                         onClick={() => checkCourseLiveStatus(course)}
                         disabled={isConnecting}
-                        className="mt-2 px-3 py-1 bg-red-500 text-white text-xs rounded-lg hover:bg-red-600 transition-colors flex items-center gap-1"
+                        className={`mt-2 px-3 py-1 text-white text-xs rounded-lg transition-colors flex items-center gap-1 ${
+                          liveCourseIds.has(String(course.courseId))
+                            ? "bg-red-500 hover:bg-red-600 animate-pulse"
+                            : "bg-gray-400 hover:bg-gray-500"
+                        }`}
                       >
                         {isConnecting ? (
                           <FaSpinner className="animate-spin" />
                         ) : (
                           <FaVideo />
                         )}
-                        Join Live
+                        {liveCourseIds.has(String(course.courseId)) ? "Join Live Now" : "Join Live"}
                       </button>
                     </div>
                   </div>

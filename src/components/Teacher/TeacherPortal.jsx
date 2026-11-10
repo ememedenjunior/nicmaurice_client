@@ -40,10 +40,12 @@ import {
   FaUsers,
   FaRecordVinyl,
   FaSpinner,
+  FaPaperPlane as FaSend,
 } from "react-icons/fa";
 import Cookies from "js-cookie";
-import axios from "axios";
-import io from "socket.io-client";
+import api, { errorMessage } from "../../utils/api";
+import useTeacherLive from "../../hooks/useTeacherLive";
+import { formatTime } from "../../hooks/liveShared";
 
 const TeacherDashboard = () => {
   const navigate = useNavigate();
@@ -61,487 +63,10 @@ const TeacherDashboard = () => {
   });
   const [pulse, setPulse] = useState(false);
   const [availableCourses, setAvailableCourses] = useState([]);
-
-  // Live Class States
-  const [showLiveClassModal, setShowLiveClassModal] = useState(false);
-  const [selectedCourseForLive, setSelectedCourseForLive] = useState(null);
-  const [isLiveActive, setIsLiveActive] = useState(false);
-  const [isVideoEnabled, setIsVideoEnabled] = useState(true);
-  const [isAudioEnabled, setIsAudioEnabled] = useState(true);
-  const [isScreenSharing, setIsScreenSharing] = useState(false);
-  const [stream, setStream] = useState(null);
-  const [screenStream, setScreenStream] = useState(null);
-  const [participantCount, setParticipantCount] = useState(0);
-  const [liveSessionId, setLiveSessionId] = useState(null);
-  const [chatMessages, setChatMessages] = useState([]);
   const [newMessage, setNewMessage] = useState("");
   const [showChat, setShowChat] = useState(true);
-  const [isRecording, setIsRecording] = useState(false);
-  const [mediaRecorder, setMediaRecorder] = useState(null);
-  const [recordedChunks, setRecordedChunks] = useState([]);
-  const [isStarting, setIsStarting] = useState(false);
-  const [connectionStatus, setConnectionStatus] = useState("disconnected");
-  
-  // Refs
-  const localVideoRef = useRef(null);
-  const screenVideoRef = useRef(null);
-  const chatContainerRef = useRef(null);
   const fileInputRef = useRef(null);
-  const socketRef = useRef(null);
-  const peerConnectionsRef = useRef(new Map());
 
-  // WebRTC Configuration
-  const configuration = {
-    iceServers: [
-      { urls: 'stun:stun.l.google.com:19302' },
-      { urls: 'stun:stun1.l.google.com:19302' },
-      { urls: 'stun:stun2.l.google.com:19302' },
-    ]
-  };
-
-  // Initialize Socket.IO connection
-  const initSocketConnection = () => {
-    const token = Cookies.get("token");
-    
-    socketRef.current = io("https://nicmauricebackend-production.up.railway.app", {
-      auth: { token },
-      transports: ['websocket', 'polling']
-    });
-
-    socketRef.current.on('connect', () => {
-      console.log('Connected to live class server');
-      setConnectionStatus("connected");
-    });
-
-    socketRef.current.on('disconnect', () => {
-      console.log('Disconnected from live class server');
-      setConnectionStatus("disconnected");
-    });
-
-    // WebRTC Signaling Handlers
-    socketRef.current.on('webrtc:offer', handleWebRTCOffer);
-    socketRef.current.on('webrtc:answer', handleWebRTCAnswer);
-    socketRef.current.on('webrtc:ice-candidate', handleICECandidate);
-    
-    // Session Handlers
-    socketRef.current.on('teacher:student-joined', handleStudentJoined);
-    socketRef.current.on('teacher:student-left', handleStudentLeft);
-    
-    // Chat Handlers
-    socketRef.current.on('chat:new-message', handleNewChatMessage);
-  };
-
-  // WebRTC Handlers
-  const handleWebRTCOffer = async (data) => {
-    const { from, offer } = data;
-    
-    try {
-      const pc = new RTCPeerConnection(configuration);
-      peerConnectionsRef.current.set(from, pc);
-      
-      // Add local stream tracks
-      if (stream) {
-        stream.getTracks().forEach(track => {
-          pc.addTrack(track, stream);
-        });
-      }
-      
-      pc.ontrack = (event) => {
-        console.log('Track received from student:', event.streams[0]);
-      };
-      
-      pc.onicecandidate = (event) => {
-        if (event.candidate) {
-          socketRef.current.emit('webrtc:ice-candidate', {
-            sessionId: liveSessionId,
-            targetUserId: from,
-            candidate: event.candidate
-          });
-        }
-      };
-      
-      await pc.setRemoteDescription(new RTCSessionDescription(offer));
-      const answer = await pc.createAnswer();
-      await pc.setLocalDescription(answer);
-      
-      socketRef.current.emit('webrtc:answer', {
-        sessionId: liveSessionId,
-        targetUserId: from,
-        answer
-      });
-    } catch (error) {
-      console.error('Error handling WebRTC offer:', error);
-    }
-  };
-  
-  const handleWebRTCAnswer = async (data) => {
-    const { from, answer } = data;
-    const pc = peerConnectionsRef.current.get(from);
-    
-    if (pc) {
-      await pc.setRemoteDescription(new RTCSessionDescription(answer));
-    }
-  };
-  
-  const handleICECandidate = async (data) => {
-    const { from, candidate } = data;
-    const pc = peerConnectionsRef.current.get(from);
-    
-    if (pc && candidate) {
-      await pc.addIceCandidate(new RTCIceCandidate(candidate));
-    }
-  };
-  
-  // Session Handlers
-  const handleStudentJoined = (data) => {
-    console.log('Student joined:', data);
-    setParticipantCount(data.totalStudents);
-    showTemporaryNotification(`${data.studentName} joined the class`, "success");
-  };
-  
-  const handleStudentLeft = (data) => {
-    console.log('Student left:', data);
-    setParticipantCount(data.totalStudents);
-    showTemporaryNotification(`${data.studentName} left the class`, "info");
-    
-    // Close peer connection for this student
-    const pc = peerConnectionsRef.current.get(data.studentId);
-    if (pc) {
-      pc.close();
-      peerConnectionsRef.current.delete(data.studentId);
-    }
-  };
-  
-  // Chat Handlers
-  const handleNewChatMessage = (message) => {
-    setChatMessages(prev => [...prev, message]);
-    setTimeout(() => {
-      if (chatContainerRef.current) {
-        chatContainerRef.current.scrollTop = chatContainerRef.current.scrollHeight;
-      }
-    }, 100);
-  };
-  
-  // Broadcast teacher status to all students
-  const broadcastTeacherStatus = () => {
-    if (liveSessionId && socketRef.current) {
-      socketRef.current.emit('teacher:toggle-video', {
-        sessionId: liveSessionId,
-        enabled: isVideoEnabled
-      });
-      
-      socketRef.current.emit('teacher:toggle-audio', {
-        sessionId: liveSessionId,
-        enabled: isAudioEnabled
-      });
-    }
-  };
-  
-  // Start Live Class
-  const startLiveClass = async (course) => {
-    setIsStarting(true);
-    setSelectedCourseForLive(course);
-    
-    try {
-      // Initialize camera and microphone
-      const mediaStream = await navigator.mediaDevices.getUserMedia({
-        video: true,
-        audio: true,
-      });
-
-      console.log(mediaStream)
-      
-      setStream(mediaStream);
-      if (localVideoRef.current) {
-        localVideoRef.current.srcObject = mediaStream;
-      }
-      
-      // Create live session on server
-      const token = Cookies.get("token");
-      const response = await axios.post(
-        "https://nicmauricebackend-production.up.railway.app/api/live/start",
-        {
-          courseId: course._id || course.id,
-          courseCode: course.code,
-          courseName: course.title || course.name,
-          teacherName: `${teacherData?.firstName} ${teacherData?.lastName}`
-        },
-        {
-          headers: {
-            Authorization: `Bearer ${token}`,
-          },
-        }
-      );
-      
-      setLiveSessionId(response.data.sessionId);
-      setIsLiveActive(true);
-      setShowLiveClassModal(true);
-      setConnectionStatus("active");
-      
-      showTemporaryNotification("Live class started successfully!", "success");
-      
-    } catch (error) {
-      console.error("Error starting live class:", error);
-      showTemporaryNotification("Failed to start live class", "error");
-      
-      // Clean up stream if failed
-      if (mediaStream) {
-        mediaStream.getTracks().forEach(track => track.stop());
-      }
-    } finally {
-      setIsStarting(false);
-    }
-  };
-  
-  // Stop Live Class
-  const stopLiveClass = async () => {
-    try {
-      // Stop all peer connections
-      peerConnectionsRef.current.forEach((pc, studentId) => {
-        pc.close();
-      });
-      peerConnectionsRef.current.clear();
-      
-      // Stop local streams
-      if (stream) {
-        stream.getTracks().forEach(track => track.stop());
-        setStream(null);
-      }
-      
-      if (screenStream) {
-        screenStream.getTracks().forEach(track => track.stop());
-        setScreenStream(null);
-      }
-      
-      // Stop recording if active
-      if (mediaRecorder && isRecording) {
-        mediaRecorder.stop();
-        setIsRecording(false);
-      }
-      
-      // End session on server
-      const token = Cookies.get("token");
-      await axios.post(
-        "https://nicmauricebackend-production.up.railway.app/api/live/end",
-        { sessionId: liveSessionId },
-        {
-          headers: {
-            Authorization: `Bearer ${token}`,
-          },
-        }
-      );
-      
-      // Emit end session via socket
-      if (socketRef.current) {
-        socketRef.current.emit('teacher:end-session', {
-          sessionId: liveSessionId
-        });
-      }
-      
-      setIsLiveActive(false);
-      setShowLiveClassModal(false);
-      setParticipantCount(0);
-      setLiveSessionId(null);
-      setChatMessages([]);
-      setConnectionStatus("disconnected");
-      
-      showTemporaryNotification("Live class ended", "info");
-      
-    } catch (error) {
-      console.error("Error stopping live class:", error);
-      showTemporaryNotification("Error ending live class", "error");
-    }
-  };
-  
-  // Toggle Video
-  const toggleVideo = () => {
-    if (stream) {
-      const videoTrack = stream.getVideoTracks()[0];
-      if (videoTrack) {
-        videoTrack.enabled = !isVideoEnabled;
-        setIsVideoEnabled(!isVideoEnabled);
-        broadcastTeacherStatus();
-      }
-    }
-  };
-  
-  // Toggle Audio
-  const toggleAudio = () => {
-    if (stream) {
-      const audioTrack = stream.getAudioTracks()[0];
-      if (audioTrack) {
-        audioTrack.enabled = !isAudioEnabled;
-        setIsAudioEnabled(!isAudioEnabled);
-        broadcastTeacherStatus();
-      }
-    }
-  };
-  
-  // Share Screen
-  const shareScreen = async () => {
-    try {
-      if (!isScreenSharing) {
-        const screenStream = await navigator.mediaDevices.getDisplayMedia({
-          video: true,
-        });
-        
-        setScreenStream(screenStream);
-        setIsScreenSharing(true);
-        
-        if (screenVideoRef.current) {
-          screenVideoRef.current.srcObject = screenStream;
-        }
-        
-        // Broadcast screen sharing status to students
-        if (socketRef.current && liveSessionId) {
-          socketRef.current.emit('teacher:screen-share', {
-            sessionId: liveSessionId,
-            sharing: true,
-            streamId: screenStream.id
-          });
-        }
-        
-        screenStream.getVideoTracks()[0].onended = () => {
-          stopScreenSharing();
-        };
-      } else {
-        stopScreenSharing();
-      }
-    } catch (error) {
-      console.error("Error sharing screen:", error);
-    }
-  };
-  
-  // Stop Screen Sharing
-  const stopScreenSharing = () => {
-    if (screenStream) {
-      screenStream.getTracks().forEach(track => track.stop());
-      setScreenStream(null);
-      setIsScreenSharing(false);
-      
-      // Broadcast screen sharing stopped to students
-      if (socketRef.current && liveSessionId) {
-        socketRef.current.emit('teacher:screen-share', {
-          sessionId: liveSessionId,
-          sharing: false,
-          streamId: null
-        });
-      }
-    }
-  };
-  
-  // Start Recording
-  const startRecording = () => {
-    if (stream) {
-      const chunks = [];
-      const recorder = new MediaRecorder(stream);
-      
-      recorder.ondataavailable = (e) => {
-        if (e.data.size > 0) {
-          chunks.push(e.data);
-        }
-      };
-      
-      recorder.onstop = () => {
-        const blob = new Blob(chunks, { type: 'video/webm' });
-        const url = URL.createObjectURL(blob);
-        const a = document.createElement('a');
-        a.href = url;
-        a.download = `live-class-${liveSessionId}-${Date.now()}.webm`;
-        a.click();
-        URL.revokeObjectURL(url);
-        setRecordedChunks([]);
-        showTemporaryNotification("Recording saved", "success");
-      };
-      
-      recorder.start(1000);
-      setMediaRecorder(recorder);
-      setIsRecording(true);
-      showTemporaryNotification("Recording started", "success");
-    }
-  };
-  
-  // Stop Recording
-  const stopRecording = () => {
-    if (mediaRecorder && isRecording) {
-      mediaRecorder.stop();
-      setIsRecording(false);
-    }
-  };
-  
-  // Send Chat Message
-  const sendChatMessage = () => {
-    if (!newMessage.trim() || !liveSessionId) return;
-    
-    const messageData = {
-      sessionId: liveSessionId,
-      message: newMessage,
-      isTeacher: true
-    };
-    
-    if (socketRef.current) {
-      socketRef.current.emit('chat:message', messageData);
-    }
-    
-    // Add message locally
-    const message = {
-      id: Date.now(),
-      sender: `${teacherData?.firstName} ${teacherData?.lastName}`,
-      senderId: teacherData?.facultyId,
-      message: newMessage,
-      timestamp: new Date().toLocaleTimeString(),
-      isTeacher: true,
-    };
-    
-    setChatMessages(prev => [...prev, message]);
-    setNewMessage("");
-    
-    setTimeout(() => {
-      if (chatContainerRef.current) {
-        chatContainerRef.current.scrollTop = chatContainerRef.current.scrollHeight;
-      }
-    }, 100);
-  };
-  
-  // Share File
-  const shareFile = async (event) => {
-    const file = event.target.files[0];
-    if (!file || !liveSessionId) return;
-    
-    // Create file preview URL
-    const fileUrl = URL.createObjectURL(file);
-    
-    const messageData = {
-      sessionId: liveSessionId,
-      message: `Shared file: ${file.name}`,
-      fileUrl: fileUrl,
-      fileName: file.name,
-      isTeacher: true,
-      type: "file"
-    };
-    
-    if (socketRef.current) {
-      socketRef.current.emit('chat:message', messageData);
-    }
-    
-    // Add message locally
-    const message = {
-      id: Date.now(),
-      sender: `${teacherData?.firstName} ${teacherData?.lastName}`,
-      message: `Shared file: ${file.name}`,
-      fileUrl: fileUrl,
-      fileName: file.name,
-      timestamp: new Date().toLocaleTimeString(),
-      type: "file",
-      isTeacher: true,
-    };
-    
-    setChatMessages(prev => [...prev, message]);
-    fileInputRef.current.value = "";
-    
-    showTemporaryNotification(`File shared: ${file.name}`, "success");
-  };
-  
   // Temporary notification
   const [tempNotification, setTempNotification] = useState({
     show: false,
@@ -557,27 +82,53 @@ const TeacherDashboard = () => {
     );
   };
 
+  // Live class (signalling + WebRTC) lives in the shared hook
+  const {
+    showLiveClassModal,
+    setShowLiveClassModal,
+    selectedCourseForLive,
+    setSelectedCourseForLive,
+    isLiveActive,
+    isStarting,
+    liveSessionId,
+    connectionStatus,
+    participantCount,
+    isVideoEnabled,
+    isAudioEnabled,
+    isScreenSharing,
+    isRecording,
+    chatMessages,
+    localVideoRef,
+    chatContainerRef,
+    startLiveClass,
+    stopLiveClass,
+    toggleVideo,
+    toggleAudio,
+    shareScreen,
+    startRecording,
+    stopRecording,
+    sendChatMessage: sendLiveChat,
+    shareFile: shareLiveFile,
+  } = useTeacherLive({ notify: showTemporaryNotification });
+
+  const sendChatMessage = () => {
+    if (sendLiveChat(newMessage)) setNewMessage("");
+  };
+
+  const shareFile = async (event) => {
+    const file = event.target.files && event.target.files[0];
+    if (event.target) event.target.value = "";
+    await shareLiveFile(file);
+  };
+
+  // Only the courses this lecturer teaches
   const fetchCoursesFromServer = async () => {
-    const token = Cookies.get("token");
-
     try {
-      const response = await axios.get(
-        "https://nicmauricebackend-production.up.railway.app/registrar/courses",
-        {
-          headers: {
-            Authorization: `Bearer ${token}`,
-          },
-        },
-      );
-
-      if (response.status !== 200) {
-        throw new Error(response.message || "Failed to fetch courses");
-      }
-
-      setAvailableCourses(response.data.courses);
+      const response = await api.get("/staff/me/courses");
+      setAvailableCourses(response.data.courses || []);
     } catch (err) {
       console.error("Error fetching courses:", err);
-      showTemporaryNotification("Failed to load courses", "error");
+      showTemporaryNotification(errorMessage(err, "Failed to load courses"), "error");
     }
   };
 
@@ -603,32 +154,13 @@ const TeacherDashboard = () => {
       }
     }
 
-    // Initialize Socket.IO connection
-    initSocketConnection();
-
     fetchCoursesFromServer();
-    
-    // Cleanup on unmount
-    return () => {
-      if (socketRef.current) {
-        socketRef.current.disconnect();
-      }
-      if (stream) {
-        stream.getTracks().forEach(track => track.stop());
-      }
-      peerConnectionsRef.current.forEach((pc) => pc.close());
-    };
   }, []);
 
   // Save settings to localStorage when they change
   useEffect(() => {
     localStorage.setItem("teacherDashboardSettings", JSON.stringify(settings));
   }, [settings]);
-
-  // Broadcast status when video/audio changes
-  useEffect(() => {
-    broadcastTeacherStatus();
-  }, [isVideoEnabled, isAudioEnabled, liveSessionId]);
 
   // Quick Actions Data with Detailed Content for Teachers
   const quickActionsData = {
@@ -1302,23 +834,14 @@ const TeacherDashboard = () => {
                 <div className="flex-1 flex overflow-hidden">
                   {/* Video Area */}
                   <div className={`flex-1 ${showChat ? 'mr-80' : ''} relative bg-black`}>
-                    {isScreenSharing ? (
-                      <video
-                        ref={screenVideoRef}
-                        autoPlay
-                        playsInline
-                        className="w-full h-full object-contain"
-                      />
-                    ) : (
-                      <video
-                        ref={localVideoRef}
-                        autoPlay
-                        playsInline
-                        muted
-                        className="w-full h-full object-contain"
-                      />
-                    )}
-                    
+                    <video
+                      ref={localVideoRef}
+                      autoPlay
+                      playsInline
+                      muted
+                      className="w-full h-full object-contain"
+                    />
+
                     {/* Teacher Status Indicators */}
                     <div className="absolute top-4 left-4 flex space-x-2">
                       {!isVideoEnabled && (
@@ -1433,7 +956,7 @@ const TeacherDashboard = () => {
                               ) : (
                                 <p>{msg.message}</p>
                               )}
-                              <p className="text-xs mt-1 opacity-75">{msg.timestamp}</p>
+                              <p className="text-xs mt-1 opacity-75">{formatTime(msg.timestamp)}</p>
                             </div>
                           </div>
                         ))}

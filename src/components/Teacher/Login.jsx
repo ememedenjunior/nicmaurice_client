@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { motion } from "framer-motion";
 import { Link, useNavigate } from "react-router-dom";
-import axios from "axios";
+import api, { errorMessage } from "../../utils/api";
 import Cookies from "js-cookie";
 import {
   FaUser,
@@ -86,7 +86,7 @@ const TeacherLoginPage = () => {
     setLoginError("");
 
     try {
-      const response = await axios.post("https://nicmauricebackend-production.up.railway.app/staff/login", {
+      const response = await api.post("/staff/login", {
         email: formData.email,
         password: formData.password,
       });
@@ -98,6 +98,7 @@ const TeacherLoginPage = () => {
         Cookies.set("token", data.token, {
           expires: rememberMe ? 7 : 1, // 7 days if remember me, 1 day if not
           sameSite: "Strict",
+          secure: window.location.protocol === "https:",
         });
 
         // Store teacher info
@@ -114,20 +115,15 @@ const TeacherLoginPage = () => {
         navigate("/academy/teacher/portal");
       }
     } catch (error) {
-      if (error.response) {
-        setLoginError(error.response.data.message || "Invalid email or password");
-      } else if (error.request) {
-        setLoginError("Unable to connect to server. Please check your internet connection.");
-      } else {
-        setLoginError("An unexpected error occurred. Please try again.");
-      }
+      setLoginError(errorMessage(error, "Invalid email or password"));
     } finally {
       setIsLoading(false);
     }
   };
 
+  // There is no self-service reset yet: HR issues a new password
   const handleForgotPassword = () => {
-    navigate("/teacher/forgot-password");
+    setLoginError("To reset your password, please contact the HR office.");
   };
 
   const benefits = [

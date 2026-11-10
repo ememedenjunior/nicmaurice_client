@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { motion } from "framer-motion";
 import { Link, useNavigate } from "react-router-dom";
-import axios from "axios";
+import api, { errorMessage } from "../../utils/api";
 import Cookies from "js-cookie";
 import {
   FaUser,
@@ -81,7 +81,7 @@ const LoginPage = () => {
     setLoginError("");
 
     try {
-      const response = await axios.post("https://nicmauricebackend-production.up.railway.app/student/login", {
+      const response = await api.post("/student/login", {
         studentId: formData.studentId,
         password: formData.password,
       });
@@ -93,6 +93,7 @@ const LoginPage = () => {
         Cookies.set("token", data.token, {
           expires: rememberMe ? 7 : 1, // 7 days if remember me, 1 day if not
           sameSite: "Strict",
+          secure: window.location.protocol === "https:",
         });
 
         // Store student info
@@ -104,20 +105,15 @@ const LoginPage = () => {
         navigate("/academy/portal");
       }
     } catch (error) {
-      if (error.response) {
-        setLoginError(error.response.data.message || "Invalid student ID or password");
-      } else if (error.request) {
-        setLoginError("Unable to connect to server. Please check your internet connection.");
-      } else {
-        setLoginError("An unexpected error occurred. Please try again.");
-      }
+      setLoginError(errorMessage(error, "Invalid student ID or password"));
     } finally {
       setIsLoading(false);
     }
   };
 
+  // There is no self-service reset yet: the registrar issues a new password
   const handleForgotPassword = () => {
-    navigate("/forgot-password");
+    setLoginError("To reset your password, please contact the Registrar's office.");
   };
 
   const benefits = [
