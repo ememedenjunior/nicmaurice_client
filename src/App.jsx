@@ -33,6 +33,7 @@ import ClinicalNursingJournal from "./Pages/journals/ClinicalNursingJournal";
 import MedicalSurgicalNursingJournal from "./Pages/journals/MedicalSurgical";
 import MaternalChildJournal from "./Pages/journals/MaternalJournal";
 import NSUNProfilePage from "./Pages/journals/Nsu";
+import NursingAdminJournal from "./Pages/journals/NursingAdmin"
 import ICVSPage from "./Pages/institute/Computer";
 import { AcademyPage } from "./Pages/Academy";
 import LoginPage from "./Pages/PortalLogin";
@@ -135,6 +136,7 @@ const App = () => {
         <Route path="/journal/wjwihpr" element={<WellspringJournal />} />
         <Route path="/journal/irjpch" element={<CommunityJournal />} />
         <Route path="/journal/isj-chnr" element={<ISJCHNR />} />
+        <Route path="/journal/rjna" element={<NursingAdminJournal />} />
         <Route
           path="/journal/isj-pchnr"
           element={<SpecialtyCommunityJournal />}

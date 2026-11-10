@@ -15,6 +15,17 @@ const JournalsCol3 = () => {
       imageHeight: "h-[150px]",
       imageWidth: "w-auto",
     },
+    {
+      id: 2,
+      image: Global,
+      alt: "Research Journal on Nursing Administration",
+      path: "/journal/rjna",
+      title: "Research Journal on Nursing Administration",
+      description:
+        "Our journal stands at a pivotal moment in the evolution of nursing administration research.",
+      imageHeight: "h-[150px]",
+      imageWidth: "w-auto",
+    },
   ];
   const getCardMarginClasses = (index) => {
     const margins = [
