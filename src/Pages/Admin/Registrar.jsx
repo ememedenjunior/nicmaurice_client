@@ -25,6 +25,7 @@ import {
 } from "react-icons/fa";
 import Cookies from "js-cookie";
 import api, { clearSession, errorMessage } from "../../utils/api";
+import StudentFees from "../../components/Admin/StudentFees";
 
 const RegistrarDashboard = () => {
   const navigate = useNavigate();
@@ -35,6 +36,7 @@ const RegistrarDashboard = () => {
   const [searchTerm, setSearchTerm] = useState("");
   const [selectedStudent, setSelectedStudent] = useState(null);
   const [showStudentModal, setShowStudentModal] = useState(false);
+  const [feesFor, setFeesFor] = useState(null);
   const [showCourseModal, setShowCourseModal] = useState(false);
   const [showRegistrationModal, setShowRegistrationModal] = useState(false);
   const [editingItem, setEditingItem] = useState(null);
@@ -848,6 +850,13 @@ const RegistrarDashboard = () => {
                               <FaEdit />
                             </button>
                             <button
+                              onClick={() => setFeesFor(student)}
+                              className="px-2 py-1 text-xs rounded bg-emerald-100 text-emerald-700 hover:bg-emerald-200"
+                              title="Fees and payments"
+                            >
+                              Fees
+                            </button>
+                            <button
                               onClick={() => handleDeleteStudent(student.id)}
                               className="p-1 text-red-600 hover:text-red-800"
                               title="Delete"
@@ -1526,6 +1535,7 @@ const RegistrarDashboard = () => {
           </>
         )}
       </AnimatePresence>
+      {feesFor && <StudentFees student={feesFor} onClose={() => setFeesFor(null)} />}
     </div>
   );
 };

@@ -30,7 +30,7 @@ const NursingAdminJournal = () => {
       vol: "Vol 1 Article 1",
       title:
         "OCCUPATIONAL STRESS AND SATISFACTION AMONG NURSE EDUCATORS IN AHMADU BELLO UNIVERSITY, ZARIA.",
-      link: "https://drive.google.com/file/d/16mnu6HwqfR3anKDMCpE2eJtt_LVON24p/view?usp=sharing",
+      link: "https://drive.google.com/file/d/16mnu6HwqfR3anKDMCpE2eJtt_LVON24p/view?usp=drive_link",
       year: "2026",
       authors: "BELLO HUSSAINAT TAIYE, BNSC, RN, RM, PGDE",
       abstract:
@@ -40,7 +40,7 @@ const NursingAdminJournal = () => {
       vol: "Vol 1 Article 2",
       title:
         "CAPACITY BUILDING FOR IMPLEMENTATION AND UTILIZATION OF NURSING RESEARCH AND EVIDENCE-BASED PRACTICE",
-      link: "https://drive.google.com/file/d/1Wm7-rFwzU8HZou4saYYnxfp3eamkhme-/view?usp=sharing",
+      link: "https://drive.google.com/file/d/1Wm7-rFwzU8HZou4saYYnxfp3eamkhme-/view?usp=drive_link",
       year: "2024",
       authors: "DR. IDONGESIT I. AKPABIO",
       abstract:
@@ -50,7 +50,7 @@ const NursingAdminJournal = () => {
       vol: "Vol 2 Article 1",
       title:
         "EFFECTIVENESS OF CONVERSATIONAL LEARNING STRATEGY IN NURSING EDUCATION IN BAYELSA STATE",
-      link: "https://drive.google.com/file/d/1Ic-jUAW2Qwt7j3G3SEISA_orCXTV1uye/view?usp=sharing",
+      link: "https://drive.google.com/file/d/1gDXM16iUWIN4-rEcZYFj6JEZEZGfwM3m/view?usp=drive_link",
       year: "2025",
       authors: "Lawrence Ayah Iruo, B. Ed (Hons), M.Ed. RN, RPN.",
       abstract:
@@ -60,7 +60,7 @@ const NursingAdminJournal = () => {
       vol: "Vol 2 Article 2",
       title:
         "KNOWLEDGE AND UTILIZATION OF STANDARDIZED NURSING LANGUAGE AMONG NURSES IN JOS UNIVERSITY TEACHING HOSPITAL PLATEAU STATE, NIGERIA.",
-      link: "https://drive.google.com/file/d/1CZUBcWVx0Rz3Hga9KzDg3SK9OY7qjulA/view?usp=sharing",
+      link: "https://drive.google.com/file/d/1SJz7qvjKijPCcb2NQetfgu59DJrzF6r0/view?usp=drive_link",
       year: "2026",
       authors: "AJAYI, Abraham Dare RN, BSc, MSc, PhD, FWACN",
       abstract:
@@ -70,7 +70,7 @@ const NursingAdminJournal = () => {
       vol: "Vol 3 Article 1",
       title:
         "IMPACT OF CRANIAL CAPACITY ON ACADEMIC PERFORMANCE OF SECONDARY SCHOOL STUDENTS IN NNEWI.",
-      link: "https://drive.google.com/file/d/1JmxOyCQm0U7P63zmYDTmYZhTrCxcYjh8/view?usp=sharing",
+      link: "https://drive.google.com/file/d/1RGaXdWQQ3Qk073MuoUdAb3kOwtMRGoY_/view?usp=drive_link",
       year: "2026",
       authors: "Enemuo Emeka Hyacinth",
       abstract:

@@ -44,6 +44,7 @@ import {
   FaPaperPlane as FaSend,
 } from "react-icons/fa";
 import Cookies from "js-cookie";
+import { StudentDeadlines, StudentRecent, StudentQuickAction } from "../QuickActionPanels";
 import api, { clearSession, errorMessage } from "../../utils/api";
 import useStudentLive from "../../hooks/useStudentLive";
 
@@ -278,182 +279,6 @@ const PortalDashboard = () => {
     setCartTotal(total);
   }, [selectedCourses]);
 
-  // Quick Actions Data
-  const quickActionsData = {
-    "course-materials": {
-      title: "Course Materials",
-      icon: <FaBookOpen />,
-      color: "from-blue-500 to-blue-600",
-      description: "Access lectures, notes, and learning resources",
-      content: {
-        recent: [
-          {
-            name: "Cardiovascular System Lecture",
-            type: "PDF",
-            size: "4.2 MB",
-            date: "Nov 10, 2024",
-            downloaded: true,
-          },
-          {
-            name: "Respiratory System Video",
-            type: "Video",
-            size: "125 MB",
-            date: "Nov 8, 2024",
-            duration: "45:22",
-          },
-          {
-            name: "Muscular System Slides",
-            type: "PPT",
-            size: "8.7 MB",
-            date: "Nov 5, 2024",
-            downloaded: true,
-          },
-        ],
-        courses: [
-          {
-            code: "NURS301",
-            name: "Clinical Nursing",
-            materials: 24,
-            updated: "Today",
-          },
-          {
-            code: "NURS302",
-            name: "Pharmacology",
-            materials: 18,
-            updated: "2 days ago",
-          },
-        ],
-        stats: { total: 42, downloaded: 32, size: "4.2 GB" },
-      },
-    },
-    "class-schedule": {
-      title: "Class Schedule",
-      icon: <FaCalendarCheck />,
-      color: "from-purple-500 to-purple-600",
-      description: "View timetable and upcoming classes",
-      content: {
-        today: [
-          {
-            time: "9:00 AM",
-            course: "Clinical Nursing",
-            type: "Lecture",
-            room: "LH-301",
-          },
-          {
-            time: "11:00 AM",
-            course: "Pharmacology",
-            type: "Lab",
-            room: "LAB-205",
-          },
-        ],
-        upcoming: [
-          {
-            day: "Tomorrow",
-            event: "Midterm Exam",
-            course: "Pathophysiology",
-            time: "9:00 AM",
-          },
-          {
-            day: "Nov 18",
-            event: "Clinical Rotation",
-            course: "Pediatric Nursing",
-            time: "7:00 AM",
-          },
-        ],
-      },
-    },
-    "tuition-fees": {
-      title: "Tuition & Fees",
-      icon: <FaMoneyBillWave />,
-      color: "from-rose-500 to-rose-600",
-      description: "View balance and make payments",
-      content: {
-        balance: "$12,450.00",
-        dueDate: "Dec 15, 2024",
-        breakdown: [
-          { item: "Tuition", amount: "$10,000.00" },
-          { item: "Lab Fees", amount: "$1,200.00" },
-          { item: "Technology Fee", amount: "$250.00" },
-        ],
-      },
-    },
-    "grades-progress": {
-      title: "Grades & Progress",
-      icon: <FaChartBar />,
-      color: "from-emerald-500 to-emerald-600",
-      description: "Track your academic performance",
-      content: {
-        overall: { gpa: "3.78", average: "92.4%", trend: "up" },
-        courses: [
-          { name: "Clinical Nursing", grade: "A", score: 94.2, progress: 90 },
-          { name: "Pharmacology", grade: "B+", score: 85.7, progress: 72 },
-        ],
-      },
-    },
-    assignments: {
-      title: "Assignments",
-      icon: <FaTasks />,
-      color: "from-amber-500 to-amber-600",
-      description: "Submit and track assignments",
-      content: {
-        pending: [
-          {
-            title: "Clinical Case Study",
-            course: "NURS301",
-            due: "Tomorrow",
-            points: 100,
-          },
-          {
-            title: "Pharmacology Drug Cards",
-            course: "NURS302",
-            due: "Nov 12",
-            points: 50,
-          },
-        ],
-        submitted: [
-          {
-            title: "Clinical Skills Video",
-            course: "NURS301",
-            submitted: "Nov 9",
-            grade: "142/150",
-          },
-        ],
-      },
-    },
-    "student-community": {
-      title: "Student Community",
-      icon: <FaUserFriends />,
-      color: "from-indigo-500 to-indigo-600",
-      description: "Connect with classmates",
-      content: {
-        activeGroups: [
-          {
-            name: "Clinical Practice Study Group",
-            members: 18,
-            lastActive: "2 hours ago",
-          },
-          {
-            name: "Pharmacology Discussion",
-            members: 12,
-            lastActive: "Yesterday",
-          },
-        ],
-        recentDiscussions: [
-          {
-            topic: "Clinical Rotation Tips",
-            replies: 42,
-            lastPost: "2 hours ago",
-          },
-          {
-            topic: "Pharmacology Study Guide",
-            replies: 28,
-            lastPost: "1 day ago",
-          },
-        ],
-      },
-    },
-  };
-
   const handleQuickActionClick = (actionId) => {
     setActiveQuickAction(actionId);
     setShowActionPanel(true);
@@ -634,9 +459,10 @@ const PortalDashboard = () => {
     },
   };
 
-  const currentAction = activeQuickAction
-    ? quickActionsData[activeQuickAction]
-    : null;
+  const currentAction = (() => {
+    const f = dashboardFeatures.find((x) => x.id === activeQuickAction);
+    return f ? { ...f, description: f.desc } : null;
+  })();
 
   return (
     <div
@@ -1832,61 +1658,7 @@ const PortalDashboard = () => {
                   View Calendar
                 </span>
               </div>
-              <div className="space-y-4">
-                {[
-                  {
-                    title: "Midterm Exam",
-                    course: "Pathophysiology",
-                    date: "Nov 15, 2024",
-                    time: "9:00 AM",
-                    type: "exam",
-                  },
-                  {
-                    title: "Clinical Rotation",
-                    course: "Pediatric Nursing",
-                    date: "Nov 18-22, 2024",
-                    time: "7:00 AM",
-                    type: "clinical",
-                  },
-                  {
-                    title: "Research Paper Due",
-                    course: "Nursing Research",
-                    date: "Nov 25, 2024",
-                    time: "11:59 PM",
-                    type: "assignment",
-                  },
-                ].map((event, index) => (
-                  <div
-                    key={index}
-                    className={`p-4 border-l-4 ${settings.darkMode ? "border-blue-500 bg-gray-700/50" : "border-blue-500 bg-blue-50/50"} rounded-r-lg`}
-                  >
-                    <div className="flex justify-between items-start">
-                      <div>
-                        <h3
-                          className={`font-semibold ${settings.darkMode ? "text-white" : "text-gray-900"}`}
-                        >
-                          {event.title}
-                        </h3>
-                        <p
-                          className={`text-sm ${settings.darkMode ? "text-gray-400" : "text-gray-600"}`}
-                        >
-                          {event.course}
-                        </p>
-                      </div>
-                      <span
-                        className={`px-2 py-1 rounded-full text-xs font-medium ${event.type === "exam" ? "bg-red-100 text-red-800" : event.type === "clinical" ? "bg-purple-100 text-purple-800" : "bg-blue-100 text-blue-800"}`}
-                      >
-                        {event.type}
-                      </span>
-                    </div>
-                    <div
-                      className={`flex items-center text-sm mt-2 ${settings.darkMode ? "text-gray-500" : "text-gray-500"}`}
-                    >
-                      <FaRegClock className="mr-2" /> {event.date} • {event.time}
-                    </div>
-                  </div>
-                ))}
-              </div>
+              <StudentDeadlines dark={settings.darkMode} />
             </div>
 
             {/* Recent Activity */}
@@ -1898,56 +1670,7 @@ const PortalDashboard = () => {
               >
                 Recent Activity
               </h2>
-              <div className="space-y-4">
-                {[
-                  {
-                    time: "10 min ago",
-                    action: "Submitted Anatomy Lab Report",
-                    course: "Anatomy & Physiology",
-                    icon: <FaClipboardList />,
-                  },
-                  {
-                    time: "2 hours ago",
-                    action: "Joined Clinical Discussion",
-                    course: "Clinical Nursing",
-                    icon: <FaComments />,
-                  },
-                  {
-                    time: "Yesterday",
-                    action: "Completed Pharmacology Quiz",
-                    course: "Pharmacology",
-                    icon: <FaTasks />,
-                  },
-                ].map((activity, index) => (
-                  <div
-                    key={index}
-                    className={`flex items-start space-x-3 p-3 rounded-lg transition-colors ${settings.darkMode ? "hover:bg-gray-700" : "hover:bg-gray-50"}`}
-                  >
-                    <div
-                      className={`p-2 ${settings.darkMode ? "bg-blue-900/50 text-blue-400" : "bg-blue-50 text-blue-600"} rounded-lg`}
-                    >
-                      {activity.icon}
-                    </div>
-                    <div className="flex-1">
-                      <p
-                        className={`font-medium ${settings.darkMode ? "text-white" : "text-gray-900"}`}
-                      >
-                        {activity.action}
-                      </p>
-                      <p
-                        className={`text-sm ${settings.darkMode ? "text-gray-400" : "text-gray-600"}`}
-                      >
-                        {activity.course}
-                      </p>
-                      <p
-                        className={`text-xs mt-1 ${settings.darkMode ? "text-gray-500" : "text-gray-400"}`}
-                      >
-                        {activity.time}
-                      </p>
-                    </div>
-                  </div>
-                ))}
-              </div>
+              <StudentRecent dark={settings.darkMode} />
             </div>
           </div>
         </div>
@@ -2026,64 +1749,12 @@ const PortalDashboard = () => {
                 <div
                   className={`flex-1 p-6 overflow-y-auto ${settings.darkMode ? "text-gray-300" : ""}`}
                 >
-                  {activeQuickAction === "course-materials" && (
-                    <div className="space-y-6">
-                      <div>
-                        <h3
-                          className={`text-lg font-bold mb-3 ${settings.darkMode ? "text-white" : "text-gray-900"}`}
-                        >
-                          Recent Materials
-                        </h3>
-                        <div className="space-y-3">
-                          {currentAction.content.recent.map(
-                            (material, index) => (
-                              <div
-                                key={index}
-                                className={`flex items-center justify-between p-3 rounded-lg ${settings.darkMode ? "bg-gray-700" : "bg-gray-50"}`}
-                              >
-                                <div className="flex items-center">
-                                  <div
-                                    className={`p-2 rounded-lg mr-3 ${settings.darkMode ? "bg-gray-600" : "bg-white"}`}
-                                  >
-                                    {material.type === "PDF" ? (
-                                      <FaFilePdf className="text-red-500" />
-                                    ) : material.type === "Video" ? (
-                                      <FaVideo className="text-purple-500" />
-                                    ) : (
-                                      <FaFilePdf className="text-blue-500" />
-                                    )}
-                                  </div>
-                                  <div>
-                                    <div
-                                      className={`font-medium ${settings.darkMode ? "text-white" : "text-gray-900"}`}
-                                    >
-                                      {material.name}
-                                    </div>
-                                    <div
-                                      className={`text-sm ${settings.darkMode ? "text-gray-400" : "text-gray-500"}`}
-                                    >
-                                      {material.type} • {material.size}
-                                    </div>
-                                  </div>
-                                </div>
-                                {material.downloaded && (
-                                  <FaCheckCircle className="text-green-500" />
-                                )}
-                              </div>
-                            ),
-                          )}
-                        </div>
-                      </div>
-                    </div>
-                  )}
+                  <StudentQuickAction id={activeQuickAction} dark={settings.darkMode} courses={registeredCourses} studentId={studentData?.studentId} />
                 </div>
                 <div
                   className={`p-6 border-t ${settings.darkMode ? "border-gray-700" : "border-gray-200"}`}
                 >
                   <div className="flex space-x-3">
-                    <button className="flex-1 px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 font-medium">
-                      Open Full View
-                    </button>
                     <button
                       onClick={() => setShowActionPanel(false)}
                       className={`px-4 py-2 border rounded-lg font-medium ${settings.darkMode ? "border-gray-600 text-gray-300 hover:bg-gray-700" : "border-gray-300 text-gray-700 hover:bg-gray-50"}`}
